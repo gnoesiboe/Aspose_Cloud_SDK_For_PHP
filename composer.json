@@ -1,6 +1,6 @@
 
 {
-    "description": 	"This repository contains Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose Cloud REST API in your PHP applications quickly and easily.",
+    "description": 	"This repository contains Aspose Cloud SDK for PHP source code. Aspose Cloud SDK for PHP lets PHP developers convert and process a variety of file formats in the cloud quickly and easily.",
     "name": 		"aspose/cloud-sdk-php",
     "type": 		"library",
     "keywords" : 	["aspose", "php", "aspose cloud"],
