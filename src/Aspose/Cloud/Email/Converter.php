@@ -70,28 +70,4 @@ class Converter {
         }
     }
 
-    public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
-        $str_uri = Product::$baseProductUri . '/email/convert?format=' . $outputFormat;
-        $signed_uri = Utils::sign($str_uri);
-        $responseStream = Utils::uploadFileBinary($signed_uri, $inputPath, 'xml');
-
-        $v_output = Utils::validateOutput($responseStream);
-
-        if ($v_output === '') {
-            if ($outputFormat == 'html') {
-                $saveFormat = 'zip';
-            } else {
-                $saveFormat = $outputFormat;
-            }
-
-            if ($outputPath == '') {
-                $outputFilename = Utils::getFileName($inputPath) . '.' . $saveFormat;
-            }
-
-            Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
-            return $outputFilename;
-        }
-        else
-            return $v_output;
-    }
 }
