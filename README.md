@@ -25,29 +25,43 @@ This repository contains Aspose Cloud SDK for PHP source code. This SDK allows y
 
 <tr>
 <td>Pdf</td>
-<td>This module provides the features to manipulate PDF files using Aspose.Cloud.Pdf.</td>
+<td>This module provides the features to manipulate PDF file formats using Aspose.Pdf for Cloud.</td>
 </tr>
 
 <tr>
 <td>Words</td>
-<td>This module provides the features to manipulate Word files using Aspose.Cloud.Words.</td>
+<td>This module provides the features to manipulate word processing file formats using Aspose.Words for Cloud.</td>
 </tr>
 
 <tr>
 <td>Cells</td>
-<td>This module provides the features to manipulate Excel files using Aspose.Cloud.Cells.</td>
+<td>This module provides the features to manipulate spreadsheet file formats using Aspose.Cloud for Cloud.</td>
 </tr>
 
 <tr>
 <td>Slides</td>
-<td>This module provides the features to manipulate Powerpoint files using Aspose.Cloud.Slides.</td>
+<td>This module provides the features to manipulate presentations file formats using Aspose.Slides for Cloud.</td>
 </tr>
 
 <tr>
 <td>BarCode</td>
-<td>This module provides the features to manipulate bar codes using Aspose.Cloud.BarCode.</td>
+<td>This module provides the features to create and detect BarCodes images using Aspose.BarCode for Cloud.</td>
 </tr>
 
+<tr>
+<td>Email</td>
+<td>This module provides the features to manipulate email file formats using Aspose.Email for Cloud.</td>
+</tr>
+
+<tr>
+<td>OCR</td>
+<td>This module provides the features to detect text from images using Aspose.OCR for Cloud.</td>
+</tr>
+
+<tr>
+<td>Imaging</td>
+<td>This module provides the features to process image file formats using Aspose.Imaging for Cloud.</td>
+</tr>
 
 </table>
 
@@ -55,17 +69,18 @@ This repository contains Aspose Cloud SDK for PHP source code. This SDK allows y
 
 ###Data
 
-In order to manipulate any files, you first need to upload them to the Aspose storage using Storage module.
+In order to manipulate any files, you first need to upload them to the Aspose Cloud storage using Storage module. 
 
 ###Output
 
 The Aspose Cloud SDK for PHP allows you to save the output files at your specified location.
 
 
-###Help Material
+###Docs
 
-You may get help regarding Aspose API or Aspose Cloud SDK for PHP on [www.Aspose.com](http://www.Aspose.com).
+For SDK related help, please go through [wiki](https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP/wiki).
+For Aspose Cloud APIs related help, please go through [Aspose.Total for Cloud](http://www.aspose.com/cloud/total-api.aspx).
 
-##How to use Aspose Cloud SDK for PHP?
+##Start a Free Trial Today
 
-Aspose for Cloud products: http://www.aspose.com/cloud/total-api.aspx
+Start a free trial today – all you need is to [sign up](https://cloud.aspose.com/SignUp) with Aspose for Cloud service. Once you have signed up, you are ready to try powerful file processing features offered by Aspose for Cloud.
