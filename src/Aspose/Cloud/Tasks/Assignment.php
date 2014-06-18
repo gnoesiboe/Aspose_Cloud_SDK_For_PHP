@@ -35,7 +35,7 @@ class Assignment {
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
         $json = json_decode($responseStream);
-        //var_dump($json); exit;
+        
         if ($json->Code == 200)
             return $json->Assignments->AssignmentItem;
         else
@@ -63,7 +63,7 @@ class Assignment {
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
         $json = json_decode($responseStream);
-        //var_dump($json); exit;
+        
         if ($json->Code == 200)
             return $json->Assignment;
         else

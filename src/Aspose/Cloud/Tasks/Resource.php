@@ -71,7 +71,7 @@ class Resource {
     }
 
     /*
-     * Set document property
+     * Add new resource
      * @param string $resourceName
      * @param integer $afterResourceId
      * @param string $changedFileName

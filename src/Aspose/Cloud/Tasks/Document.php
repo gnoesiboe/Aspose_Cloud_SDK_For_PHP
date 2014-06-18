@@ -1,7 +1,7 @@
 <?php
 /*
-* Deals with Project document level aspects
-*/ 
+ * Deals with Project document level aspects
+ */ 
 namespace Aspose\Cloud\Tasks;
 
 use Aspose\Cloud\Common\AsposeApp;
@@ -137,7 +137,7 @@ class Document {
     }
     
     /*
-     * Delete a document task
+     * Delete task
      * @param integer $taskId
      * @param string $changedFileName
      */
@@ -236,7 +236,7 @@ class Document {
     }
     
     /*
-    * Get Document Outline Codes
+    * Get Outline Codes
     */
     public function getOutlineCodes() {
         //check whether files are set or not
@@ -260,7 +260,7 @@ class Document {
     }
     
     /*
-    * Get Document particular Outline Code
+    * Get Outline Code
     * @param integer $outlineCodeId
     */
     public function getOutlineCode($outlineCodeId) {
@@ -288,7 +288,7 @@ class Document {
     }
     
     /*
-     * Delete a document outline code
+     * Delete outline code
      * @param integer $outlineCodeId
      * @param string $changedFileName
      */
@@ -350,7 +350,7 @@ class Document {
     }
     
     /*
-     * Get Document particular Extended Attribute
+     * Get Extended Attribute
      * @param integer $extendedAttributeId
      */
     public function getExtendedAttribute($extendedAttributeId) {
@@ -378,7 +378,7 @@ class Document {
     }
     
     /*
-     * Delete a document extended attribute
+     * Delete extended attribute
      * @param integer $extendedAttributeId
      * @param string $changedFileName
      */

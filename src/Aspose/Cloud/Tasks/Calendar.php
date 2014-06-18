@@ -43,7 +43,7 @@ class Calendar {
     }
     
     /*
-     * Get resource information 
+     * Get calendar information 
      * @param integer $calendarUid
      */
     public function getCalendar($calendarUid) {
@@ -71,7 +71,7 @@ class Calendar {
     }
 
     /*
-     * Delete a document calendar
+     * Delete calendar
      * @param integer $calendarUid
      * @param string $changedFileName
      */
