@@ -94,7 +94,7 @@ class DocumentBuilder {
 
         //build URI to insert watermark image
         $strURI = Product::$baseProductUri . '/words/' . $fileName .
-                '/watermark/insertImage?imageFile=' . $imageFile . '&rotationAngle=' . $rotationAngle;
+                '/watermark/insertImage?image=' . $imageFile . '&rotationAngle=' . $rotationAngle;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
