@@ -361,7 +361,7 @@ class Document {
             $strURI = Product::$baseProductUri . '/storage/file/' . $this->fileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $outputFile = AsposeApp::$OutPutLocation . $this->FileName;
+            $outputFile = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($responseStream, $outputFile);
             return $outputFile;
         }
