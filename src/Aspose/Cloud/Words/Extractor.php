@@ -218,7 +218,7 @@ class Extractor {
 
         if ($json->Code == 200) {
             foreach ($json->DrawingObjects->List as $object) {
-                $this->GetDrawingObject($object->link->Href, $outputPath);
+                $this->getDrawingObject(Product::$baseProductUri . '/words/' . $object->link->Href, $outputPath);
             }
         }
         else
