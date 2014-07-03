@@ -589,7 +589,7 @@ class Worksheet {
             throw new Exception('Worksheet name not specified');
 
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
-            '/worksheets/' . $this->worksheetName . '/FreezePanes?row=' . $row . '&col=' . $col . '&freezedRows=' . $freezedRows . '&freezedCols=' . $freezedCols;
+            '/worksheets/' . $this->worksheetName . '/FreezePanes?row=' . $row . '&column=' . $col . '&freezedRows=' . $freezedRows . '&freezedColumns=' . $freezedCols;
 
         $signedURI = Utils::sign($strURI);
 
@@ -706,7 +706,7 @@ class Worksheet {
             throw new Exception('Worksheet name not specified');
 
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
-            '/worksheets/' . $this->worksheetName . '/copy?newname=' . $newName;
+            '/worksheets/' . $this->worksheetName . '/Rename?newname=' . $newName;
 
         $signedURI = Utils::sign($strURI);
 
