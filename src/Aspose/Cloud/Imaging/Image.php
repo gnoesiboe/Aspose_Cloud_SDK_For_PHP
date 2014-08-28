@@ -19,7 +19,14 @@ class Image {
     public function __construct($fileName){
         $this->fileName = $fileName;
     }
-
+    
+    /**
+     * Converts Tiff image to Fax compatible format (TIFF-F specification) 
+     * with scaling and padding.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function convertTiffToFax(){
         //check whether file is set or not
         if ($this->fileName == '')
@@ -41,7 +48,15 @@ class Image {
         else
             return $v_output;
     }
-
+    
+    /**
+     * Appends second tiff image to the original.
+     * 
+     * @param string $appendFile The tiff image file to append.
+     * 
+     * @return string|boolean 
+     * @throws Exception
+     */
     public function appendTiff($appendFile=""){
         //check whether file is set or not
         if ($this->fileName == '' || $appendFile == '')
