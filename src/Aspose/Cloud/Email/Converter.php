@@ -37,8 +37,13 @@ class Converter {
         $this->saveFormat = 'msg';
     }
 
-    /*
-     * convert a document to SaveFormat
+    /**
+     * Convert a document to SaveFormat using Aspose storage.
+     * 
+     * @param string $saveFormat Returns document in the specified format.
+     * 
+     * @return string Return the file path.
+     * @throws Exception
      */
     public function convert() {
         //check whether file is set or not

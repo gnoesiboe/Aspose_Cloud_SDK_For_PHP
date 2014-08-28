@@ -34,9 +34,13 @@ class Document {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get Resource Properties information like From, To, Subject 
-      @param string $propertyName
+    /**
+     * Get resource properties information like From, To, Subject.
+     *  
+     * @param string $propertyName The name of property.
+     * 
+     * @return string Returns value of the property.
+     * @throws Exception
      */
     public function getProperty($propertyName) {
         //check whether file is set or not
@@ -62,10 +66,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Set document property
-      @param string $propertyName
-      @param string $propertyValue
+    /**
+     * Set document property.
+     * 
+     * @param string $propertyName The name of property.
+     * @param string $propertyValue The value of property.
+     * 
+     * @return string|boolean Return value if property is set or FALSE if it is not set.
+     * @throws Exception
      */
     public function setProperty($propertyName, $propertyValue) {
         //check whether file is set or not
@@ -98,9 +106,13 @@ class Document {
             return false;
     }
 	
-	/*
-     * Get email attachment
-      @param string $attachmentName
+    /**
+     * Get email attachment.
+     * 
+     * @param string $attachmentName The name of attached file.
+     * 
+     * @return string Return path of the attached file.
+     * @throws Exception
      */
     public function getAttachment($attachmentName) {
         //check whether file is set or not
@@ -118,15 +130,14 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 		
-		$v_output = Utils::validateOutput($responseStream);
+	$v_output = Utils::validateOutput($responseStream);
 		
-		if ($v_output === '') {
-			$outputFilename = $attachmentName;
-            
-			Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
-            return $outputFilename;
-        }
-        else
+        if ($v_output === '') {
+                $outputFilename = $attachmentName; 
+                Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
+                return $outputFilename;
+        } else {
             return $v_output;
+        }    
     }
 }
