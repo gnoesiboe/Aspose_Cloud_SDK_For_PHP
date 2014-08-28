@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Project Assignment level aspects
+/**
+ * Deals with project assignment level aspects.
  */ 
 namespace Aspose\Cloud\Tasks;
 
@@ -18,8 +18,12 @@ class Assignment {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get all assignments 
+    /**
+     * Get project assignment items. Each assignment item has a link to get 
+     * full assignment representation in the project. 
+     * 
+     * @return array Returns the assignments.
+     * @throws Exception
      */
     public function getAssignments() {
         //check whether file is set or not
@@ -42,9 +46,13 @@ class Assignment {
             return false;
     }
     
-    /*
-     * Get assignment information 
-     * @param integer $assignmentId
+    /**
+     * Get project assignment. 
+     * 
+     * @param integer $assignmentId The id of assignment.
+     * 
+     * @return array Returns the assignment.
+     * @throws Exception
      */
     public function getAssignment($assignmentId) {
         //check whether file is set or not
@@ -70,12 +78,16 @@ class Assignment {
             return false;
     }
 
-    /*
-     * Add Assignment
-     * @param integer $taskUid
-     * @param integer $resourceUid
-     * @param double $units
-     * @param string $changedFileName
+    /**
+     * Adds a new assignment to a project.
+     * 
+     * @param integer $taskUid The unique id of the task to be assigned. 
+     * @param integer $resourceUid The unique id of the resource to be assigned. 
+     * @param double $units The units for the new assignment. Default value is 1. 
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function addAssignment($taskUid, $resourceUid, $units, $changedFileName = '') {
         //check whether file is set or not
@@ -113,10 +125,14 @@ class Assignment {
             return $v_output;
     }
     
-    /*
-     * Delete Assignment
-     * @param integer $assignmentUid
-     * @param string $changedFileName
+    /**
+     * Deletes a project assignment with all references to it. 
+     * 
+     * @param integer $assignmentUid The uid of assignment.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the assignment path.
+     * @throws Exception
      */
     public function deleteAssignment($assignmentUid, $changedFileName) {
         //check whether files are set or not

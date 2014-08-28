@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Project Calendar level aspects
+/**
+ * Deals with project calendar level aspects.
  */ 
 namespace Aspose\Cloud\Tasks;
 
@@ -18,8 +18,12 @@ class Calendar {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get Calendars
+    /**
+     * Get project calendar items. Each calendar item has a link to get full 
+     * calendar representation in the project.
+     * 
+     * @return array Returns the calendar items.
+     * @throws Exception
      */
     public function getCalendars() {
         //check whether file is set or not
@@ -42,9 +46,13 @@ class Calendar {
             return false;
     }
     
-    /*
-     * Get calendar information 
-     * @param integer $calendarUid
+    /**
+     * Get project calendar. 
+     * 
+     * @param integer $calendarUid The uid of the project calendar.
+     * 
+     * @return array Returns the calendar.
+     * @throws Exception
      */
     public function getCalendar($calendarUid) {
         //check whether file is set or not
@@ -70,10 +78,14 @@ class Calendar {
             return false;
     }
 
-    /*
-     * Delete calendar
-     * @param integer $calendarUid
-     * @param string $changedFileName
+    /**
+     * Delete a project calendar. 
+     * 
+     * @param integer $calendarUid The uid of the project calendar.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteCalendar($calendarUid, $changedFileName) {
         //check whether files are set or not

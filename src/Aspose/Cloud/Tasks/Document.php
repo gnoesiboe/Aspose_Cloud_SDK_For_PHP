@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Project document level aspects
+/**
+ * Deals with project document level aspects.
  */ 
 namespace Aspose\Cloud\Tasks;
 
@@ -18,8 +18,11 @@ class Document {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get Document's properties
+    /**
+     * Get document properties of a project file.
+     * 
+     * @return array Returns the document properties.
+     * @throws Exception
      */
     public function getProperties() {
         //check whether files are set or not
@@ -42,8 +45,11 @@ class Document {
             return false;
     }
     
-    /*
-     * Get Document's tasks
+    /**
+     * Get project task items. Each task item has a link to get full task representation in the project.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function getTasks() {
         //check whether files are set or not
@@ -66,9 +72,13 @@ class Document {
             return false;
     }
     
-    /*
-     * Get task information 
-     * @param integer $taskId
+    /**
+     * Get task information. 
+     * 
+     * @param integer $taskId The id of the task.
+     * 
+     * @return array Returns the task.
+     * @throws Exception
      */
     public function getTask($taskId) {
         //check whether file is set or not
@@ -94,11 +104,15 @@ class Document {
             return false;
     }
 
-    /*
-     * Add Task
-     * @param string $taskName
-     * @param integer $beforeTaskId
-     * @param string $changedFileName
+    /**
+     * Add a new task to a project.
+     * 
+     * @param string $taskName The name of the new task.
+     * @param integer $beforeTaskId The id of the task to insert the new task before.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function addTask($taskName, $beforeTaskId, $changedFileName) {
         //check whether file is set or not
@@ -136,10 +150,14 @@ class Document {
             return $v_output;
     }
     
-    /*
-     * Delete task
-     * @param integer $taskId
-     * @param string $changedFileName
+    /**
+     * Delete a project task with all references to it and rebuilds tasks tree.
+     *  
+     * @param integer $taskId The id of the task.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteTask($taskId, $changedFileName) {
         //check whether files are set or not
@@ -174,8 +192,11 @@ class Document {
             return $v_output;
     }
     
-    /*
-     * Get Document's links
+    /**
+     * Get project task links.
+     * 
+     * @return array Returns the task links.
+     * @throws Exception
      */
     public function getLinks() {
         //check whether files are set or not
@@ -198,9 +219,14 @@ class Document {
             return false;
     }
     
-    /*
-     * Delete link
-     * @param integer $index
+    /**
+     * Delete a task link. 
+     * 
+     * @param integer $index The index of the task link.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteLink($index, $changedFileName) {
         //check whether files are set or not
@@ -235,9 +261,13 @@ class Document {
             return $v_output;
     }
     
-    /*
-    * Get Outline Codes
-    */
+    /**
+     * Get project outline code items. Each outline code item has a link to get full outline code 
+     * definition representation in the project.
+     * 
+     * @return array Returns the outline codes.
+     * @throws Exception
+     */
     public function getOutlineCodes() {
         //check whether files are set or not
         if ($this->fileName == '')
@@ -259,10 +289,14 @@ class Document {
             return false;
     }
     
-    /*
-    * Get Outline Code
-    * @param integer $outlineCodeId
-    */
+    /**
+     * Get Outline Code
+     * 
+     * @param integer $outlineCodeId The id of the outline code.
+     * 
+     * @return array Returns the outline code.
+     * @throws Exception
+     */
     public function getOutlineCode($outlineCodeId) {
         //check whether files are set or not
         if ($this->fileName == '')
@@ -287,10 +321,14 @@ class Document {
             return false;
     }
     
-    /*
-     * Delete outline code
-     * @param integer $outlineCodeId
-     * @param string $changedFileName
+    /**
+     * Delete a project outline code. 
+     * 
+     * @param integer $outlineCodeId The id of the outline code.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteOutlineCode($outlineCodeId, $changedFileName) {
         //check whether files are set or not
@@ -325,8 +363,12 @@ class Document {
             return $v_output;
     }
     
-    /*
-     * Get Document Extended Attributes
+    /**
+     * Get project extended attribute items. Each extended attribute item has a link to get full 
+     * extended attribute representation in the project.
+     * 
+     * @return array Returns the file path.
+     * @throws Exception
      */
     public function getExtendedAttributes() {
         //check whether files are set or not
@@ -349,9 +391,13 @@ class Document {
             return false;
     }
     
-    /*
-     * Get Extended Attribute
+    /**
+     * Get project extended attribute definition.
+     * 
      * @param integer $extendedAttributeId
+     * 
+     * @return array Returns the extended attribute.
+     * @throws Exception
      */
     public function getExtendedAttribute($extendedAttributeId) {
         //check whether files are set or not
@@ -377,10 +423,14 @@ class Document {
             return false;
     }
     
-    /*
-     * Delete extended attribute
-     * @param integer $extendedAttributeId
-     * @param string $changedFileName
+    /**
+     * Delete a project extended attribute.
+     * 
+     * @param integer $extendedAttributeId The id of the extended attribute.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteExtendedAttribute($extendedAttributeId, $changedFileName) {
         //check whether files are set or not

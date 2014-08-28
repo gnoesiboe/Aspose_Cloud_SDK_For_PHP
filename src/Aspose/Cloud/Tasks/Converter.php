@@ -1,6 +1,6 @@
 <?php
-/*
- * converts document into different formats
+/**
+ * Converts document into different formats.
  */ 
 namespace Aspose\Cloud\Tasks;
 
@@ -21,8 +21,11 @@ class Converter {
         $this->saveFormat = 'mpp';
     }
 
-    /*
-     * convert a document to SaveFormat
+    /**
+     * Convert a document to SaveFormat using Aspose storage.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convert() {
         //check whether file is set or not

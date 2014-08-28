@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Project Resource level aspects
+/**
+ * Deals with project resource level aspects.
  */ 
 namespace Aspose\Cloud\Tasks;
 
@@ -18,8 +18,12 @@ class Resource {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get all resources 
+    /**
+     * Get project resource items. Each resource item has a link to get full 
+     * resource representation in the project. 
+     * 
+     * @return array Returns the resources.
+     * @throws Exception
      */
     public function getResources() {
         //check whether file is set or not
@@ -42,9 +46,13 @@ class Resource {
             return false;
     }
     
-    /*
-     * Get resource information 
-     * @param integer $resourceId
+    /**
+     * Get resource information. 
+     * 
+     * @param integer $resourceId The id of the project resource.
+     * 
+     * @return string Returns project resource.
+     * @throws Exception
      */
     public function getResource($resourceId) {
         //check whether file is set or not
@@ -70,11 +78,15 @@ class Resource {
             return false;
     }
 
-    /*
-     * Add new resource
-     * @param string $resourceName
-     * @param integer $afterResourceId
-     * @param string $changedFileName
+    /**
+     * Add new resource to project.
+     * 
+     * @param string $resourceName The Name of the new resource.
+     * @param integer $afterResourceId The id of the resource to insert the new resource after.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document. 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function addResource($resourceName, $afterResourceId, $changedFileName) {
         //check whether file is set or not
@@ -112,10 +124,14 @@ class Resource {
             return $v_output;
     }
     
-    /*
-     * Delete Resource
-     * @param integer $resourceId
-     * @param string $changedFileName
+    /**
+     * Delete a project resource with all references to it.
+     * 
+     * @param integer $resourceId The id of the project resource.
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document. 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteResource($resourceId, $changedFileName) {
         //check whether files are set or not
