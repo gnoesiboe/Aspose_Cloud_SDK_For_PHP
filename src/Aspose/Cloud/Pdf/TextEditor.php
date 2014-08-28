@@ -1,6 +1,6 @@
 <?php
-/*
- * This class contains features to work with text
+/**
+ * This class contains features to work with text.
  */
 namespace Aspose\Cloud\Pdf;
 
@@ -18,8 +18,13 @@ class TextEditor {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Gets raw text from the whole PDF file or a specific page 
+    /**
+     * Gets raw text from the whole PDF file or a specific page.
+     * 
+     * @param integer @pageNumber Number of the page.
+     * 
+     * @return string
+     * @throws Exception
      */
     public function getText() {
         $parameters = func_get_args();
@@ -48,8 +53,14 @@ class TextEditor {
         return $rawText;
     }
 
-    /*
-     * Gets text items from the whole PDF file or a specific page 
+    /**
+     * Gets text items from the whole PDF file or a specific page .
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $fragmentNumber Fragment number.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getTextItems() {
         $parameters = func_get_args();
@@ -82,9 +93,13 @@ class TextEditor {
         return $json->TextItems->List;
     }
 
-    /*
-     * Gets count of the fragments from a particular page
-     * $pageNumber
+    /**
+     * Gets count of the fragments from a particular page.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getFragmentCount($pageNumber) {
         //check whether file is set or not
@@ -102,10 +117,14 @@ class TextEditor {
         return count($json->TextItems->List);
     }
 
-    /*
-     * Gets count of the segments in a fragment
-     * @param number $pageNumber
-     * @param number $fragmentNumber
+    /**
+     * Gets count of the segments in a fragment.
+     * 
+     * @param ingeger $pageNumber Number of the page.
+     * @param integer $fragmentNumber Fragment number.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getSegmentCount($pageNumber = '', $fragmentNumber = '') {
         //check whether file is set or not
@@ -130,10 +149,14 @@ class TextEditor {
         return count($json->TextItems->List);
     }
 
-    /*
-     * Gets TextFormat of a particular Fragment
-     * $pageNumber
-     * $fragmentNumber
+    /**
+     * Gets TextFormat of a particular Fragment.
+     * 
+     * @param ingeger $pageNumber Number of the page.
+     * @param integer $fragmentNumber Fragment number.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getTextFormat() {
         $args = func_get_args();
@@ -164,9 +187,13 @@ class TextEditor {
         return $json->TextFormat;
     }
 
-    /*
-     * Replaces all instances of old text with new text in a PDF file or a particular page
-     * @param Array $fieldsArray
+    /**
+     * Replaces all instances of old text with new text in a PDF file or a particular page.
+     * 
+     * @param array $fieldsArray List of fields.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceMultipleText($fieldsArray) {
         //check whether file is set or not
@@ -197,10 +224,16 @@ class TextEditor {
             return $v_output;
     }
 
-    /*
-     * Replaces all instances of old text with new text in a PDF file or a particular page
-     * @param string $oldText
-     * @param string $newText
+    /**
+     * Replaces all instances of old text with new text in a PDF file or a particular page.
+     * 
+     * @param string $oldText The old text.
+     * @param string $newText The new text.
+     * @param boolean $isRegularExpression Either true or false.
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceText() {
         $parameters = func_get_args();

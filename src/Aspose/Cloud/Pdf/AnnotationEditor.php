@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Annotations, Bookmarks, Attachments and Links in PDF document
+/**
+ * Deals with Annotations, Bookmarks, Attachments and Links in PDF document.
  */
 namespace Aspose\Cloud\Pdf;
 
@@ -17,9 +17,13 @@ class AnnotationEditor {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Gets number of annotations on a specified document page
-     * @param $pageNumber
+    /**
+     * Gets number of annotations on a specified document page.
+     * 
+     * @param ineger $pageNumber Number of the page.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getAnnotationsCount($pageNumber) {
         //check whether file is set or not
@@ -32,10 +36,14 @@ class AnnotationEditor {
         return count($json->Annotations->List);
     }
 
-    /*
-     * Gets a specfied annotation on a specified document page
-     * @param $pageNumber
-     * @param $annotationIndex
+    /**
+     * Gets a specfied annotation on a specified document page.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $annotationIndex Index of th annotation.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getAnnotation($pageNumber, $annotationIndex) {
         //check whether file is set or not
@@ -48,9 +56,13 @@ class AnnotationEditor {
         return $json->Annotation;
     }
 
-    /*
-     * Gets list of all the annotations on a specified document page
-     * @param $pageNumber
+    /**
+     * Gets list of all the annotations on a specified document page.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getAllAnnotations($pageNumber) {
         //check whether file is set or not
@@ -64,8 +76,11 @@ class AnnotationEditor {
         return $listAnnotations;
     }
 
-    /*
-     * Gets total number of Bookmarks in a Pdf document
+    /**
+     * Gets total number of Bookmarks in a Pdf document.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getBookmarksCount() {
         //check whether file is set or not
@@ -78,9 +93,13 @@ class AnnotationEditor {
         return count($json->Bookmarks->List);
     }
 
-    /*
-     * Gets number of child bookmarks in a specfied parent bookmark
-     * @param $parent
+    /**
+     * Gets number of child bookmarks in a specfied parent bookmark.
+     * 
+     * @param integer $parent
+     * 
+     * @return ingeter
+     * @throws Exception
      */
     public function getChildBookmarksCount($parent) {
         //check whether file is set or not
@@ -93,9 +112,13 @@ class AnnotationEditor {
         return count($json->Bookmarks->List);
     }
 
-    /*
-     * Gets a specfied Bookmark from a PDF document
-     * @param $bookmarkIndex
+    /**
+     * Gets a specfied Bookmark from a PDF document.
+     * 
+     * @param integer $bookmarkIndex Index of the bookmark.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getBookmark($bookmarkIndex) {
         //check whether file is set or not
@@ -108,10 +131,14 @@ class AnnotationEditor {
         return $json->Bookmark;
     }
 
-    /*
-     * Gets a specfied child Bookmark for selected parent bookmark in Pdf document
-     * @param $parentIndex
-     * @param $childIndex
+    /**
+     * Gets a specfied child Bookmark for selected parent bookmark in Pdf document.
+     * 
+     * @param integer $parentIndex Parent index.
+     * @param integer $childIndex Child index.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getChildBookmark($parentIndex, $childIndex) {
         //check whether file is set or not
@@ -124,9 +151,14 @@ class AnnotationEditor {
         return $json->Bookmark;
     }
 
-    /*
-     * Checks whether selected bookmark is parent or child Gets a specfied child Bookmark for selected parent bookmark in Pdf document
-     * @param $bookmarkIndex
+    /**
+     * Checks whether selected bookmark is parent or child Gets a specfied child 
+     * Bookmark for selected parent bookmark in Pdf document.
+     * 
+     * @param ingeter $bookmarkIndex Index of the bookmark.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function isChildBookmark($bookmarkIndex) {
         //check whether file is set or not
@@ -141,8 +173,11 @@ class AnnotationEditor {
         return $json->Bookmark;
     }
 
-    /*
-     * Gets list of all the Bookmarks in a Pdf document
+    /**
+     * Gets list of all the Bookmarks in a Pdf document.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getAllBookmarks() {
         //check whether file is set or not
@@ -156,8 +191,11 @@ class AnnotationEditor {
         return $listBookmarks;
     }
 
-    /*
-     * Gets number of attachments in the Pdf document
+    /**
+     * Gets number of attachments in the Pdf document.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getAttachmentsCount() {
         //check whether file is set or not
@@ -170,9 +208,13 @@ class AnnotationEditor {
         return count($json->Attachments->List);
     }
 
-    /*
-     * Gets selected attachment from Pdf document
-     * @param $attachmentIndex
+    /**
+     * Gets selected attachment from Pdf document.
+     * 
+     * @param integer $attachmentIndex Index of the attachment.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getAttachment($attachmentIndex) {
         //check whether file is set or not
@@ -185,8 +227,11 @@ class AnnotationEditor {
         return $json->Attachment;
     }
 
-    /*
-     * Gets List of all the attachments in Pdf document
+    /**
+     * Gets List of all the attachments in Pdf document.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getAllAttachments() {
         //check whether file is set or not
@@ -200,9 +245,13 @@ class AnnotationEditor {
         return $listAttachments;
     }
 
-    /*
-     * Download the selected attachment from Pdf document
-     * @param string $attachmentIndex
+    /**
+     * Download the selected attachment from Pdf document.
+     * 
+     * @param string $attachmentIndex Index of the attachment.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function downloadAttachment($attachmentIndex) {
         //check whether files are set or not
@@ -223,9 +272,13 @@ class AnnotationEditor {
             return $v_output;
     }
 
-    /*
-     * Gets number of links on a specified document page
-     * @param $pageNumber
+    /**
+     * Gets number of links on a specified document page.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getLinksCount($pageNumber) {
         //check whether file is set or not
@@ -238,10 +291,14 @@ class AnnotationEditor {
         return count($json->Links->List);
     }
 
-    /*
+    /**
      * Gets a specfied link on a specified document page
-     * @param $pageNumber
-     * @param $linkIndex
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $linkIndex Index of the link.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getLink($pageNumber, $linkIndex) {
         //check whether file is set or not
@@ -254,9 +311,13 @@ class AnnotationEditor {
         return $json->Link;
     }
 
-    /*
-     * Gets list of all the links on a specified document page
-     * @param $pageNumber
+    /**
+     * Gets list of all the links on a specified document page.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getAllLinks($pageNumber) {
         //check whether file is set or not

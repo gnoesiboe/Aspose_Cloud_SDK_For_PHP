@@ -1,6 +1,6 @@
 <?php
-/*
- * converts pages or document into different formats
+/**
+ * Converts pages or document into different formats.
  */
 namespace Aspose\Cloud\Pdf;
 
@@ -20,12 +20,16 @@ class Converter {
         $this->saveFormat = 'Pdf';
     }
 
-    /*
-     * convert a particular page to image with specified size
-     * @param string $pageNumber
-     * @param string $imageFormat
-     * @param string $width
-     * @param string $height
+    /**
+     * Convert a particular page to image with specified size.
+     * 
+     * @param integer $pageNumber The document page number.
+     * @param string $imageFormat Return the document in the specified format.
+     * @param integer $width The width of image.
+     * @param integer $height The height of image.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertToImagebySize($pageNumber, $imageFormat, $width, $height) {
         //check whether file is set or not
@@ -49,10 +53,14 @@ class Converter {
             return $v_output;
     }
 
-    /*
-     * convert a particular page to image with default size
-     * @param string $pageNumber
-     * @param string $imageFormat
+    /**
+     * Convert a particular page to image with default size.
+     * 
+     * @param integer $pageNumber The document page number.
+     * @param string $imageFormat Return the document in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertToImage($pageNumber, $imageFormat) {
         //check whether file is set or not
@@ -76,8 +84,14 @@ class Converter {
             return $v_output;
     }
 
-    /*
-     * convert a document by url to SaveFormat
+    /**
+     * Convert a document by url to SaveFormat.
+     * 
+     * @param string $url URL of the document.
+     * @param string $outputFilename The name of output file.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertByUrl($url='',$format='',$outputFilename='') {
         //check whether file is set or not
@@ -106,8 +120,11 @@ class Converter {
         }
     }
 
-    /*
-     * convert a document to SaveFormat
+    /**
+     * Convert a document to SaveFormat using Aspose cloud storage.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convert() {
         //check whether file is set or not
@@ -136,11 +153,15 @@ class Converter {
         }
     }
 
-    /*
-     * Convert PDF to different file format without using storage
-     * $param string $inputFile
-     * @param string $outputFilename
-     * @param string $outputFormat
+    /**
+     * Convert PDF to different file format without using Aspose cloud storage.
+     * 
+     * $param string $inputFile The path of source file.
+     * @param string $outputFilename The output file name.
+     * @param string $outputFormat Returns document in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertLocalFile($inputFile = '', $outputFilename = '', $outputFormat = '') {
         //check whether file is set or not

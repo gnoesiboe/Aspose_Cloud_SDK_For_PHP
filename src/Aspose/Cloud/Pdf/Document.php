@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with PDF document level aspects
+/**
+ * Deals with PDF document level aspects.
  */
 namespace Aspose\Cloud\Pdf;
 
@@ -18,8 +18,10 @@ class Document {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Gets the page count of the specified PDF document
+    /**
+     * Gets the page count of the specified PDF document.
+     * 
+     * @return integer
      */
     public function getPageCount() {
         //build URI
@@ -36,13 +38,17 @@ class Document {
         return count($json->Pages->List);
     }
 
-    /*
-     * Merges two PDF documents
+    /**
+     * Merges two PDF documents.
+     * 
      * @param string $basePdf (name of the base/first PDF file)
      * @param string $newPdf (name of the second PDF file to merge with base PDF file)
      * @param string $startPage (page number to start merging second PDF: enter 0 to merge complete document)
      * @param string $endPage (page number to end merging second PDF: enter 0 to merge complete document)
      * @param string $sourceFolder (name of the folder where base/first and second input PDFs are present)
+     * 
+     * @return string|boolean
+     * @throws Exception
      */
     public function appendDocument($basePdf, $newPdf, $startPage = 0, $endPage = 0, $sourceFolder = '') {
         //check whether files are set or not
@@ -86,9 +92,13 @@ class Document {
         }
     }
 
-    /*
-     * Merges tow or more PDF documents
-     * @param array $sourceFiles (list of PDF files to be merged)
+    /**
+     * Merges tow or more PDF documents.
+     * 
+     * @param array $sourceFiles List of PDF files to be merged
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function mergeDocuments(array $sourceFiles = array()) {
         $mergedFileName = $this->fileName;
@@ -118,10 +128,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Creates a PDF from HTML
-     * @param string $pdfFileName (name of the PDF file to create)
-     * @param string $htmlFileName (name of the HTML template file)
+    /**
+     * Creates a PDF from HTML.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * @param string $htmlFileName Name of the HTML template file.
+     * 
+     * @return string Return the file path.
+     * @throws Exception
      */
     public function createFromHtml($pdfFileName, $htmlFileName) {
         //check whether files are set or not
@@ -153,11 +167,15 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Creates a PDF from XML
-     * @param string $pdfFileName (name of the PDF file to create)
-     * @param string $xsltFileName (name of the XSLT template file)
-     * @param string $xmlFileName (name of the XML file)
+    /**
+     * Creates a PDF from XML.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * @param string $xsltFileName Name of the XSLT template file.
+     * @param string $xmlFileName Name of the XML file.
+     * 
+     * @return string Returns the file path
+     * @throws Exception
      */
     public function createFromXml($pdfFileName, $xsltFileName, $xmlFileName) {
         //check whether files are set or not
@@ -191,8 +209,10 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Gets the FormField count of the specified PDF document
+    /**
+     * Gets the FormField count of the specified PDF document.
+     * 
+     * @return integer
      */
     public function getFormFieldCount() {
         //build URI
@@ -209,8 +229,10 @@ class Document {
         return count($json->Fields->List);
     }
 
-    /*
-     * Gets the list of FormFields from the specified PDF document
+    /**
+     * Gets the list of FormFields from the specified PDF document.
+     * 
+     * @return array
      */
     public function getFormFields() {
         //build URI
@@ -227,9 +249,12 @@ class Document {
         return $json->Fields->List;
     }
 
-    /*
-     * Gets a particular form field
-     * $fieldName
+    /**
+     * Gets a particular form field.
+     * 
+     * @param string $fieldName Name of the field.
+     * 
+     * @return object
      */
     public function getFormField($fieldName) {
         //build URI
@@ -246,9 +271,13 @@ class Document {
         return $json->Field;
     }
 
-    /*
-     * Creates an Empty Pdf document
-     * @param string $pdfFileName (name of the PDF file to create)
+    /**
+     * Creates an Empty Pdf document.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function createEmptyPdf($pdfFileName) {
         //check whether files are set or not
@@ -277,8 +306,11 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Adds new page to opened Pdf document
+    /**
+     * Adds new page to opened Pdf document.
+     * 
+     * @return string Return the file path.
+     * @throws Exception
      */
     public function addNewPage() {
         //check whether files are set or not
@@ -307,9 +339,13 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Deletes selected page from Pdf document
-     * $pageNumber
+    /**
+     * Deletes selected page from Pdf document.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deletePage($pageNumber) {
         //check whether files are set or not
@@ -338,10 +374,14 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Moves selected page in Pdf document to new location
-     * $pageNumber
-     * $newLocation
+    /**
+     * Moves selected page in Pdf document to new location.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $newLocation New number for the page.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function movePage($pageNumber, $newLocation) {
         //check whether files are set or not
@@ -371,11 +411,15 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Replaces Image in PDF File using Local Image Stream
-     * $pageNumber
-     * $imageIndex
-     * $imageStream
+    /**
+     * Replaces Image in PDF File using Local Image Stream.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $imageIndex Index of the image.
+     * @param string $imageStream The image stream.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceImageUsingStream($pageNumber, $imageIndex, $imageStream) {
         //check whether files are set or not
@@ -405,11 +449,15 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Replaces Image in PDF File using Local Image Stream
-     * $pageNumber
-     * $imageIndex
-     * $fileName
+    /**
+     * Replaces Image in PDF File using Local Image Stream.
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param integer $imageIndex Index of the image.
+     * @param string $fileName The file name.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceImageUsingFile($pageNumber, $imageIndex, $fileName) {
         //check whether files are set or not
@@ -439,8 +487,11 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Get all the properties of the specified document	
+    /**
+     * Get all the properties of the specified document	.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getDocumentProperties() {
             if ($this->fileName == '')
@@ -458,9 +509,13 @@ class Document {
             return $response_arr->DocumentProperties->List;
     }
 
-    /*
-     * Get specified properity of the document	
-     * @param string $propertyName
+    /**
+     * Get specified properity of the document.
+     * 	
+     * @param string $propertyName Name of the property.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getDocumentProperty($propertyName = '') {
         if ($this->fileName == '')
@@ -481,10 +536,14 @@ class Document {
         return $response_arr->DocumentProperty;
     }
 
-    /*
-     * Set specified properity of the document	
-     * @param string $propertyName
-     * @param string $propertyValue
+    /**
+     * Set specified properity of the document.
+     * 	
+     * @param string $propertyName Name of the property.
+     * @param string $propertyValue Value of the property.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function setDocumentProperty($propertyName = '', $propertyValue = '') {
         if ($this->fileName == '')
@@ -508,8 +567,11 @@ class Document {
         return $response_arr->DocumentProperty;
     }
 
-    /*
-     * Remove all properties of the document	
+    /**
+     * Remove all properties of the document.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function removeAllProperties() {
         if ($this->fileName == '')
@@ -526,7 +588,13 @@ class Document {
 
         return $response_arr->Code == 200 ? true : false;
     }
-
+    
+    /**
+     * Split page into multiple documents.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function splitAllPages() {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
@@ -548,7 +616,16 @@ class Document {
             $i++;
         }
     }
-
+    
+    /**
+     * Split page into documents as specified in the range.
+     * 
+     * @param integer $from From page number.
+     * @param integer $to To page number.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function splitPages($from, $to) {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
@@ -570,7 +647,17 @@ class Document {
             $i++;
         }
     }
-
+    
+    /**
+     * Split pages to specified format.
+     * 
+     * @param integer $from From page number.
+     * @param integer $to To page number.
+     * @param string $format Returns file in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function splitPagesToAnyFormat($from, $to, $format) {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
