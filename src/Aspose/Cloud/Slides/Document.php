@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with PowerPoint document level aspects
+/**
+ * Deals with PowerPoint document level aspects.
  */
 namespace Aspose\Cloud\Slides;
 
@@ -18,7 +18,18 @@ class Document {
         //set default values
         $this->fileName = $fileName;
     }
-
+    
+    /**
+     * Change slide position.
+     * 
+     * @param integer $old_position The old slide position.
+     * @param integer $new_position The new slid position.
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presentation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
     public function changeSlidePosition($old_position='', $new_position='',$storageName = '', $folder = '') {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -46,7 +57,18 @@ class Document {
         else
             return false;
     }
-
+    
+    /**
+     * Clone slide in a presentation.
+     * 
+     * @param integer $slideno The slide number.
+     * @param integer $position Position of the slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presentation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
     public function cloneSlide($slideno='',$position='',$storageName = '', $folder = '') {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -76,7 +98,17 @@ class Document {
         else
             return false;
     }
-
+    
+    /**
+     * Add new slide in presentation.
+     * 
+     * @param integer $position The position of slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presentation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
     public function addSlide($position='',$storageName = '', $folder = '') {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -103,7 +135,20 @@ class Document {
         else
             return false;
     }
-
+    
+    /**
+     * Split presentation.
+     * 
+     * @param integer $from The slide number.
+     * @param integer $to The slide number.
+     * @param string $destination The desitination folder name.
+     * @param string $format Return the presentation in the specified format.
+     * @param string $storageName The presenatation storage name.
+     * @param string $folder The presentation folder name.
+     * 
+     * @return string|boolean
+     * @throws Exception
+     */
     public function splitPresentation($from='',$to='',$destination='',$format='',$storageName = '', $folder = '') {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -159,7 +204,17 @@ class Document {
         else
             return false;
     }
-
+    
+    /**
+     * Merge multiple presentations into single presentation.
+     * 
+     * @param array $presentationsList The list of presenation.
+     * @param type $storageName The presentation storage name.
+     * @param type $folder The presenation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
     public function mergePresentations($presentationsList=array(),$storageName = '', $folder = '') {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -190,6 +245,15 @@ class Document {
             return false;
     }
     
+    /**
+     * Create empty presenation and store it on Aspose cloud storage.
+     * 
+     * @param type $storageName The presentation storage name.
+     * @param type $folder The presenation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
     public function createEmptyPresentation($storageName = '', $folder = ''){
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -216,8 +280,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Finds the slide count of the specified PowerPoint document
+    /**
+     * Finds the slide count of the specified PowerPoint document.
+     * 
+     * @param type $storageName The presentation storage name.
+     * @param type $folder The presenation folder name.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getSlideCount($storageName = '', $folder = '') {
         //check whether file is set or not
@@ -242,10 +312,14 @@ class Document {
         return count($json->Slides->SlideList);
     }
 
-    /*
-     * Replaces all instances of old text with new text in a presentation or a particular slide
-     * @param string $oldText
-     * @param string $newText
+    /**
+     * Replaces all instances of old text with new text in a presentation or a particular slide.
+     * 
+     * @param string $oldText The old text.
+     * @param string $newText The new text.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceText() {
         $parameters = func_get_args();
@@ -288,8 +362,14 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Gets all the text items in a slide or presentation
+    /**
+     * Gets all the text items in a slide or presentation.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $withEmpty
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getAllTextItems() {
         $parameters = func_get_args();
@@ -318,8 +398,14 @@ class Document {
         return $json->TextItems->Items;
     }
 
-    /*
-     * Deletes all slides from a presentation
+    /**
+     * Deletes all slides from a presentation.
+     * 
+     * @param type $storageName The presentation storage name.
+     * @param type $folder The presenation folder name.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function deleteAllSlides($storageName = '', $folder = '') {
         //check whether file is set or not
@@ -352,8 +438,11 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Get Document's properties
+    /**
+     * Get Document's properties.
+     * 
+     * @return array|boolean
+     * @throws Exception
      */
     public function getDocumentProperties() {
         //check whether files are set or not
@@ -378,9 +467,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
-      @param string $propertyName
+    /**
+     * Get Resource Properties information like document source format, 
+     * IsEncrypted, IsSigned and document properties.
+     * 
+     * @param string $propertyName The name of property.
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function getDocumentProperty($propertyName) {
         //check whether files are set or not
@@ -407,8 +501,11 @@ class Document {
             return false;
     }
 
-    /*
-     * Remove All Document's properties
+    /**
+     * Remove All Document's properties.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function removeAllProperties() {
         //check whether files are set or not
@@ -435,9 +532,13 @@ class Document {
         return true;
     }
 
-    /*
+    /**
      * Delete a document property
-      @param string $propertyName
+     * 
+     * @param string $propertyName The name of property.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function deleteDocumentProperty($propertyName) {
         //check whether files are set or not
@@ -463,10 +564,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Set document property
-      @param string $propertyName
-      @param string $propertyValue
+    /**
+     * Set document property.
+     * 
+     * @param string $propertyName The name of property.
+     * @param string $propertyValue The value of property.
+     * 
+     * @return array|boolean
+     * @throws Exception
      */
     public function setProperty($propertyName, $propertyValue) {
         //check whether files are set or not
@@ -499,9 +604,13 @@ class Document {
             return false;
     }
 
-    /*
-     * Add custom document properties
-      @param array $propertiesList
+    /**
+     * Add custom document properties.
+     * 
+     * @param array $propertiesList The list of property.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function addCustomProperty($propertiesList) {
         //check whether files are set or not
@@ -527,10 +636,14 @@ class Document {
         return $json;
     }
 
-    /*
-     * saves the document into various formats
-     * @param string $outputPath
-     * @param string $saveFormat
+    /**
+     * saves the document into various formats.
+     * 
+     * @param string $outputPath The output directory path.
+     * @param string $saveFormat Return the presentation in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function saveAs($outputPath, $saveFormat,$jpegQuality='', $storageName = '', $folder = '') {
         //check whether file is set or not
@@ -570,11 +683,15 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Saves a particular slide into various formats
-     * @param number $slideNumber
-     * @param string $outputPath
-     * @param string $saveFormat
+    /**
+     * Saves a particular slide into various formats.
+     * 
+     * @param integer $slideNumber The slide number.
+     * @param string $outputPath The output directory path.
+     * @param string $saveFormat Return the presentation in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function saveSlideAs($slideNumber, $outputPath, $saveFormat) {
         //check whether file is set or not

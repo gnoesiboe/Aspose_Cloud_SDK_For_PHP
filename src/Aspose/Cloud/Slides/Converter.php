@@ -1,6 +1,6 @@
 <?php
-/*
- * converts pages or document into different formats
+/**
+ * Converts pages or document into different formats.
  */
 namespace Aspose\Cloud\Slides;
 
@@ -21,10 +21,14 @@ class Converter {
         $this->saveFormat = 'PPT';
     }
 
-    /*
-     * Saves a particular slide into various formats with specified width and height
-     * @param string $slideNumber
-     * @param string $imageFormat
+    /**
+     * Saves a particular slide into various formats with specified width and height.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $imageFormat The image format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertToImage($slideNumber, $imageFormat) {
         //check whether file is set or not
@@ -46,12 +50,16 @@ class Converter {
         }
     }
 
-    /*
-     * Saves a particular slide into various formats with specified width and height
-     * @param string $slideNumber
-     * @param string $imageFormat
-     * @param string $width
-     * @param string $height
+    /**
+     * Convert a particular slide into various formats with specified width and height.
+     * 
+     * @param integer $slideNumber The slide number.
+     * @param string $imageFormat The image format.
+     * @param integer $width The width of image.
+     * @param integer $height The height of image.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertToImagebySize($slideNumber, $imageFormat, $width, $height) {
         //check whether file is set or not
@@ -73,8 +81,11 @@ class Converter {
         }
     }
 
-    /*
-     * convert a document to SaveFormat
+    /**
+     * Convert a document to the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convert() {
         //check whether file is set or not

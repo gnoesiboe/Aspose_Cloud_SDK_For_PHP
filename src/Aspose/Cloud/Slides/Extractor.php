@@ -1,6 +1,6 @@
 <?php
-/*
- * Extract various types of information from the document
+/**
+ * Extract various types of information from the document.
  */
 namespace Aspose\Cloud\Slides;
 
@@ -16,8 +16,15 @@ class Extractor {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Gets comments from a slide
+    /**
+     * Get comments from a slide.
+     * 
+     * @param integer $slideNo The number of slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function getComments($slideNo='',$storageName = '', $folder = '') {
         //check whether file is set or not
@@ -43,8 +50,14 @@ class Extractor {
             return false;
     }
 
-    /*
-     * Gets total number of images in a presentation
+    /**
+     * Gets total number of images in a presentation.
+     * 
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return ineger Returns the presentation image count.
+     * @throws Exception
      */
     public function getImageCount($storageName = '', $folder = '') {
         //check whether file is set or not
@@ -67,9 +80,15 @@ class Extractor {
         return count($json->Images->List);
     }
 
-    /*
-     * Gets number of images in the specified slide
-     * @param $slidenumber
+    /**
+     * Gets number of images in the specified slide.
+     * 
+     * @param integer $slidenumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return ineger Return the slide image count.
+     * @throws Exception
      */
     public function getSlideImageCount($slidenumber, $storageName = '', $folder = '') {
         //check whether file is set or not
@@ -92,9 +111,15 @@ class Extractor {
         return count($json->Images->List);
     }
 
-    /*
-     * Gets all shapes from the specified slide
-     * @param $slidenumber
+    /**
+     * Gets all shapes from the specified slide.
+     * 
+     * @param integer $slidenumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getShapes($slidenumber, $storageName = '', $folder = '') {
         //check whether file is set or not
@@ -130,9 +155,14 @@ class Extractor {
         return $shapes;
     }
 
-    /*
-     * Get color scheme from the specified slide
-     * $slideNumber
+    /**
+     * Get color scheme from the specified slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getColorScheme($slideNumber, $storageName = '') {
         //check whether file is set or not
@@ -153,9 +183,14 @@ class Extractor {
         return $json->ColorScheme;
     }
 
-    /*
-     * Get font scheme from the specified slide
-     * $slideNumber
+    /**
+     * Get font scheme from the specified slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getFontScheme($slideNumber, $storageName = '') {
         //check whether file is set or not
@@ -176,9 +211,14 @@ class Extractor {
         return $json->FontScheme;
     }
 
-    /*
-     * Get format scheme from the specified slide
-     * $slideNumber
+    /**
+     * Get format scheme from the specified slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getFormatScheme($slideNumber, $storageName = '') {
         //check whether file is set or not
@@ -199,9 +239,15 @@ class Extractor {
         return $json->FormatScheme;
     }
 
-    /*
-     * Gets placeholder count from a particular slide
-     * $slideNumber
+    /**
+     * Gets placeholder count from a particular slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getPlaceholderCount($slideNumber, $storageName = '', $folder = '') {
         //check whether file is set or not
@@ -225,10 +271,16 @@ class Extractor {
         return count($json->Placeholders->PlaceholderLinks);
     }
 
-    /*
-     * Gets a placeholder from a particular slide
-     * $slideNumber
-     * $placeholderIndex
+    /**
+     * Gets a placeholder from a particular slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param integer $placeholderIndex The index of placeholder.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getPlaceholder($slideNumber, $placeholderIndex, $storageName = '', $folder = '') {
             //check whether file is set or not
