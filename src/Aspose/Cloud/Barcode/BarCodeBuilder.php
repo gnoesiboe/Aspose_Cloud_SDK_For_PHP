@@ -1,6 +1,6 @@
 <?php
-/*
- * generates new barcodes
+/**
+ * Generates new barcodes.
  */
 namespace Aspose\Cloud\Barcode;
 
@@ -15,16 +15,21 @@ class BarcodeBuilder {
 
 	}
 
-	/*
-	 * generates new barcodes with specific text, symbology, image format, resolution and dimensions
-	 * @param string $codeText
-	 * @param string $symbology
-	 * @param string $imageFormat
-	 * @param float $xResolution
-	 * @param float $yResolution
-	 * @param float $xDimension
-	 * @param float $yDimension
-	 */
+    /**
+     * Generates new barcodes with specific text, symbology, image format, 
+     * resolution and dimensions.
+     * 
+     * @param string $codeText Text to encode inside barcode. 
+     * @param string $symbology Type of barcode. 
+     * @param string $imageFormat Returns an image in the specified format. 
+     * @param float $xResolution Resolution along X in dpi.
+     * @param float $yResolution Resolution along Y in dpi.
+     * @param float $xDimension Width of barcode unit (bar or space).
+     * @param float $yDimension Height of barcode unit (for 2D barcodes). 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
 
 	public function save($codeText, $symbology, $imageFormat = png, $xResolution = 0, $yResolution = 0, $xDimension = 0, $yDimension = 0, $codeLocation = null, $folder = null, $storage = null, $name = null, $grUnit = null, $autoSize = null, $barHeight = 0, $imageHeight = 0, $imageWidth = 0, $imageQuality = null, $rotAngle = 0, $topMargin = 0, $bottomMargin = 0, $leftMargin = 0, $rightMargin = 0, $enableChecksum = null) {
 

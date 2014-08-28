@@ -1,6 +1,6 @@
 <?php
-/*
- * reads barcodes from images
+/**
+ * Reads barcodes from images.
  */
 namespace Aspose\Cloud\Barcode;
 
@@ -17,10 +17,14 @@ class BarcodeReader {
 		$this->fileName = $fileName;
 	}
 
-	/*
-	 * reads all or specific barcodes from images
-	 * @param string $symbology
-	 */
+    /**
+     * Reads all or specific barcodes from images.
+     * 
+     * @param string $symbology Type of barcode.
+     * 
+     * @return array
+     * @throws Exception
+     */
 	public function read($symbology) {
         //check whether file is set or not
         if ($this->fileName == '')
@@ -37,7 +41,17 @@ class BarcodeReader {
         //returns a list of extracted barcodes
         return $json -> Barcodes;
 	}
-
+        
+    /**
+     * Read Barcode from Aspose Cloud Storage
+     * 
+     * @param string $remoteImageName Name of the remote image.
+     * @param string $remoteFolder Name of the folder.
+     * @param string $readType Type to read barcode.
+     * 
+     * @return array
+     * @throws Exception
+     */
 	public function readR($remoteImageName, $remoteFolder, $readType) {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -48,7 +62,17 @@ class BarcodeReader {
         $json = json_decode($responseStream);
         return $json -> Barcodes;
 	}
-
+        
+    /**
+     * Read Barcode from Local Image.
+     * 
+     * @param string $localImage Path of the local image.
+     * @param string $remoteFolder Name of the remote folder.
+     * @param string $barcodeReadType Type to read barcode.
+     * 
+     * @return array
+     * @throws Exception
+     */
 	public function readFromLocalImage($localImage, $remoteFolder, $barcodeReadType) {
 			if ($this->fileName == '')
 				throw new Exception('No file name specified');
@@ -57,7 +81,16 @@ class BarcodeReader {
 			$data = $this->ReadR(basename($localImage), $remoteFolder, $barcodeReadType);
 			return $data;
 	}
-
+        
+    /**
+     * Build uri.
+     * 
+     * @param string $remoteImage Name of the image.
+     * @param string $remoteFolder Name of the folder.
+     * @param string $readType Type to read barcode.
+     * 
+     * @return string
+     */
 	public function uriBuilder($remoteImage, $remoteFolder, $readType) {
 		$uri = Product::$baseProductUri . '/barcode/';
 		if ($remoteImage != null)
