@@ -1,6 +1,6 @@
 <?php
-/*
- * This class contains features to work with charts
+/**
+ * This class contains features to work with charts.
  */
 namespace Aspose\Cloud\Cells;
 
@@ -16,8 +16,11 @@ class Workbook {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Get Document's properties
+    /**
+     * Get Document's properties.
+     * 
+     * @return array|boolean
+     * @throws Exception
      */
     public function getProperties() {
         //check whether files are set or not
@@ -35,9 +38,14 @@ class Workbook {
             return false;
     }
 
-    /*
-     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
-      @param string $propertyName
+    /**
+     * Get Resource Properties information like document source format, 
+     * IsEncrypted, IsSigned and document properties
+     * 
+     * @param string $propertyName Name of the property.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getProperty($propertyName) {
         
@@ -59,10 +67,14 @@ class Workbook {
         
     }
 
-    /*
-     * Set document property
-      @param string $propertyName
-      @param string $propertyValue
+    /**
+     * Set document property.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param string $propertyValue Value of the property.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function setProperty($propertyName, $propertyValue) {
         
@@ -90,8 +102,11 @@ class Workbook {
        
     }
 
-    /*
-     * Remove All Document's properties
+    /**
+     * Remove All Document's properties.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function removeAllProperties() {
         
@@ -114,9 +129,13 @@ class Workbook {
         
     }
 
-    /*
-     * Delete a document property
-      @param string $propertyName
+    /**
+     * Delete a document property.
+     * 
+     * @param string $propertyName Name of the property.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function removeProperty($propertyName) {
         
@@ -138,8 +157,10 @@ class Workbook {
         
     }
 
-    /*
-     * Create Empty Workbook
+    /**
+     * Create Empty Workbook.
+     * 
+     * @return null 
      */
     public function createEmptyWorkbook() {
         
@@ -153,9 +174,13 @@ class Workbook {
         
     }
 
-    /*
-     * Create Empty Workbook
-     * @param string $templateFileName
+    /**
+     * Create Empty Workbook.
+     * 
+     * @param string $templateFileName Name of the template file.
+     * 
+     * @return null
+     * @throws Exception
      */
     public function createWorkbookFromTemplate($templateFileName) {
         
@@ -171,10 +196,14 @@ class Workbook {
 
     }
 
-    /*
-     * Create Empty Workbook
-     * @param string $templateFileName
-     * @param string $dataFile	
+    /**
+     * Create Empty Workbook.
+     * 
+     * @param string $templateFileName Name of the template file.
+     * @param string $dataFile	Data file.
+     * 
+     * @return null
+     * @throws Exception
      */
     public function createWorkbookFromSmartMarkerTemplate($templateFileName, $dataFile) {
         
@@ -192,9 +221,13 @@ class Workbook {
 
     }
 
-    /*
-     * Process Smartmaker Datafile
-     * @param string $dataFile	
+    /**
+     * Process Smartmaker Datafile.
+     * 
+     * @param string $dataFile
+     * 
+     * @return object
+     * @throws Exception
      */
     public function processSmartMarker($dataFile) {
         
@@ -210,8 +243,11 @@ class Workbook {
 
     }
 
-    /*
-     * Get Worksheets Count in Workbook
+    /**
+     * Get Worksheets Count in Workbook.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getWorksheetsCount() {
         
@@ -227,8 +263,11 @@ class Workbook {
 
     }
 
-    /*
-     * Get Names Count in Workbook	
+    /**
+     * Get Names Count in Workbook.
+     * 
+     * @return integer
+     * @throws Exception
      */
     public function getNamesCount() {
         
@@ -244,8 +283,11 @@ class Workbook {
 
     }
 
-    /*
-     * Get Default Style
+    /**
+     * Get Default Style.
+     * 
+     * @return object
+     * @throws Exception
      */
     public function getDefaultStyle() {
         
@@ -260,7 +302,17 @@ class Workbook {
         return $json->Style;
 
     }
-
+    
+    /**
+     * Encrypt workbook.
+     * 
+     * @param string $encryptionType Type of the encryption.
+     * @param string $password Document encryption password. 
+     * @param integer $keyLength The key length. This parameter is only for Excel97~2003 format 
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function encryptWorkbook($encryptionType = 'XOR', $password = '', $keyLength = '') {
         
         if ($this->fileName == '')
@@ -280,7 +332,16 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Protect workbook.
+     * 
+     * @param string $password Document protection password. 
+     * @param string $protectionType Document protection type.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function protectWorkbook($password, $protectionType = 'all') {
         
         if ($this->fileName == '')
@@ -299,7 +360,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Unprotect workbook.
+     * 
+     * @param string $password Protection password.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function unprotectWorkbook($password) {
         
         if ($this->fileName == '')
@@ -317,7 +386,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Change password.
+     * 
+     * @param string $password Modify document password.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function setModifyPassword($password) {
 
         if ($this->fileName == '')
@@ -335,7 +412,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Clear modify password.
+     * 
+     * @param string $password Modify document password.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function clearModifyPassword($password) {
         
         if ($this->fileName == '')
@@ -353,7 +438,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Decrypt workbook.
+     * 
+     * @param string $password Document decryption password.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function decryptWorkbook($password) {
         
         if ($this->fileName == '')
@@ -371,7 +464,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Add worksheet.
+     * 
+     * @param string $worksheetName Name of the sheet.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function addWorksheet($worksheetName) {
         
         if ($this->fileName == '')
@@ -386,7 +487,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Remove worksheet from workbook.
+     * 
+     * @param string $worksheetName Name of the worksheet.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function removeWorksheet($worksheetName) {
         
         if ($this->fileName == '')
@@ -401,7 +510,15 @@ class Workbook {
             return false;
 
     }
-
+    
+    /**
+     * Merge workbook.
+     * 
+     * @param string $mergeFileName Name of merge file.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
     public function mergeWorkbook($mergeFileName) {
         
         if ($this->fileName == '')

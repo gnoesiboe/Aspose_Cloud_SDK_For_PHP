@@ -1,6 +1,6 @@
 <?php
-/*
- * converts pages or document into different formats
+/**
+ * Converts pages or document into different formats.
  */
 namespace Aspose\Cloud\Cells;
 
@@ -18,11 +18,15 @@ class Extractor {
 		$this->fileName = $fileName;
 	}
 
-	/*
-	 * saves a specific picture from a specific sheet as image
-	 * @param $worksheetName
-	 * @param $pictureIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific picture from a specific sheet as image.
+         * 
+	 * @param string $worksheetName Name of the sheet.
+	 * @param integer $pictureIndex Index of the picture.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function getPicture($worksheetName, $pictureIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -45,11 +49,15 @@ class Extractor {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific OleObject from a specific sheet as image
-	 * @param $worksheetName
-	 * @param $objectIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific OleObject from a specific sheet as image.
+         * 
+	 * @param string $worksheetName Name of the sheet.
+	 * @param integer $objectIndex Index of the object.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function getOleObject($worksheetName, $objectIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -72,11 +80,15 @@ class Extractor {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific chart from a specific sheet as image
-	 * @param $worksheetName
-	 * @param $chartIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific chart from a specific sheet as image.
+         * 
+	 * @param string $worksheetName Name of the sheet.
+	 * @param integer $chartIndex Index of the chart.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function getChart($worksheetName, $chartIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -99,11 +111,15 @@ class Extractor {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific auto-shape from a specific sheet as image
-	 * @param $worksheetName
-	 * @param $shapeIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific auto-shape from a specific sheet as image.
+         * 
+	 * @param string $worksheetName Name of the sheet.
+	 * @param integer $shapeIndex Index of the shape.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function getAutoShape($worksheetName, $shapeIndex, $imageFormat) {
         //check whether file and sheet is set or not

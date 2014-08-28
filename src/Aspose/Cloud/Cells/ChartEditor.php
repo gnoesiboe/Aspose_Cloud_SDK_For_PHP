@@ -1,6 +1,6 @@
 <?php
-/*
- * This class contains features to work with charts
+/**
+ * This class contains features to work with charts.
  */
 namespace Aspose\Cloud\Cells;
 
@@ -11,7 +11,7 @@ use Aspose\Cloud\Storage\Folder;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class ChartEditor {
-
+    
 	public $fileName = '';
 	public $worksheetName = '';
 
@@ -20,13 +20,17 @@ class ChartEditor {
 		$this->worksheetName = $worksheetName;
 	}
 
-	/*
-	 * Adds a new chart
-	 * $chartType
-	 * $upperLeftRow
-	 * $upperLeftColumn
-	 * $lowerRightRow
-	 * $lowerRightColumn
+	/**
+	 * Adds a new chart.
+         * 
+	 * @param string $chartType Type of the chart.
+	 * @param integer $upperLeftRow Number of the upper left row.
+	 * @param integer $upperLeftColumn Number of the upper left column.
+	 * @param integer $lowerRightRow Number of the lower right row.
+	 * @param integer $lowerRightColumn Number of the lower right column.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function addChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn) {
         //check whether file is set or not
@@ -50,9 +54,13 @@ class ChartEditor {
             return $v_output;
 	}
 
-	/*
-	 * Deletes a chart
-	 * $chartIndex
+	/**
+	 * Deletes a chart.
+         * 
+	 * @param integer $chartIndex Index of the chart.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function deleteChart($chartIndex) {
         //check whether file is set or not
@@ -75,7 +83,15 @@ class ChartEditor {
         } else
             return $v_output;
 	}
-
+        
+    /**
+     * Show legend of the chart.
+     * 
+     * @param integer $chartIndex Index of the chart.
+     * 
+     * @return string Return the file path.
+     * @throws Exception
+     */
     public function showChartLegend($chartIndex) {
         //check whether file is set or not
         if ($this->fileName == '')
@@ -97,7 +113,15 @@ class ChartEditor {
         } else
             return $v_output;
     }
-
+    
+    /**
+     * Hide legend of the chart.
+     * 
+     * @param string $chartIndex Index of the chart.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function hideChartLegend($chartIndex) {
         //check whether file is set or not
         if ($this->fileName == '')
@@ -119,7 +143,16 @@ class ChartEditor {
         } else
             return $v_output;
     }
-
+    
+    /**
+     * Update chart legend.
+     * 
+     * @param integer $chartIndex Index of the chart.
+     * @param array $properties Properties of the chart legend.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function updateChartLegend($chartIndex,$properties='') {
         //check whether file is set or not
         if ($this->fileName == '')
@@ -141,7 +174,15 @@ class ChartEditor {
         } else
             return $v_output;
     }
-
+    
+    /**
+     * Get chart legend.
+     * 
+     * @param integer $chartIndex Index of the chart.
+     * 
+     * @return object
+     * @throws Exception
+     */
     public function readChartLegend($chartIndex) {
         //check whether file is set or not
         if ($this->fileName == '')
@@ -156,9 +197,13 @@ class ChartEditor {
         return $json->Legend;
     }
 
-	/*
-	 * Gets ChartArea of a chart
-	 * $chartIndex
+	/**
+	 * Gets ChartArea of a chart.
+         * 
+	 * @param integer $chartIndex Index of the chart.
+         * 
+         * @return object
+         * @throws Exception
 	 */
 	public function getChartArea($chartIndex) {
         //check whether file is set or not
@@ -174,9 +219,13 @@ class ChartEditor {
         return $json -> ChartArea;
 	}
 
-	/*
-	 * Gets fill format of the ChartArea of a chart
-	 * $chartIndex
+	/**
+	 * Gets fill format of the ChartArea of a chart.
+         * 
+	 * @param integer $chartIndex Index of the chart.
+         * 
+         * @return object
+         * @throws Exception
 	 */
 	public function getFillFormat($chartIndex) {
         //check whether file is set or not
@@ -192,9 +241,13 @@ class ChartEditor {
         return $json -> FillFormat;
 	}
 
-	/*
-	 * Gets border of the ChartArea of a chart
-	 * $chartIndex
+	/**
+	 * Gets border of the ChartArea of a chart.
+         * 
+	 * @param integer $chartIndex Index of the chart.
+         * 
+         * @return object
+         * @throws Exception
 	 */
 	public function getBorder($chartIndex) {
         //check whether file is set or not

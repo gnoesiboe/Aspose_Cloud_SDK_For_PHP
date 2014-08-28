@@ -1,6 +1,6 @@
 <?php
-/*
- * converts pages or document into different formats
+/**
+ * Converts pages or document into different formats.
  */
 namespace Aspose\Cloud\Cells;
 
@@ -28,8 +28,11 @@ class Converter {
 		$this->saveFormat = 'xls';
 	}
 
-	/*
-	 * converts a document to saveformat
+	/**
+	 * Converts a document to saveformat using Aspose cloud storage.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function convert() {
         //check whether file is set or not
@@ -56,10 +59,14 @@ class Converter {
         }
 	}
 
-	/*
-	 * converts a sheet to image
-	 * @param string $worksheetName
-	 * @param string $imageFormat
+	/**
+	 * Converts a sheet to image.
+         * 
+	 * @param string $worksheetName Name of the sheet.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function convertToImage($imageFormat, $worksheetName) {
         //check whether file and sheet is set or not
@@ -82,9 +89,13 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * converts a document to outputFormat
-	 * @param string $outputFormat
+	/**
+	 * Converts a document to outputFormat.
+         * 
+	 * @param string $outputFormat Returns document in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function save($outputFormat) {
         //check whether file is set or not
@@ -107,9 +118,13 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * converts a sheet to image
-	 * @param string $imageFormat
+	/**
+	 * Converts a sheet to image.
+         * 
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function worksheetToImage($imageFormat) {
         //check whether file and sheet is set or not
@@ -134,10 +149,14 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific picture from a specific sheet as image
-	 * @param $pictureIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific picture from a specific sheet as image.
+         * 
+	 * @param integer $pictureIndex Index of the picture.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function pictureToImage($pictureIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -163,10 +182,14 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific OleObject from a specific sheet as image
-	 * @param $objectIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific OleObject from a specific sheet as image.
+         * 
+	 * @param integer $objectIndex Index of the object.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function oleObjectToImage($objectIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -191,10 +214,14 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific chart from a specific sheet as image
-	 * @param $chartIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific chart from a specific sheet as image.
+         * 
+	 * @param integer $chartIndex Index of the chart.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the path file.
+         * @throws Exception
 	 */
 	public function chartToImage($chartIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -219,10 +246,14 @@ class Converter {
             return $v_output;
 	}
 
-	/*
-	 * saves a specific auto-shape from a specific sheet as image
-	 * @param $shapeIndex
-	 * @param $imageFormat
+	/**
+	 * Saves a specific auto-shape from a specific sheet as image.
+         * 
+	 * @param integer $shapeIndex Index of the shape.
+	 * @param string $imageFormat Returns image in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function autoShapeToImage($shapeIndex, $imageFormat) {
         //check whether file and sheet is set or not
@@ -246,7 +277,16 @@ class Converter {
         } else
             return $v_output;
 	}
-
+        
+        /**
+         * Convert file into specified format without using Aspose cloud storage.
+         * @param type $inputFile Path of the source file.
+         * @param type $outputFile Name of the output file.
+         * @param type $saveFormat Returns document in the specified format.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
+         */
 	public function convertLocalFile($inputFile, $outputFile, $saveFormat) {
         if ($inputFile == '') {
             throw new Exception('Please Specify Input File Name along with path');

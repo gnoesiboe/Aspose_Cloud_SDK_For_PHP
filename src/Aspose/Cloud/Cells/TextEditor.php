@@ -1,6 +1,6 @@
 <?php
-/*
- * This class contains features to work with text
+/**
+ * This class contains features to work with text.
  */
 namespace Aspose\Cloud\Cells;
 
@@ -18,8 +18,14 @@ class TextEditor {
 		$this->fileName = $fileName;
 	}
 
-	/*
-	 * Finds a speicif text from Excel document or a worksheet
+	/**
+	 * Finds a speicif text from Excel document or a worksheet.
+         * 
+         * @param string $WorkSheetName Name of the sheet.
+         * @param string $text Text to be find.
+         * 
+         * @return array
+         * @throws Exception
 	 */
 	public function findText() {
 		$parameters = func_get_args();
@@ -44,8 +50,13 @@ class TextEditor {
 
 	}
 
-	/*
-	 * Gets text items from the whole Excel file or a specific worksheet
+	/**
+	 * Gets text items from the whole Excel file or a specific worksheet.
+         * 
+         * @param string $WorkSheetName Name of the sheet.
+         * 
+         * @return array
+         * @throws Exception
 	 */
 	public function getTextItems() {
 		$parameters = func_get_args();
@@ -63,10 +74,13 @@ class TextEditor {
         return $json -> TextItems -> TextItemList;
 	}
 
-	/*
-	 * Replaces all instances of old text with new text in the Excel document or a particular worksheet
-	 * @param string $oldText
-	 * @param string $newText
+	/**
+	 * Replaces all instances of old text with new text in the Excel document or a particular worksheet.
+	 * @param string $oldText The old text.
+	 * @param string $newText The new text.
+         * 
+         * @return string Returns the file path.
+         * @throws Exception
 	 */
 	public function replaceText() {
 		$parameters = func_get_args();
