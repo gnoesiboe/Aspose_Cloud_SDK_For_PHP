@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * converts pages or document into different formats
  */
 namespace Aspose\Cloud\Words;
@@ -21,8 +21,11 @@ class Converter {
         $this->saveFormat = 'Doc';
     }
 
-    /*
-     * convert a document to SaveFormat
+    /**
+     * Convert a document to SaveFormat using Aspose storage.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convert() {
         //check whether file is set or not
@@ -52,7 +55,16 @@ class Converter {
             return $v_output;
         }
     }
-
+    
+    /**
+     * Convert a document to SaveFormat without using Aspose storage.
+     * 
+     * @param type $inputPath The path of source file.
+     * @param type $outputPath Path where you want to file after conversion.
+     * @param type $outputFormat New file format.
+     * 
+     * @return string Returns the file path.  
+     */
     public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
         $str_uri = Product::$baseProductUri . '/words/convert?format=' . $outputFormat;
         $signed_uri = Utils::sign($str_uri);

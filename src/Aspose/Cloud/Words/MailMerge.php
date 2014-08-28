@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Word document builder aspects
+/**
+ * Deals with Word document builder aspects.
  */
 namespace Aspose\Cloud\Words;
 
@@ -11,10 +11,15 @@ use Aspose\Cloud\Storage\Folder;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class MailMerge {
+    
     /*
      * Executes mail merge without regions.
-     * @param string $fileName 
-     * @param string $strXML
+     * 
+     * @param string $fileName The source file name.
+     * @param string $strXML Data in xml format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function executeMailMerge($fileName, $strXML) {
         //check whether files are set or not
@@ -44,10 +49,14 @@ class MailMerge {
             return $v_output;
     }
 
-    /*
+    /**
      * Executes mail merge with regions.
-     * @param string $fileName 
-     * @param string $strXML
+     * 
+     * @param string $fileName The name of source file.
+     * @param string $strXML Data in xml format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function executeMailMergewithRegions($fileName, $strXML) {
         //check whether files are set or not
@@ -77,11 +86,15 @@ class MailMerge {
             return $v_output;
     }
 
-    /*
+    /**
      * Executes mail merge template.
-     * @param string $fileName 
-     * @param string $strXML
-     * @param string $documentFolder
+     * 
+     * @param string $fileName The name of source file.
+     * @param string $strXML Data in xml format.
+     * @param string $documentFolder The document folder.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function executeTemplate($fileName, $strXML, $documentFolder = '') {
         //check whether files are set or not

@@ -1,6 +1,6 @@
 <?php
-/*
- * Extract various types of information from the document
+/**
+ * Extract various types of information from the document.
  */
 namespace Aspose\Cloud\Words;
 
@@ -17,8 +17,11 @@ class Extractor {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Gets Text items list from document
+    /**
+     * Gets Text items list from document.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getText() {
         //check whether file is set or not
@@ -36,10 +39,14 @@ class Extractor {
         return $json->TextItems->List;
     }
 
-    /*
-     * Get the OLE drawing object from document
-     * @param int $index
-     * @param string $OLEFormat
+    /**
+     * Get the OLE drawing object from document.
+     * 
+     * @param int $index The index of OLE object.
+     * @param string $OLEFormat The format to save.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function getoleData($index, $OLEFormat) {
         //check whether file is set or not
@@ -63,10 +70,14 @@ class Extractor {
             return $v_output;
     }
 
-    /*
-     * Get the Image drawing object from document
-     * @param int $index
-     * @param string $renderformat
+    /**
+     * Get the Image drawing object from document.
+     * 
+     * @param int $index The index of drawing object.
+     * @param string $renderformat The render format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function getimageData($index, $renderFormat) {
         //check whether file is set or not
@@ -90,10 +101,14 @@ class Extractor {
             return $v_output;
     }
 
-    /*
-     * Convert drawing object to image
-     * @param int $index
-     * @param string $renderformat
+    /**
+     * Convert drawing object to image.
+     * 
+     * @param int $index The index of drawing object.
+     * @param string $renderformat Returns object in the specified format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertDrawingObject($index, $renderFormat) {
         //check whether file is set or not
@@ -117,8 +132,11 @@ class Extractor {
             return $v_output;
     }
 
-    /*
-     * Get the List of drawing object from document	
+    /**
+     * Get the List of drawing object from document.
+     * 
+     * @return array|boolean
+     * @throws Exception	
      */
     public function getDrawingObjectList() {
         //check whether file is set or not
@@ -139,10 +157,14 @@ class Extractor {
             return false;
     }
 
-    /*
-     * Get the drawing object from document	
-     * @param string $objectURI
-     * @param string $outputPath
+    /**
+     * Get the drawing object from document.
+     * 	
+     * @param string $objectURI The URI of object.
+     * @param string $outputPath The output directory path.
+     * 
+     * @return string|boolean
+     * @throws Exception
      */
     public function getDrawingObject($objectURI, $outputPath) {
         //check whether file is set or not
@@ -196,9 +218,13 @@ class Extractor {
         }
     }
 
-    /*
-     * Get the List of drawing object from document	
-     * @param string outputPath
+    /**
+     * Get the List of drawing object from document.
+     * 	
+     * @param string outputPath The output directory path.
+     * 
+     * @return string|boolean
+     * @throws Exception
      */
     public function getDrawingObjects($outputPath) {
         //check whether file is set or not

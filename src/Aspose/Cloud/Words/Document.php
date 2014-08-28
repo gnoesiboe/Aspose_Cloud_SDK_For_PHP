@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Word document level aspects
+/**
+ * Deals with Word document level aspects.
  */
 namespace Aspose\Cloud\Words;
 
@@ -18,8 +18,11 @@ class Document {
         $this->fileName = $fileName;
     }
 
-    /*
-     * Update all document fields
+    /**
+     * Update all document fields.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function updateFields() {
         //check whether files are set or not
@@ -43,8 +46,11 @@ class Document {
             return false;
     }
 
-    /*
-     * Reject all tracking changes
+    /**
+     * Reject all tracking changes.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function rejectTrackingChanges() {
         //check whether files are set or not
@@ -69,8 +75,11 @@ class Document {
             return false;
     }
 
-    /*
-     * Accept all tracking changes
+    /**
+     * Accept all tracking changes.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function acceptTrackingChanges() {
         //check whether files are set or not
@@ -95,8 +104,11 @@ class Document {
             return false;
     }
 
-    /*
-     * Get Document's stats
+    /**
+     * Get Document's stats.
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function getStats() {
         //check whether files are set or not
@@ -122,13 +134,14 @@ class Document {
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param string $format
-     * @param string $storageName
-     * @param string $folder
-     * @return bool
-     * @throws \Aspose\Cloud\Exception\AsposeCloudException
+     * @param string $from From page number.
+     * @param string $to To page number.
+     * @param string $format Returns document in the specified format.
+     * @param string $storageName Name of the storage.
+     * @param string $folder Name of the folder.
+     * 
+     * @return string|boolean
+     * @throws Exception
      */
 
     public function splitDocument($from='',$to='',$format='pdf',$storageName = '', $folder = '') {
@@ -185,11 +198,15 @@ class Document {
 
 
 
-    /*
+    /**
      * Appends a list of documents to this one.
-     * @param string $appendDocs (List of documents to append)
-     * @param string $importFormatModes
-     * @param string $sourceFolder (name of the folder where documents are present)
+     * 
+     * @param string $appendDocs List of documents to append.
+     * @param string $importFormatModes Documents import format modes.
+     * @param string $sourceFolder Name of the folder where documents are present.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function appendDocument($appendDocs, $importFormatModes, $sourceFolder) {
         //check whether files are set or not
@@ -230,8 +247,12 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
+    /**
+     * Get Resource Properties information like document source format, 
+     * IsEncrypted, IsSigned and document properties
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function getDocumentInfo() {
         //check whether files are set or not
@@ -254,9 +275,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
-      @param string $propertyName
+    /**
+     * Get Resource Properties information like document source format, 
+     * IsEncrypted, IsSigned and document properties
+     * 
+     * @param string $propertyName The name of property.
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function getProperty($propertyName) {
         //check whether files are set or not
@@ -283,10 +309,14 @@ class Document {
             return false;
     }
 
-    /*
-     * Set document property
-      @param string $propertyName
-      @param string $propertyValue
+    /**
+     * Set document property.
+     * 
+     * @param string $propertyName The name of property.
+     * @param string $propertyValue The value of property.
+     * 
+     * @return object|boolean
+     * @throws Exception
      */
     public function setProperty($propertyName, $propertyValue) {
         //check whether files are set or not
@@ -318,7 +348,16 @@ class Document {
         else
             return false;
     }
-
+    
+    /**
+     * Protect a document on the Aspose cloud storage.
+     * 
+     * @param type $password Document protection password. 
+     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection. 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function protectDocument($password, $protectionType = 'AllowOnlyComments') {
         if ($this->fileName == '') {
             throw new Exception('Base file not specified');
@@ -344,6 +383,15 @@ class Document {
             return $v_output;
     }
 
+    /**
+     * Unprotect a document on the Aspose cloud storage.
+     * 
+     * @param type $password Current document protection password.
+     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection. 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function unprotectDocument($password, $protectionType = 'AllowOnlyComments') {
         if ($this->fileName == '') {
             throw new Exception('Base file not specified');
@@ -368,7 +416,17 @@ class Document {
         else
             return $v_output;
     }
-
+    
+    /**
+     * Update document protection.
+     * 
+     * @param string $oldPassword Current document protection password.
+     * @param string $newPassword New document protection password. 
+     * @param string $protectionType Document protection type.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
     public function updateProtection($oldPassword, $newPassword, $protectionType = 'AllowOnlyComments') {
         if ($this->fileName == '') {
             throw new Exception('Base file not specified');
@@ -397,9 +455,13 @@ class Document {
             return $v_output;
     }
 
-    /*
-     * Delete a document property
-      @param string $propertyName
+    /**
+     * Delete a document property.
+     * 
+     * @param string $propertyName The name of property.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function deleteProperty($propertyName) {
         //check whether files are set or not
@@ -425,8 +487,11 @@ class Document {
             return false;
     }
 
-    /*
-     * Get Document's properties
+    /**
+     * Get Document's properties.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getProperties() {
         //check whether files are set or not
@@ -452,10 +517,14 @@ class Document {
     }
 
     /*
-     * Convert Document to different file format without using storage
-     * $param string $inputPath
-     * @param string $outputPath
-     * @param string $outputFormat
+     * Convert Document to different file format without using storage.
+     * 
+     * $param string $inputPath The source file path.
+     * @param string $outputPath Output directory path.
+     * @param string $outputFormat Newly converted file format.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function convertLocalFile($inputPath = '', $outputPath = '', $outputFormat = '') {
         //check whether file is set or not

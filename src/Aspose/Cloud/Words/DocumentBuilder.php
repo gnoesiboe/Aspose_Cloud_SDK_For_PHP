@@ -1,6 +1,6 @@
 <?php
-/*
- * Deals with Word document builder aspects
+/**
+ * Deals with Word document builder aspects.
  */
 namespace Aspose\Cloud\Words;
 
@@ -13,8 +13,13 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class DocumentBuilder {
 
 
-    /*
-     * Remove watermark from document
+    /**
+     * Remove watermark from document.
+     * 
+     * @param string $fileName The name of source file.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function removeWatermark($fileName) {
         //check whether files are set or not
@@ -44,11 +49,15 @@ class DocumentBuilder {
             return $v_output;
     }
 
-    /*
+    /**
      * Inserts water mark text into the document.
-     * @param string $fileName 
-     * @param string $text
-     * @param string $rotationAngle 
+     * 
+     * @param string $fileName The name of source file.
+     * @param string $text Watermark text.
+     * @param string $rotationAngle Watermark rotation angle in degrees. 
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function insertWatermarkText($fileName, $text, $rotationAngle) {
         //check whether files are set or not
@@ -81,11 +90,15 @@ class DocumentBuilder {
             return $v_output;
     }
 
-    /*
+    /**
      * Inserts water mark image into the document.
-     * @param string $fileName 
-     * @param string $imageFile
-     * @param string $rotationAngle 
+     * 
+     * @param string $fileName The name of source file.
+     * @param string $imageFile Teh path of image file.
+     * @param string $rotationAngle Watermark rotation angle in degrees.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function insertWatermarkImage($fileName, $imageFile, $rotationAngle) {
         //check whether files are set or not
@@ -115,13 +128,17 @@ class DocumentBuilder {
             return $v_output;
     }
 
-    /*
-     * Replace a text with the new value in the document
-     * @param string $fileName 
-     * @param string $oldValue
-     * @param string $newValue 
-     * @param string $isMatchCase
-     * @param string $isMatchWholeWord
+    /**
+     * Replace a text with the new value in the document.
+     * 
+     * @param string $fileName The source file path.
+     * @param string $oldValue The old text.
+     * @param string $newValue The new text that replace old text.
+     * @param string $isMatchCase Either True or False.
+     * @param string $isMatchWholeWord Either True or False.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
      */
     public function replaceText($fileName, $oldValue, $newValue, $isMatchCase, $isMatchWholeWord) {
         //check whether files are set or not
