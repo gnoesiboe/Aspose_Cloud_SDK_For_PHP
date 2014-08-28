@@ -1,4 +1,7 @@
 <?php
+/**
+ * Deals with OCR or HOCR Text extraction from Images.
+ */
 namespace Aspose\Cloud\OCR;
 
 use Aspose\Cloud\Common\Utils;
@@ -11,7 +14,21 @@ class Extractor {
     public function __construct() {
         
     }
-
+    
+    /**
+     * Extract OCR or HOCR Text from Images.
+     * 
+     * @param string $useDefaultDictionaries Allows to correct text after 
+     * recognition using default dictionaries.
+     * @param string $folder Folder with image to recognize.
+     * @param string $language Language of document to recognize.
+     * @param integer $rectX 
+     * @param integer $rectY
+     * @param integer $rectWidth
+     * @param integer $rectHeight  
+     * 
+     * @return object
+     */
     public function extractText() {
         $numOfArgs = func_get_args();
         switch (count($numOfArgs)) {
@@ -95,7 +112,17 @@ class Extractor {
                 break;
         }
     }
-
+    
+    /**
+     * Extract OCR or HOCR Text from Images without using Storage.
+     * 
+     * @param type $localFile Filename of image.
+     * @param type $language Language of document to recogniize.
+     * @param type $useDefaultDictionaries Allows to correct text after 
+     * recognition using default dictionaries. 
+     * 
+     * @return object
+     */
     public function extractTextFromLocalFile($localFile, $language, $useDefaultDictionaries) {
             $strURI = Product::$baseProductUri . '/ocr/recognize?language=' . $language . '&useDefaultDictionaries=';
             $strURI .= ($useDefaultDictionaries) ? 'true' : 'false';
@@ -105,7 +132,17 @@ class Extractor {
             $json = json_decode($responseStream);
             return $json;
     }
-
+    
+    /**
+     * Extract OCR or HOCR Text from image url.
+     * 
+     * @param type $url URL of the image.
+     * @param type $language Language of document to recogniize.
+     * @param type $useDefaultDictionaries Allows to correct text after 
+     * recognition using default dictionaries. 
+     * 
+     * @return object
+     */
     public function extractTextFromUrl($url, $language, $useDefaultDictionaries) {
             $strURI = Product::$baseProductUri . '/ocr/recognize?url=' . $url . '&language=' . $language . '&useDefaultDictionaries=' . $useDefaultDictionaries;
             $signedURI = Utils::sign($strURI);
