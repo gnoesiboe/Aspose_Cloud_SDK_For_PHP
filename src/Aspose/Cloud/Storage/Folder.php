@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  *  Main class that provides methods to perform all the transactions on the storage of a Aspose Application.
  */
 namespace Aspose\Cloud\Storage;
@@ -22,7 +22,7 @@ class Folder {
         $this->strURIDisc = Product::$baseProductUri . '/storage/disc';
     }
 
-    /*
+    /**
      * Uploads a file from your local machine to specified folder / subfolder on Aspose storage.
      * 
      * @param string $strFile
@@ -43,10 +43,14 @@ class Folder {
         Utils::uploadFileBinary($signedURI, $strFile);
     }
 
-    /*
-     * Checks if a file exists
+    /**
+     * Checks if a file exists.
      *
-     * @param string $fileName
+     * @param string $fileName The name of file.
+     * @param string $storageName The name of storage.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function fileExists($fileName, $storageName = '') {
         //check whether file is set or not
@@ -68,10 +72,14 @@ class Folder {
         return TRUE;
     }
 
-    /*
-     * Deletes a file from remote storage
+    /**
+     * Deletes a file from remote storage.
      *
-     * @param string $fileName
+     * @param string $fileName The name of file.
+     * @param string $storageName The name of storage.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function deleteFile($fileName, $storageName = '') {
         //check whether file is set or not
@@ -92,10 +100,14 @@ class Folder {
         return TRUE;
     }
 
-    /*
-     * Creates a new folder  under the specified folder on Aspose storage. If no path specified, creates a folder under the root folder.
+    /**
+     * Creates a new folder  under the specified folder on Aspose storage. 
+     * If no path specified, creates a folder under the root folder.
      * 
-     * @param string $strFolder
+     * @param string $strFolder The name of folder.
+     * @param string $storageName The name of storage.
+     * 
+     * @return boolean
      */
     public function createFolder($strFolder, $storageName = '') {
         //build URI
@@ -114,10 +126,13 @@ class Folder {
         return TRUE;
     }
 
-    /*
-     * Deletes a folder from remote storage
+    /**
+     * Deletes a folder from remote storage.
      *
-     * @param string $folderName
+     * @param string $folderName The name of folder.
+     * 
+     * @return boolean
+     * @throws Exception
      */
     public function deleteFolder($folderName) {
         //check whether folder is set or not
@@ -137,8 +152,12 @@ class Folder {
         return TRUE;
     }
 
-    /*
-     * Provides the total / free disc size in bytes for your app
+    /**
+     * Provides the total / free disc size in bytes for your app.
+     * 
+     * @param string $storageName The name of storage.
+     * 
+     * @return ineger
      */
     public function getDiscUsage($storageName = '') {
             //build URI
@@ -154,10 +173,14 @@ class Folder {
             return $responseStream->DiscUsage;
     }
 
-    /*
-     * Get file from Aspose server
+    /**
+     * Get file from Aspose storage.
      *
-     * @param string $fileName
+     * @param string $fileName The name of file.
+     * @param string $storageName The name of storage.
+     * 
+     * @return array
+     * @throws Exception
      */
     public function getFile($fileName, $storageName = '') {
         //check whether file is set or not
@@ -177,10 +200,14 @@ class Folder {
         return $responseStream;
     }
 
-    /*
-     * Retrives the list of files and folders under the specified folder. Use empty string to specify root folder.
+    /**
+     * Retrives the list of files and folders under the specified folder. 
+     * Use empty string to specify root folder.
      *
-     * @param string $strFolder
+     * @param string $strFolder The name of folder.
+     * @param string $storageName The name of storage.
+     * 
+     * @return array
      */
     public function getFilesList($strFolder, $storageName = '') {
         //build URI
