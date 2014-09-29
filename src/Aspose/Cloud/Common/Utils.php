@@ -131,15 +131,21 @@ class Utils {
      *
      *
      */
-    public static function uploadFileBinary($url, $localfile, $headerType = 'XML') {
+    public static function uploadFileBinary($url, $localfile, $headerType = 'XML', $method = 'PUT') {
 
+        $method = strtoupper($method);
         $headerType = strtoupper($headerType);
         $fp = fopen($localfile, 'r');
         $session = curl_init();
         curl_setopt($session, CURLOPT_VERBOSE, 1);
         curl_setopt($session, CURLOPT_USERPWD, 'user:password');
         curl_setopt($session, CURLOPT_URL, $url);
-        curl_setopt($session, CURLOPT_PUT, 1);
+        if ($method == 'PUT') {
+            curl_setopt($session, CURLOPT_PUT, 1);
+        } else {
+            curl_setopt($session, CURLOPT_UPLOAD, true);
+            curl_setopt($session, CURLOPT_CUSTOMREQUEST, 'POST');
+        }    
         curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($session, CURLOPT_HEADER, false);
         if ($headerType == 'XML') {
