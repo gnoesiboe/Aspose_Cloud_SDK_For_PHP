@@ -567,22 +567,20 @@ class Document {
      * Save Document to different file formats.
      *
      * $param string $options_xml.
-     * @param string $inputPath.
 
      * @return string Returns true, if file is saved on the specified output location.
      * @throws Exception
      */
 
-    public function saveAs($options_xml = '', $inputPath = '') {
+    public function saveAs($options_xml = '') {
         //check whether file is set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($options_xml == '')
             throw new Exception('Options not specified.');
 
-        if ($inputPath == '')
-            throw new Exception('No file name specified');
-
-        $strURI = Product::$baseProductUri . '/words/'.$inputPath.'/saveAs';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/saveAs';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -616,18 +614,18 @@ class Document {
     /*
      * get a list of all sections present in a Word document.
      *
-     * $param string $filename.
 
      * @return Object of all sections.
      * @throws Exception
      */
 
-    public function getAllSections($filename = ''){
+    public function getAllSections(){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -643,22 +641,22 @@ class Document {
     /*
      * get specefic section present in a Word document.
      *
-     * $param string $filename.
      * $param string $sectionid.
 
      * @return Object of specefic section.
      * @throws Exception
      */
 
-    public function getSection($filename = '',$sectionid = ''){
+    public function getSection($sectionid = ''){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -675,22 +673,22 @@ class Document {
     /*
      * get page setup information from any section of a Word document.
      *
-     * $param string $filename.
      * $param string $sectionid.
 
      * @return Object of page setup information.
      * @throws Exception
      */
 
-    public function getPageSetup($filename = '',$sectionid = ''){
+    public function getPageSetup($sectionid = ''){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -707,25 +705,21 @@ class Document {
     /*
      * update page setup information from any section of a Word document.
      *
-     * $param string $filename.
      * $param string $sectionid.
 
      * @return Object of page setup information.
      * @throws Exception
      */
 
-    public function updatePageSetup($options_xml = '',$filename = '',$sectionid = ''){
+    public function updatePageSetup($options_xml = '',$sectionid = ''){
 
         if ($options_xml == '')
             throw new Exception('No Options specified');
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
-
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -742,19 +736,19 @@ class Document {
     /*
      * get mail merge and mustache field names.
      *
-     * $param string $filename.
 
      * @return Object of Field Names.
      * @throws Exception
      */
 
 
-    public function getMailMergeFieldNames($filename = ''){
+    public function getMailMergeFieldNames(){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/mailMergeFieldNames';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/mailMergeFieldNames';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -771,18 +765,18 @@ class Document {
     /*
      * get a list of all paragraphs present in a Word document.
      *
-     * $param string $filename.
 
      * @return Object of All Paragraphs.
      * @throws Exception
      */
 
-    public function getAllParagraphs($filename = ''){
+    public function getAllParagraphs(){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -799,22 +793,22 @@ class Document {
     /*
      * get specefic paragraphs present in a Word document.
      *
-     * $param string $filename.
      * $param string $paragraphid.
 
      * @return Object of Specefic Paragraphs.
      * @throws Exception
      */
 
-    public function getParagraph($filename = '',$paragraphid = ''){
+    public function getParagraph($paragraphid = ''){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -831,7 +825,6 @@ class Document {
     /*
      * get any run of any paragraph from a Word document.
      *
-     * $param string $filename.
      * $param string $paragraphid.
      * $param string $runid.
 
@@ -839,10 +832,11 @@ class Document {
      * @throws Exception
      */
 
-    public function getParagraphRun($filename = '',$paragraphid = '',$runid = ''){
+    public function getParagraphRun($paragraphid = '',$runid = ''){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
@@ -850,7 +844,7 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -867,7 +861,6 @@ class Document {
     /*
      * get font information from any run of a paragraph.
      *
-     * $param string $filename.
      * $param string $paragraphid.
      * $param string $runid.
 
@@ -876,10 +869,11 @@ class Document {
      */
 
 
-    public function getParagraphRunFont($filename = '',$paragraphid = '',$runid = ''){
+    public function getParagraphRunFont($paragraphid = '',$runid = ''){
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
@@ -887,7 +881,7 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -905,7 +899,6 @@ class Document {
      * update font information from any run of a paragraph.
      *
      * $param string $options_xml.
-     * $param string $filename.
      * $param string $paragraphid.
      * $param string $runid.
 
@@ -913,13 +906,14 @@ class Document {
      * @throws Exception
      */
 
-    public function updateParagraphRunFont($options_xml = '',$filename = '',$paragraphid = '',$runid = '') {
+    public function updateParagraphRunFont($options_xml = '',$paragraphid = '',$runid = '') {
 
         if ($options_xml == '')
             throw new Exception('Options not specified.');
 
-        if ($filename == '')
-            throw new Exception('No file name specified');
+        //check whether files are set or not
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
 
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
@@ -927,7 +921,7 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
