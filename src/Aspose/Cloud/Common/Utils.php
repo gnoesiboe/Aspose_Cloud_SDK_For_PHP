@@ -102,9 +102,9 @@ class Utils {
         }
         curl_setopt($session, CURLOPT_HEADER, false);
         if ($headerType == 'XML') {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/'.$returnType.'', 'Content-Type: application/xml'));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/'.$returnType.'', 'Content-Type: application/xml', 'x-aspose-client: PHPSDK/v1.0'));
         } else {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-aspose-client: PHPSDK/v1.0'));
         }
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         if (preg_match('/^(https)/i', $url))
@@ -149,9 +149,9 @@ class Utils {
         curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($session, CURLOPT_HEADER, false);
         if ($headerType == 'XML') {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/xml', 'Content-Type: application/xml'));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/xml', 'Content-Type: application/xml', 'x-aspose-client: PHPSDK/v1.0'));
         } else {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-aspose-client: PHPSDK/v1.0'));
         }
         curl_setopt($session, CURLOPT_INFILE, $fp);
         curl_setopt($session, CURLOPT_INFILESIZE, filesize($localfile));
