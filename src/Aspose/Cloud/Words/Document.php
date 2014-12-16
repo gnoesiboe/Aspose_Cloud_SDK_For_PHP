@@ -671,6 +671,31 @@ class Document {
             return false;
 
     }
+    
+    /*
+     * Remove all Headers and Footers
+     *
+     * @return Boolean
+     * @throws Exception
+     */
+    public function removeAllHeadersFooters(){
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');        
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/headersFooters';
+        
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+
+    }
 
     /*
      * get page setup information from any section of a Word document.
@@ -940,6 +965,205 @@ class Document {
             return false;
 
     }
+    
+    /**
+     * Get all Hyperlinks from a Word
+     * 
+     * @return array|boolean
+     * @throws Exception
+     */
+    public function getHyperlinks() {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
 
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+
+        if ($json->Code == 200)
+            return $json->Hyperlinks->HyperlinkList;
+        else
+            return false;
+    }
+    
+    /**
+     * Get a Particular Hyperlink from a Word
+     * 
+     * @param int $hyperlinkIndex The index of hyperlink.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function getHyperlink($hyperlinkIndex) {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        if ($hyperlinkIndex == '')
+            throw new Exception('Hyperlink index not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks/' . $hyperlinkIndex;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+
+        if ($json->Code == 200)
+            return $json->Hyperlink;
+        else
+            return false;
+    }
+    
+    /**
+     * Get Hyperlinks Count from a Word
+     * 
+     * @return int|boolean
+     * @throws Exception
+     */
+    public function getHyperlinksCount() {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+
+        if ($json->Code == 200)
+            return count($json->Hyperlinks->HyperlinkList);
+        else
+            return false;
+    }
+    
+    /**
+     * Get all Bookmarks from a Word
+     * 
+     * @return array|boolean
+     * @throws Exception
+     */
+    public function getBookmarks() {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+        
+        if ($json->Code == 200)
+            return $json->Bookmarks->BookmarkList;
+        else
+            return false;
+    }
+    
+    /**
+     * Get a Specific Bookmark from a Word
+     * 
+     * @param string $bookmarkName Name of the Bookmark.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function getBookmark($bookmarkName) {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        if ($bookmarkName == '')
+            throw new Exception('Bookmark name not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+        
+        if ($json->Code == 200)
+            return $json->Bookmark;
+        else
+            return false;
+    }
+    
+    /**
+     * Get Bookmarks count from a Word
+     * 
+     * @return int|boolean
+     * @throws Exception
+     */
+    public function getBookmarksCount() {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);        
+        
+        if ($json->Code == 200)
+            return count($json->Bookmarks->BookmarkList);
+        else
+            return false;
+    }
+    
+    /**
+     * Update Bookmark Text of a Word
+     * 
+     * @return boolean
+     * @throws Exception
+     */
+    public function updateBookmark($bookmarkName, $bookmarkText) {
+        if ($this->fileName == '')
+            throw new Exception('Base file not specified');
+        
+        if ($bookmarkName == '')
+            throw new Exception('Bookmark name not specified');
+        
+        if ($bookmarkText == '')
+            throw new Exception('Bookmark text not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        $post_data_arr['Text'] = $bookmarkText;
+        $postData = json_encode($post_data_arr);
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'JSON', $postData);
+
+        $json = json_decode($responseStream);        
+        
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
 
 }
