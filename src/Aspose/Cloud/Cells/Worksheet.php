@@ -10,8 +10,8 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Worksheet {
 
-    public $fileName = '';
-    public $worksheetName = '';
+    protected $fileName = '';
+    protected $worksheetName = '';
 
     public function __construct($fileName, $worksheetName) {
         $this->fileName = $fileName;
@@ -1612,6 +1612,38 @@ class Worksheet {
             return false;
         }
 
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorksheetName()
+    {
+        return $this->worksheetName;
+    }
+
+    /**
+     * @param string $worksheetName
+     */
+    public function setWorksheetName($worksheetName)
+    {
+        $this->worksheetName = $worksheetName;
     }
 
 }

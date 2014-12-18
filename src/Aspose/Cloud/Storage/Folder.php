@@ -10,10 +10,10 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Folder {
 
-    public $strURIFolder = '';
-    public $strURIFile = '';
-    public $strURIExist = '';
-    public $strURIDisc = '';
+    protected $strURIFolder = '';
+    protected $strURIFile = '';
+    protected $strURIExist = '';
+    protected $strURIDisc = '';
 
     public function __construct() {
         $this->strURIFolder = Product::$baseProductUri . '/storage/folder/';
@@ -228,6 +228,70 @@ class Folder {
         $json = json_decode($responseStream);
 
         return $json->Files;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIDisc()
+    {
+        return $this->strURIDisc;
+    }
+
+    /**
+     * @param string $strURIDisc
+     */
+    public function setStrURIDisc($strURIDisc)
+    {
+        $this->strURIDisc = $strURIDisc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIExist()
+    {
+        return $this->strURIExist;
+    }
+
+    /**
+     * @param string $strURIExist
+     */
+    public function setStrURIExist($strURIExist)
+    {
+        $this->strURIExist = $strURIExist;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIFile()
+    {
+        return $this->strURIFile;
+    }
+
+    /**
+     * @param string $strURIFile
+     */
+    public function setStrURIFile($strURIFile)
+    {
+        $this->strURIFile = $strURIFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIFolder()
+    {
+        return $this->strURIFolder;
+    }
+
+    /**
+     * @param string $strURIFolder
+     */
+    public function setStrURIFolder($strURIFolder)
+    {
+        $this->strURIFolder = $strURIFolder;
     }
 
 }

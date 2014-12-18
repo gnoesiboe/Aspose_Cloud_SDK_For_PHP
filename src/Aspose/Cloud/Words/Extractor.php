@@ -11,7 +11,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Extractor {
 
-    public $fileName = '';
+    protected $fileName = '';
 
     public function __construct($fileName) {
         $this->fileName = $fileName;
@@ -19,7 +19,7 @@ class Extractor {
 
     /**
      * Gets Text items list from document.
-     * 
+     *
      * @return array
      * @throws Exception
      */
@@ -41,10 +41,10 @@ class Extractor {
 
     /**
      * Get the OLE drawing object from document.
-     * 
+     *
      * @param int $index The index of OLE object.
      * @param string $OLEFormat The format to save.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -72,10 +72,10 @@ class Extractor {
 
     /**
      * Get the Image drawing object from document.
-     * 
+     *
      * @param int $index The index of drawing object.
      * @param string $renderformat The render format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -103,10 +103,10 @@ class Extractor {
 
     /**
      * Convert drawing object to image.
-     * 
+     *
      * @param int $index The index of drawing object.
      * @param string $renderformat Returns object in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -134,9 +134,9 @@ class Extractor {
 
     /**
      * Get the List of drawing object from document.
-     * 
+     *
      * @return array|boolean
-     * @throws Exception	
+     * @throws Exception
      */
     public function getDrawingObjectList() {
         //check whether file is set or not
@@ -159,10 +159,10 @@ class Extractor {
 
     /**
      * Get the drawing object from document.
-     * 	
+     *
      * @param string $objectURI The URI of object.
      * @param string $outputPath The output directory path.
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
@@ -220,9 +220,9 @@ class Extractor {
 
     /**
      * Get the List of drawing object from document.
-     * 	
+     *
      * @param string outputPath The output directory path.
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
@@ -249,6 +249,22 @@ class Extractor {
         }
         else
             return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
     }
 
 }

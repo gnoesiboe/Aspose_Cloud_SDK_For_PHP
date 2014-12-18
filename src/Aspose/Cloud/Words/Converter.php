@@ -11,19 +11,19 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Converter {
 
-    public $fileName = '';
-    public $saveFormat = '';
+    protected $fileName = '';
+    protected $saveFormat = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName, $saveFormat='Doc') {
         //set default values
         $this->fileName = $fileName;
 
-        $this->saveFormat = 'Doc';
+        $this->saveFormat = $saveFormat;
     }
 
     /**
      * Convert a document to SaveFormat using Aspose storage.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -55,15 +55,15 @@ class Converter {
             return $v_output;
         }
     }
-    
+
     /**
      * Convert a document to SaveFormat without using Aspose storage.
-     * 
+     *
      * @param type $inputPath The path of source file.
      * @param type $outputPath Path where you want to file after conversion.
      * @param type $outputFormat New file format.
-     * 
-     * @return string Returns the file path.  
+     *
+     * @return string Returns the file path.
      */
     public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
         $str_uri = Product::$baseProductUri . '/words/convert?format=' . $outputFormat;
@@ -89,4 +89,37 @@ class Converter {
         else
             return $v_output;
     }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
 }

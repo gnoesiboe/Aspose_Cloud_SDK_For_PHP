@@ -19,4 +19,23 @@ class Product
 	*/
 
 	public static $baseProductUri = 'http://api.aspose.com/v1.1';
+
+    /**
+     * @return string
+     */
+    public static function getBaseProductUri()
+    {
+        return self::$baseProductUri;
+    }
+
+    /**
+     * @param string $baseProductUri
+     * @return self
+     */
+    public static function setBaseProductUri($baseProductUri)
+    {
+        self::$baseProductUri = $baseProductUri;
+        return self;
+    }
+
 }

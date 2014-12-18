@@ -11,9 +11,9 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Converter {
 
-	public $fileName = '';
-	public $worksheetName = '';
-	public $saveFormat = '';
+    protected $fileName = '';
+    protected $worksheetName = '';
+    protected $saveFormat = '';
 
 	public function __construct() {
 		$parameters = func_get_args();
@@ -321,4 +321,53 @@ class Converter {
             return $v_output;
         }
 	}
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorksheetName()
+    {
+        return $this->worksheetName;
+    }
+
+    /**
+     * @param string $worksheetName
+     */
+    public function setWorksheetName($worksheetName)
+    {
+        $this->worksheetName = $worksheetName;
+    }
+
 }

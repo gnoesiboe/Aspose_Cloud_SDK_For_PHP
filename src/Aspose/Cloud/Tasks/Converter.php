@@ -11,14 +11,14 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Converter {
 
-    public $fileName = '';
-    public $saveFormat = '';
+    protected $fileName = '';
+    protected $saveFormat = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName, $saveFormat='mpp') {
         //set default values
         $this->fileName = $fileName;
 
-        $this->saveFormat = 'mpp';
+        $this->saveFormat = $saveFormat;
     }
 
     /**
@@ -57,4 +57,35 @@ class Converter {
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+    }
 }

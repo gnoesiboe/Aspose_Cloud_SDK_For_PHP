@@ -10,7 +10,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Extractor {
 
-    public $fileName = '';
+    protected $fileName = '';
 
     public function __construct($fileName) {
         $this->fileName = $fileName;
@@ -302,6 +302,22 @@ class Extractor {
             $json = json_decode($responseStream);
 
             return $json->Placeholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
     }
 
 }

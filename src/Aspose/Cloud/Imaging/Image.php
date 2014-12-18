@@ -16,6 +16,9 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Image {
 
+
+    protected $fileName;
+
     public function __construct($fileName){
         $this->fileName = $fileName;
     }
@@ -238,5 +241,22 @@ class Image {
         else
             return $v_output;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param mixed $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
 
 } 

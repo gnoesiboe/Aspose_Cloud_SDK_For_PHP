@@ -11,7 +11,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Extractor {
 
-	public $fileName = '';
+    protected $fileName = '';
 
 	public function __construct($fileName) {
 		//set default values
@@ -146,4 +146,21 @@ class Extractor {
         } else
             return $v_output;
 	}
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
 }

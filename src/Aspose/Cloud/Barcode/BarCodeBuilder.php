@@ -11,10 +11,6 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class BarcodeBuilder {
 
-	public function __construct() {
-
-	}
-
     /**
      * Generates new barcodes with specific text, symbology, image format, 
      * resolution and dimensions.

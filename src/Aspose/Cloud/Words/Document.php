@@ -12,7 +12,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Document {
 
-    public $fileName = '';
+    protected $fileName = '';
 
     public function __construct($fileName) {
         $this->fileName = $fileName;
@@ -20,7 +20,7 @@ class Document {
 
     /**
      * Update all document fields.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
@@ -48,7 +48,7 @@ class Document {
 
     /**
      * Reject all tracking changes.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
@@ -77,7 +77,7 @@ class Document {
 
     /**
      * Accept all tracking changes.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
@@ -106,7 +106,7 @@ class Document {
 
     /**
      * Get Document's stats.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
@@ -139,7 +139,7 @@ class Document {
      * @param string $format Returns document in the specified format.
      * @param string $storageName Name of the storage.
      * @param string $folder Name of the folder.
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
@@ -200,11 +200,11 @@ class Document {
 
     /**
      * Appends a list of documents to this one.
-     * 
+     *
      * @param string $appendDocs List of documents to append.
      * @param string $importFormatModes Documents import format modes.
      * @param string $sourceFolder Name of the folder where documents are present.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -248,9 +248,9 @@ class Document {
     }
 
     /**
-     * Get Resource Properties information like document source format, 
+     * Get Resource Properties information like document source format,
      * IsEncrypted, IsSigned and document properties
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
@@ -276,11 +276,11 @@ class Document {
     }
 
     /**
-     * Get Resource Properties information like document source format, 
+     * Get Resource Properties information like document source format,
      * IsEncrypted, IsSigned and document properties
-     * 
+     *
      * @param string $propertyName The name of property.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
@@ -311,10 +311,10 @@ class Document {
 
     /**
      * Set document property.
-     * 
+     *
      * @param string $propertyName The name of property.
      * @param string $propertyValue The value of property.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
@@ -348,13 +348,13 @@ class Document {
         else
             return false;
     }
-    
+
     /**
      * Protect a document on the Aspose cloud storage.
-     * 
-     * @param type $password Document protection password. 
-     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection. 
-     * 
+     *
+     * @param type $password Document protection password.
+     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection.
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -385,10 +385,10 @@ class Document {
 
     /**
      * Unprotect a document on the Aspose cloud storage.
-     * 
+     *
      * @param type $password Current document protection password.
-     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection. 
-     * 
+     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection.
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -416,14 +416,14 @@ class Document {
         else
             return $v_output;
     }
-    
+
     /**
      * Update document protection.
-     * 
+     *
      * @param string $oldPassword Current document protection password.
-     * @param string $newPassword New document protection password. 
+     * @param string $newPassword New document protection password.
      * @param string $protectionType Document protection type.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
@@ -457,9 +457,9 @@ class Document {
 
     /**
      * Delete a document property.
-     * 
+     *
      * @param string $propertyName The name of property.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
@@ -489,7 +489,7 @@ class Document {
 
     /**
      * Get Document's properties.
-     * 
+     *
      * @return array
      * @throws Exception
      */
@@ -671,7 +671,7 @@ class Document {
             return false;
 
     }
-    
+
     /*
      * Remove all Headers and Footers
      *
@@ -680,10 +680,10 @@ class Document {
      */
     public function removeAllHeadersFooters(){
         if ($this->fileName == '')
-            throw new Exception('Base file not specified');        
+            throw new Exception('Base file not specified');
 
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/headersFooters';
-        
+
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -965,17 +965,17 @@ class Document {
             return false;
 
     }
-    
+
     /**
      * Get all Hyperlinks from a Word
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
     public function getHyperlinks() {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
 
@@ -984,29 +984,29 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
+        $json = json_decode($responseStream);
 
         if ($json->Code == 200)
             return $json->Hyperlinks->HyperlinkList;
         else
             return false;
     }
-    
+
     /**
      * Get a Particular Hyperlink from a Word
-     * 
+     *
      * @param int $hyperlinkIndex The index of hyperlink.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
     public function getHyperlink($hyperlinkIndex) {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($hyperlinkIndex == '')
             throw new Exception('Hyperlink index not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks/' . $hyperlinkIndex;
 
@@ -1015,24 +1015,24 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
+        $json = json_decode($responseStream);
 
         if ($json->Code == 200)
             return $json->Hyperlink;
         else
             return false;
     }
-    
+
     /**
      * Get Hyperlinks Count from a Word
-     * 
+     *
      * @return int|boolean
      * @throws Exception
      */
     public function getHyperlinksCount() {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
 
@@ -1041,24 +1041,24 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
+        $json = json_decode($responseStream);
 
         if ($json->Code == 200)
             return count($json->Hyperlinks->HyperlinkList);
         else
             return false;
     }
-    
+
     /**
      * Get all Bookmarks from a Word
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
     public function getBookmarks() {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
 
@@ -1067,29 +1067,29 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
-        
+        $json = json_decode($responseStream);
+
         if ($json->Code == 200)
             return $json->Bookmarks->BookmarkList;
         else
             return false;
     }
-    
+
     /**
      * Get a Specific Bookmark from a Word
-     * 
+     *
      * @param string $bookmarkName Name of the Bookmark.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
     public function getBookmark($bookmarkName) {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($bookmarkName == '')
             throw new Exception('Bookmark name not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
 
@@ -1098,24 +1098,24 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
-        
+        $json = json_decode($responseStream);
+
         if ($json->Code == 200)
             return $json->Bookmark;
         else
             return false;
     }
-    
+
     /**
      * Get Bookmarks count from a Word
-     * 
+     *
      * @return int|boolean
      * @throws Exception
      */
     public function getBookmarksCount() {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
 
@@ -1124,46 +1124,62 @@ class Document {
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-        $json = json_decode($responseStream);        
-        
+        $json = json_decode($responseStream);
+
         if ($json->Code == 200)
             return count($json->Bookmarks->BookmarkList);
         else
             return false;
     }
-    
+
     /**
      * Update Bookmark Text of a Word
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
     public function updateBookmark($bookmarkName, $bookmarkText) {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($bookmarkName == '')
             throw new Exception('Bookmark name not specified');
-        
+
         if ($bookmarkText == '')
             throw new Exception('Bookmark text not specified');
-        
+
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
-        
+
         $post_data_arr['Text'] = $bookmarkText;
         $postData = json_encode($post_data_arr);
         $responseStream = Utils::processCommand($signedURI, 'POST', 'JSON', $postData);
 
-        $json = json_decode($responseStream);        
-        
+        $json = json_decode($responseStream);
+
         if ($json->Code == 200)
             return true;
         else
             return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
     }
 
 }

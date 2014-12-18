@@ -11,9 +11,9 @@ use Aspose\Cloud\Storage\Folder;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class ChartEditor {
-    
-	public $fileName = '';
-	public $worksheetName = '';
+
+    protected $fileName = '';
+    protected $worksheetName = '';
 
 	public function __construct($fileName, $worksheetName) {
 		$this->fileName = $fileName;
@@ -262,5 +262,37 @@ class ChartEditor {
         $json = json_decode($responseStream);
         return $json -> Line;
 	}
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorksheetName()
+    {
+        return $this->worksheetName;
+    }
+
+    /**
+     * @param string $worksheetName
+     */
+    public function setWorksheetName($worksheetName)
+    {
+        $this->worksheetName = $worksheetName;
+    }
 
 }

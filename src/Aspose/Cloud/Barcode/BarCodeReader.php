@@ -11,7 +11,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class BarcodeReader {
 
-	public $fileName = '';
+	protected $fileName = '';
 
 	public function __construct($fileName) {
 		$this->fileName = $fileName;
@@ -256,5 +256,21 @@ class BarcodeReader {
 			$uri .= '&folder=' . $remoteFolder;
 		return $uri;
 	}
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
 
 }

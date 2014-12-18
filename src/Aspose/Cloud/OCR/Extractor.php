@@ -10,11 +10,6 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Extractor {
 
-    //put your code here
-    public function __construct() {
-        
-    }
-    
     /**
      * Extract OCR or HOCR Text from Images.
      * 

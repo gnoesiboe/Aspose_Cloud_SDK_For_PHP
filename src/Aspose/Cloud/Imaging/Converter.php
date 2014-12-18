@@ -11,7 +11,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 class Converter {
 
-    public $fileName = '';
+    protected $fileName = '';
 
     public function __construct($fileName) {
         $this->fileName = $fileName;
@@ -59,5 +59,21 @@ class Converter {
         else
             return $v_output;
     }
-    
-}    
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+}
