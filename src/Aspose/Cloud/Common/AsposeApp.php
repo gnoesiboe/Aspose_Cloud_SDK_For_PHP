@@ -25,6 +25,11 @@ class AsposeApp
     public static $outPutLocation = 'E:\\';
 
     /**
+     * @var bool
+     */
+    public static $debug = false;
+
+    /**
      * @return string
      */
     public static function getAppKey()
@@ -74,4 +79,21 @@ class AsposeApp
     {
         self::$outPutLocation = $outPutLocation;
     }
+
+    /**
+     * @return boolean
+     */
+    public static function isDebug()
+    {
+        return self::$debug;
+    }
+
+    /**
+     * @param boolean $debug
+     */
+    public static function setDebug($debug)
+    {
+        self::$debug = $debug;
+    }
+
 }
