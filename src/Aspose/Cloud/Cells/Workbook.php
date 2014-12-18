@@ -4,25 +4,28 @@
  */
 namespace Aspose\Cloud\Cells;
 
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Workbook {
+class Workbook
+{
 
     protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Get Document's properties.
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
-    public function getProperties() {
+    public function getProperties()
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -39,16 +42,17 @@ class Workbook {
     }
 
     /**
-     * Get Resource Properties information like document source format, 
+     * Get Resource Properties information like document source format,
      * IsEncrypted, IsSigned and document properties
-     * 
+     *
      * @param string $propertyName Name of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getProperty($propertyName) {
-        
+    public function getProperty($propertyName)
+    {
+
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -64,20 +68,21 @@ class Workbook {
             return $json->DocumentProperty;
         else
             return false;
-        
+
     }
 
     /**
      * Set document property.
-     * 
+     *
      * @param string $propertyName Name of the property.
      * @param string $propertyValue Value of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function setProperty($propertyName, $propertyValue) {
-        
+    public function setProperty($propertyName, $propertyValue)
+    {
+
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -99,17 +104,18 @@ class Workbook {
         } else {
             return false;
         }
-       
+
     }
 
     /**
      * Remove All Document's properties.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeAllProperties() {
-        
+    public function removeAllProperties()
+    {
+
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -126,19 +132,20 @@ class Workbook {
                 return false;
         }
         return true;
-        
+
     }
 
     /**
      * Delete a document property.
-     * 
+     *
      * @param string $propertyName Name of the property.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeProperty($propertyName) {
-        
+    public function removeProperty($propertyName)
+    {
+
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -154,16 +161,17 @@ class Workbook {
             return true;
         else
             return false;
-        
+
     }
 
     /**
      * Create Empty Workbook.
-     * 
-     * @return null 
+     *
+     * @return null
      */
-    public function createEmptyWorkbook() {
-        
+    public function createEmptyWorkbook()
+    {
+
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName;
         //sign URI
@@ -171,19 +179,20 @@ class Workbook {
         $responseStream = Utils::processCommand($signedURI, 'PUT');
         $json = json_decode($responseStream);
         return $json;
-        
+
     }
 
     /**
      * Create Empty Workbook.
-     * 
+     *
      * @param string $templateFileName Name of the template file.
-     * 
+     *
      * @return null
      * @throws Exception
      */
-    public function createWorkbookFromTemplate($templateFileName) {
-        
+    public function createWorkbookFromTemplate($templateFileName)
+    {
+
         if ($templateFileName == '')
             throw new Exception('Template file not specified');
         //build URI to merge Docs
@@ -198,15 +207,16 @@ class Workbook {
 
     /**
      * Create Empty Workbook.
-     * 
+     *
      * @param string $templateFileName Name of the template file.
-     * @param string $dataFile	Data file.
-     * 
+     * @param string $dataFile Data file.
+     *
      * @return null
      * @throws Exception
      */
-    public function createWorkbookFromSmartMarkerTemplate($templateFileName, $dataFile) {
-        
+    public function createWorkbookFromSmartMarkerTemplate($templateFileName, $dataFile)
+    {
+
         if ($templateFileName == '')
             throw new Exception('Template file not specified');
         if ($dataFile == '')
@@ -223,14 +233,15 @@ class Workbook {
 
     /**
      * Process Smartmaker Datafile.
-     * 
+     *
      * @param string $dataFile
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function processSmartMarker($dataFile) {
-        
+    public function processSmartMarker($dataFile)
+    {
+
         if ($dataFile == '')
             throw new Exception('Data file not specified');
         //build URI to merge Docs
@@ -245,12 +256,13 @@ class Workbook {
 
     /**
      * Get Worksheets Count in Workbook.
-     * 
+     *
      * @return integer
      * @throws Exception
      */
-    public function getWorksheetsCount() {
-        
+    public function getWorksheetsCount()
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //build URI to merge Docs
@@ -265,12 +277,13 @@ class Workbook {
 
     /**
      * Get Names Count in Workbook.
-     * 
+     *
      * @return integer
      * @throws Exception
      */
-    public function getNamesCount() {
-        
+    public function getNamesCount()
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //build URI to merge Docs
@@ -285,12 +298,13 @@ class Workbook {
 
     /**
      * Get Default Style.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getDefaultStyle() {
-        
+    public function getDefaultStyle()
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //build URI to merge Docs
@@ -302,19 +316,20 @@ class Workbook {
         return $json->Style;
 
     }
-    
+
     /**
      * Encrypt workbook.
-     * 
+     *
      * @param string $encryptionType Type of the encryption.
-     * @param string $password Document encryption password. 
-     * @param integer $keyLength The key length. This parameter is only for Excel97~2003 format 
-     * 
+     * @param string $password Document encryption password.
+     * @param integer $keyLength The key length. This parameter is only for Excel97~2003 format
+     *
      * @return boolean
      * @throws Exception
      */
-    public function encryptWorkbook($encryptionType = 'XOR', $password = '', $keyLength = '') {
-        
+    public function encryptWorkbook($encryptionType = 'XOR', $password = '', $keyLength = '')
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //Build JSON to post
@@ -332,18 +347,19 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Protect workbook.
-     * 
-     * @param string $password Document protection password. 
+     *
+     * @param string $password Document protection password.
      * @param string $protectionType Document protection type.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function protectWorkbook($password, $protectionType = 'all') {
-        
+    public function protectWorkbook($password, $protectionType = 'all')
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //Build JSON to post
@@ -360,17 +376,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Unprotect workbook.
-     * 
+     *
      * @param string $password Protection password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function unprotectWorkbook($password) {
-        
+    public function unprotectWorkbook($password)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //Build JSON to post
@@ -386,16 +403,17 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Change password.
-     * 
+     *
      * @param string $password Modify document password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function setModifyPassword($password) {
+    public function setModifyPassword($password)
+    {
 
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -412,17 +430,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Clear modify password.
-     * 
+     *
      * @param string $password Modify document password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function clearModifyPassword($password) {
-        
+    public function clearModifyPassword($password)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //Build JSON to post
@@ -438,17 +457,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Decrypt workbook.
-     * 
+     *
      * @param string $password Document decryption password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function decryptWorkbook($password) {
-        
+    public function decryptWorkbook($password)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         //Build JSON to post
@@ -464,17 +484,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Add worksheet.
-     * 
+     *
      * @param string $worksheetName Name of the sheet.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function addWorksheet($worksheetName) {
-        
+    public function addWorksheet($worksheetName)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName;
@@ -487,17 +508,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Remove worksheet from workbook.
-     * 
+     *
      * @param string $worksheetName Name of the worksheet.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeWorksheet($worksheetName) {
-        
+    public function removeWorksheet($worksheetName)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName;
@@ -510,17 +532,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Merge workbook.
-     * 
+     *
      * @param string $mergeFileName Name of merge file.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function mergeWorkbook($mergeFileName) {
-        
+    public function mergeWorkbook($mergeFileName)
+    {
+
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
         $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/merge?mergeWith=' . $mergeFileName;

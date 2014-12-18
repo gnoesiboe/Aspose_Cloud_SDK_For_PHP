@@ -4,9 +4,10 @@
  * @author Assad Mahmood <assadvirgo@gmail.com>
  * @author Rvanlaak
  */
- 
+
 namespace Aspose\Cloud\Exception;
 
-class AsposeCloudException extends \Exception {
-	
+class AsposeCloudException extends \Exception
+{
+
 }

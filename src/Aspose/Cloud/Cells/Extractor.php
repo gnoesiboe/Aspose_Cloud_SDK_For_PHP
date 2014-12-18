@@ -5,30 +5,33 @@
 namespace Aspose\Cloud\Cells;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Extractor {
+class Extractor
+{
 
     protected $fileName = '';
 
-	public function __construct($fileName) {
-		//set default values
-		$this->fileName = $fileName;
-	}
+    public function __construct($fileName)
+    {
+        //set default values
+        $this->fileName = $fileName;
+    }
 
-	/**
-	 * Saves a specific picture from a specific sheet as image.
-         * 
-	 * @param string $worksheetName Name of the sheet.
-	 * @param integer $pictureIndex Index of the picture.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function getPicture($worksheetName, $pictureIndex, $imageFormat) {
+    /**
+     * Saves a specific picture from a specific sheet as image.
+     *
+     * @param string $worksheetName Name of the sheet.
+     * @param integer $pictureIndex Index of the picture.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function getPicture($worksheetName, $pictureIndex, $imageFormat)
+    {
         //check whether file and sheet is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -47,19 +50,20 @@ class Extractor {
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific OleObject from a specific sheet as image.
-         * 
-	 * @param string $worksheetName Name of the sheet.
-	 * @param integer $objectIndex Index of the object.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function getOleObject($worksheetName, $objectIndex, $imageFormat) {
+    /**
+     * Saves a specific OleObject from a specific sheet as image.
+     *
+     * @param string $worksheetName Name of the sheet.
+     * @param integer $objectIndex Index of the object.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function getOleObject($worksheetName, $objectIndex, $imageFormat)
+    {
         //check whether file and sheet is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -78,19 +82,20 @@ class Extractor {
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific chart from a specific sheet as image.
-         * 
-	 * @param string $worksheetName Name of the sheet.
-	 * @param integer $chartIndex Index of the chart.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function getChart($worksheetName, $chartIndex, $imageFormat) {
+    /**
+     * Saves a specific chart from a specific sheet as image.
+     *
+     * @param string $worksheetName Name of the sheet.
+     * @param integer $chartIndex Index of the chart.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function getChart($worksheetName, $chartIndex, $imageFormat)
+    {
         //check whether file and sheet is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -109,19 +114,20 @@ class Extractor {
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific auto-shape from a specific sheet as image.
-         * 
-	 * @param string $worksheetName Name of the sheet.
-	 * @param integer $shapeIndex Index of the shape.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function getAutoShape($worksheetName, $shapeIndex, $imageFormat) {
+    /**
+     * Saves a specific auto-shape from a specific sheet as image.
+     *
+     * @param string $worksheetName Name of the sheet.
+     * @param integer $shapeIndex Index of the shape.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function getAutoShape($worksheetName, $shapeIndex, $imageFormat)
+    {
         //check whether file and sheet is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -145,7 +151,7 @@ class Extractor {
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
     /**
      * @return string

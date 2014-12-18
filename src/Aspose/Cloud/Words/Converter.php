@@ -5,16 +5,18 @@
 namespace Aspose\Cloud\Words;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Converter {
+class Converter
+{
 
     protected $fileName = '';
     protected $saveFormat = '';
 
-    public function __construct($fileName, $saveFormat='Doc') {
+    public function __construct($fileName, $saveFormat = 'Doc')
+    {
         //set default values
         $this->fileName = $fileName;
 
@@ -27,7 +29,8 @@ class Converter {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convert() {
+    public function convert()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -59,13 +62,14 @@ class Converter {
     /**
      * Convert a document to SaveFormat without using Aspose storage.
      *
-     * @param type $inputPath The path of source file.
-     * @param type $outputPath Path where you want to file after conversion.
-     * @param type $outputFormat New file format.
+     * @param string $inputPath The path of source file.
+     * @param string $outputPath Path where you want to file after conversion.
+     * @param string $outputFormat New file format.
      *
      * @return string Returns the file path.
      */
-    public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
+    public function convertLocalFile($inputPath, $outputPath, $outputFormat)
+    {
         $str_uri = Product::$baseProductUri . '/words/convert?format=' . $outputFormat;
         $signed_uri = Utils::sign($str_uri);
         $responseStream = Utils::uploadFileBinary($signed_uri, $inputPath, 'xml');
@@ -85,8 +89,7 @@ class Converter {
 
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
             return $outputFilename;
-        }
-        else
+        } else
             return $v_output;
     }
 

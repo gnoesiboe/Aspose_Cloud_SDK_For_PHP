@@ -5,13 +5,14 @@
 namespace Aspose\Cloud\Words;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class MailMerge {
-    
+class MailMerge
+{
+
     /*
      * Executes mail merge without regions.
      * 
@@ -21,7 +22,8 @@ class MailMerge {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMerge($fileName, $strXML) {
+    public function executeMailMerge($fileName, $strXML)
+    {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
@@ -44,21 +46,21 @@ class MailMerge {
             $outputPath = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Executes mail merge with regions.
-     * 
+     *
      * @param string $fileName The name of source file.
      * @param string $strXML Data in xml format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMergewithRegions($fileName, $strXML) {
+    public function executeMailMergewithRegions($fileName, $strXML)
+    {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
@@ -81,22 +83,22 @@ class MailMerge {
             $outputPath = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Executes mail merge template.
-     * 
+     *
      * @param string $fileName The name of source file.
      * @param string $strXML Data in xml format.
      * @param string $documentFolder The document folder.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeTemplate($fileName, $strXML, $documentFolder = '') {
+    public function executeTemplate($fileName, $strXML, $documentFolder = '')
+    {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
@@ -119,8 +121,7 @@ class MailMerge {
             $outputPath = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 

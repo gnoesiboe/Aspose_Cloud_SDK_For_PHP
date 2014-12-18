@@ -8,21 +8,21 @@ namespace Aspose\Cloud\Common;
 
 class AsposeApp
 {
-	
-	/**
-    * Represents AppSID for the app.
-	*/
-	public static $appSID  = '';
 
-	/**
-    * Represents AppKey for the app.
-	*/
-	public static $appKey = '';
+    /**
+     * Represents AppSID for the app.
+     */
+    public static $appSID = '';
+
+    /**
+     * Represents AppKey for the app.
+     */
+    public static $appKey = '';
 
     /**
      * Location where files get stored
      */
-	public static $outPutLocation = 'E:\\';
+    public static $outPutLocation = 'E:\\';
 
     /**
      * @return string
@@ -39,7 +39,6 @@ class AsposeApp
     public static function setAppKey($appKey)
     {
         self::$appKey = $appKey;
-        return self;
     }
 
     /**
@@ -57,7 +56,6 @@ class AsposeApp
     public static function setAppSID($appSID)
     {
         self::$appSID = $appSID;
-        return self;
     }
 
     /**
@@ -75,6 +73,5 @@ class AsposeApp
     public static function setOutPutLocation($outPutLocation)
     {
         self::$outPutLocation = $outPutLocation;
-        return self;
     }
 }

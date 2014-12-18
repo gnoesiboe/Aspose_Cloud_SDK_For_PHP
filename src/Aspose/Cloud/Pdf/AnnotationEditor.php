@@ -5,66 +5,30 @@
 namespace Aspose\Cloud\Pdf;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class AnnotationEditor {
+class AnnotationEditor
+{
 
     protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
-     * Gets number of annotations on a specified document page.
-     * 
-     * @param ineger $pageNumber Number of the page.
-     * 
-     * @return integer
-     * @throws Exception
-     */
-    public function getAnnotationsCount($pageNumber) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/annotations';
-        $signedURI = Utils::sign($strURI);
-        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-        $json = json_decode($responseStream);
-        return count($json->Annotations->List);
-    }
-
-    /**
-     * Gets a specfied annotation on a specified document page.
-     * 
-     * @param integer $pageNumber Number of the page.
-     * @param integer $annotationIndex Index of th annotation.
-     * 
-     * @return object
-     * @throws Exception
-     */
-    public function getAnnotation($pageNumber, $annotationIndex) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/annotations/' . $annotationIndex;
-        $signedURI = Utils::sign($strURI);
-        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-        $json = json_decode($responseStream);
-        return $json->Annotation;
-    }
-
-    /**
      * Gets list of all the annotations on a specified document page.
-     * 
+     *
      * @param integer $pageNumber Number of the page.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getAllAnnotations($pageNumber) {
+    public function getAllAnnotations($pageNumber)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -77,31 +41,56 @@ class AnnotationEditor {
     }
 
     /**
-     * Gets total number of Bookmarks in a Pdf document.
-     * 
+     * Gets number of annotations on a specified document page.
+     *
+     * @param integer $pageNumber Number of the page.
+     *
      * @return integer
      * @throws Exception
      */
-    public function getBookmarksCount() {
+    public function getAnnotationsCount($pageNumber)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/bookmarks';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/annotations';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return count($json->Bookmarks->List);
+        return count($json->Annotations->List);
+    }
+
+    /**
+     * Gets a specfied annotation on a specified document page.
+     *
+     * @param integer $pageNumber Number of the page.
+     * @param integer $annotationIndex Index of th annotation.
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function getAnnotation($pageNumber, $annotationIndex)
+    {
+        //check whether file is set or not
+        if ($this->fileName == '')
+            throw new Exception('No file name specified');
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/annotations/' . $annotationIndex;
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+        $json = json_decode($responseStream);
+        return $json->Annotation;
     }
 
     /**
      * Gets number of child bookmarks in a specfied parent bookmark.
-     * 
+     *
      * @param integer $parent
-     * 
-     * @return ingeter
+     *
+     * @return integer
      * @throws Exception
      */
-    public function getChildBookmarksCount($parent) {
+    public function getChildBookmarksCount($parent)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -113,34 +102,16 @@ class AnnotationEditor {
     }
 
     /**
-     * Gets a specfied Bookmark from a PDF document.
-     * 
-     * @param integer $bookmarkIndex Index of the bookmark.
-     * 
-     * @return object
-     * @throws Exception
-     */
-    public function getBookmark($bookmarkIndex) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/bookmarks/' . $bookmarkIndex;
-        $signedURI = Utils::sign($strURI);
-        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-        $json = json_decode($responseStream);
-        return $json->Bookmark;
-    }
-
-    /**
      * Gets a specfied child Bookmark for selected parent bookmark in Pdf document.
-     * 
+     *
      * @param integer $parentIndex Parent index.
      * @param integer $childIndex Child index.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getChildBookmark($parentIndex, $childIndex) {
+    public function getChildBookmark($parentIndex, $childIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -152,15 +123,16 @@ class AnnotationEditor {
     }
 
     /**
-     * Checks whether selected bookmark is parent or child Gets a specfied child 
+     * Checks whether selected bookmark is parent or child Gets a specfied child
      * Bookmark for selected parent bookmark in Pdf document.
-     * 
-     * @param ingeter $bookmarkIndex Index of the bookmark.
-     * 
+     *
+     * @param integer $bookmarkIndex Index of the bookmark.
+     *
      * @return object
      * @throws Exception
      */
-    public function isChildBookmark($bookmarkIndex) {
+    public function isChildBookmark($bookmarkIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -175,11 +147,12 @@ class AnnotationEditor {
 
     /**
      * Gets list of all the Bookmarks in a Pdf document.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getAllBookmarks() {
+    public function getAllBookmarks()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -192,48 +165,51 @@ class AnnotationEditor {
     }
 
     /**
-     * Gets number of attachments in the Pdf document.
-     * 
+     * Gets total number of Bookmarks in a Pdf document.
+     *
      * @return integer
      * @throws Exception
      */
-    public function getAttachmentsCount() {
+    public function getBookmarksCount()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/attachments';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/bookmarks';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return count($json->Attachments->List);
+        return count($json->Bookmarks->List);
     }
 
     /**
-     * Gets selected attachment from Pdf document.
-     * 
-     * @param integer $attachmentIndex Index of the attachment.
-     * 
+     * Gets a specfied Bookmark from a PDF document.
+     *
+     * @param integer $bookmarkIndex Index of the bookmark.
+     *
      * @return object
      * @throws Exception
      */
-    public function getAttachment($attachmentIndex) {
+    public function getBookmark($bookmarkIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/attachments/' . $attachmentIndex;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/bookmarks/' . $bookmarkIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return $json->Attachment;
+        return $json->Bookmark;
     }
 
     /**
      * Gets List of all the attachments in Pdf document.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getAllAttachments() {
+    public function getAllAttachments()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -246,14 +222,53 @@ class AnnotationEditor {
     }
 
     /**
+     * Gets number of attachments in the Pdf document.
+     *
+     * @return integer
+     * @throws Exception
+     */
+    public function getAttachmentsCount()
+    {
+        //check whether file is set or not
+        if ($this->fileName == '')
+            throw new Exception('No file name specified');
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/attachments';
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+        $json = json_decode($responseStream);
+        return count($json->Attachments->List);
+    }
+
+    /**
+     * Gets selected attachment from Pdf document.
+     *
+     * @param integer $attachmentIndex Index of the attachment.
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function getAttachment($attachmentIndex)
+    {
+        //check whether file is set or not
+        if ($this->fileName == '')
+            throw new Exception('No file name specified');
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/attachments/' . $attachmentIndex;
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+        $json = json_decode($responseStream);
+        return $json->Attachment;
+    }
+
+    /**
      * Download the selected attachment from Pdf document.
-     * 
+     *
      * @param string $attachmentIndex Index of the attachment.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function downloadAttachment($attachmentIndex) {
+    public function downloadAttachment($attachmentIndex)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
@@ -267,20 +282,41 @@ class AnnotationEditor {
         if ($v_output === '') {
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $fileInformation->Name);
             return '';
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
-     * Gets number of links on a specified document page.
-     * 
+     * Gets list of all the links on a specified document page.
+     *
      * @param integer $pageNumber Number of the page.
-     * 
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getAllLinks($pageNumber)
+    {
+        //check whether file is set or not
+        if ($this->fileName == '')
+            throw new Exception('No file name specified');
+        $iTotalLinks = $this->GetLinksCount($pageNumber);
+        $listLinks = array();
+        for ($index = 1; $index <= $iTotalLinks; $index++) {
+            array_push($listLinks, $this->GetLink($pageNumber, $index));
+        }
+        return $listLinks;
+    }
+
+    /**
+     * Gets number of links on a specified document page.
+     *
+     * @param integer $pageNumber Number of the page.
+     *
      * @return integer
      * @throws Exception
      */
-    public function getLinksCount($pageNumber) {
+    public function getLinksCount($pageNumber)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -293,14 +329,15 @@ class AnnotationEditor {
 
     /**
      * Gets a specfied link on a specified document page
-     * 
+     *
      * @param integer $pageNumber Number of the page.
      * @param integer $linkIndex Index of the link.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getLink($pageNumber, $linkIndex) {
+    public function getLink($pageNumber, $linkIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -309,26 +346,6 @@ class AnnotationEditor {
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
         return $json->Link;
-    }
-
-    /**
-     * Gets list of all the links on a specified document page.
-     * 
-     * @param integer $pageNumber Number of the page.
-     * 
-     * @return array
-     * @throws Exception
-     */
-    public function getAllLinks($pageNumber) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $iTotalLinks = $this->GetLinksCount($pageNumber);
-        $listLinks = array();
-        for ($index = 1; $index <= $iTotalLinks; $index++) {
-            array_push($listLinks, $this->GetLink($pageNumber, $index));
-        }
-        return $listLinks;
     }
 
     /**

@@ -4,27 +4,28 @@
  */
 namespace Aspose\Cloud\OCR;
 
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Common\Utils;
 
-class Extractor {
+class Extractor
+{
 
     /**
      * Extract OCR or HOCR Text from Images.
-     * 
-     * @param string $useDefaultDictionaries Allows to correct text after 
+     *
+     * @param string $useDefaultDictionaries Allows to correct text after
      * recognition using default dictionaries.
      * @param string $folder Folder with image to recognize.
      * @param string $language Language of document to recognize.
-     * @param integer $rectX 
+     * @param integer $rectX
      * @param integer $rectY
      * @param integer $rectWidth
-     * @param integer $rectHeight  
-     * 
+     * @param integer $rectHeight
+     *
      * @return object
      */
-    public function extractText() {
+    public function extractText()
+    {
         $numOfArgs = func_get_args();
         switch (count($numOfArgs)) {
             case 1:
@@ -67,7 +68,7 @@ class Extractor {
                 if ($folder === '' || $folder === null) {
 
                     $strURI = Product::$baseProductUri . '/ocr/' . $imageFileName . '/recognize?language=' . $language . '&useDefaultDictionaries=';
-                    $strURI.= ($useDefaultDictionaries) ? 'true' : 'false';
+                    $strURI .= ($useDefaultDictionaries) ? 'true' : 'false';
                 } else {
 
                     $strURI = Product::$baseProductUri . '/ocr/' . $imageFileName . '/recognize?language=' . $language . '&useDefaultDictionaries=';
@@ -107,43 +108,45 @@ class Extractor {
                 break;
         }
     }
-    
+
     /**
      * Extract OCR or HOCR Text from Images without using Storage.
-     * 
-     * @param type $localFile Filename of image.
-     * @param type $language Language of document to recogniize.
-     * @param type $useDefaultDictionaries Allows to correct text after 
-     * recognition using default dictionaries. 
-     * 
+     *
+     * @param string $localFile Filename of image.
+     * @param string $language Language of document to recogniize.
+     * @param string $useDefaultDictionaries Allows to correct text after
+     * recognition using default dictionaries.
+     *
      * @return object
      */
-    public function extractTextFromLocalFile($localFile, $language, $useDefaultDictionaries) {
-            $strURI = Product::$baseProductUri . '/ocr/recognize?language=' . $language . '&useDefaultDictionaries=';
-            $strURI .= ($useDefaultDictionaries) ? 'true' : 'false';
-            $signedURI = Utils::sign($strURI);
-            $stream = file_get_contents($localFile);
-            $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $stream);
-            $json = json_decode($responseStream);
-            return $json;
+    public function extractTextFromLocalFile($localFile, $language, $useDefaultDictionaries)
+    {
+        $strURI = Product::$baseProductUri . '/ocr/recognize?language=' . $language . '&useDefaultDictionaries=';
+        $strURI .= ($useDefaultDictionaries) ? 'true' : 'false';
+        $signedURI = Utils::sign($strURI);
+        $stream = file_get_contents($localFile);
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $stream);
+        $json = json_decode($responseStream);
+        return $json;
     }
-    
+
     /**
      * Extract OCR or HOCR Text from image url.
-     * 
-     * @param type $url URL of the image.
-     * @param type $language Language of document to recogniize.
-     * @param type $useDefaultDictionaries Allows to correct text after 
-     * recognition using default dictionaries. 
-     * 
+     *
+     * @param string $url URL of the image.
+     * @param string $language Language of document to recogniize.
+     * @param string $useDefaultDictionaries Allows to correct text after
+     * recognition using default dictionaries.
+     *
      * @return object
      */
-    public function extractTextFromUrl($url, $language, $useDefaultDictionaries) {
-            $strURI = Product::$baseProductUri . '/ocr/recognize?url=' . $url . '&language=' . $language . '&useDefaultDictionaries=' . $useDefaultDictionaries;
-            $signedURI = Utils::sign($strURI);
-            $responseStream = Utils::processCommand($signedURI);
-            $json = json_decode($responseStream);
-            return $json;
+    public function extractTextFromUrl($url, $language, $useDefaultDictionaries)
+    {
+        $strURI = Product::$baseProductUri . '/ocr/recognize?url=' . $url . '&language=' . $language . '&useDefaultDictionaries=' . $useDefaultDictionaries;
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI);
+        $json = json_decode($responseStream);
+        return $json;
     }
 
 }
