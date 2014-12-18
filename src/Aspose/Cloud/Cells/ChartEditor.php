@@ -288,6 +288,7 @@ class ChartEditor
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
     /**
@@ -304,6 +305,7 @@ class ChartEditor
     public function setWorksheetName($worksheetName)
     {
         $this->worksheetName = $worksheetName;
+        return $this;
     }
 
 }

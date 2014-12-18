@@ -184,6 +184,7 @@ class Resource
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
 }

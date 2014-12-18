@@ -1685,6 +1685,7 @@ class Worksheet
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
     /**
@@ -1701,6 +1702,7 @@ class Worksheet
     public function setWorksheetName($worksheetName)
     {
         $this->worksheetName = $worksheetName;
+        return $this;
     }
 
 }

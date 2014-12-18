@@ -347,6 +347,7 @@ class Converter
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
     /**
@@ -363,6 +364,7 @@ class Converter
     public function setSaveFormat($saveFormat)
     {
         $this->saveFormat = $saveFormat;
+        return $this;
     }
 
     /**
@@ -379,6 +381,7 @@ class Converter
     public function setWorksheetName($worksheetName)
     {
         $this->worksheetName = $worksheetName;
+        return $this;
     }
 
 }

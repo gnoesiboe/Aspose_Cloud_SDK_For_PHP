@@ -132,6 +132,7 @@ class TextEditor
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
 }

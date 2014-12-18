@@ -103,10 +103,12 @@ class Converter
 
     /**
      * @param string $saveFormat
+     * @return self
      */
     public function setSaveFormat($saveFormat)
     {
         $this->saveFormat = $saveFormat;
+        return $this;
     }
 
     /**
@@ -119,10 +121,12 @@ class Converter
 
     /**
      * @param string $fileName
+     * @return self
      */
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
 }

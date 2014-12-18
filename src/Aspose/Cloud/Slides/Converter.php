@@ -132,6 +132,7 @@ class Converter
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
     /**
@@ -148,6 +149,7 @@ class Converter
     public function setSaveFormat($saveFormat)
     {
         $this->saveFormat = $saveFormat;
+        return $this;
     }
 
 }

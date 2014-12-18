@@ -480,6 +480,7 @@ class Document
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        return $this;
     }
 
 
