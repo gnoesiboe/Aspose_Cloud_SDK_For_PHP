@@ -197,6 +197,7 @@ class Document
                 $outputFile = AsposeApp::$outPutLocation . $splitFileName;
                 Utils::saveFile($responseStream, $outputFile);
             }
+            return $json->SplitResult;
         } else
             return false;
 
