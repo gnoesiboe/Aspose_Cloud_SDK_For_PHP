@@ -1,31 +1,34 @@
 <?php
 /**
  * Deals with project resource level aspects.
- */ 
+ */
 namespace Aspose\Cloud\Tasks;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class Resource {
+class Resource
+{
 
-    public $fileName = '';
+    protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
-     * Get project resource items. Each resource item has a link to get full 
-     * resource representation in the project. 
-     * 
+     * Get project resource items. Each resource item has a link to get full
+     * resource representation in the project.
+     *
      * @return array Returns the resources.
      * @throws Exception
      */
-    public function getResources() {
+    public function getResources()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -39,22 +42,23 @@ class Resource {
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
         $json = json_decode($responseStream);
-        
+
         if ($json->Code == 200)
             return $json->Resources->ResourceItem;
         else
             return false;
     }
-    
+
     /**
-     * Get resource information. 
-     * 
+     * Get resource information.
+     *
      * @param integer $resourceId The id of the project resource.
-     * 
+     *
      * @return string Returns project resource.
      * @throws Exception
      */
-    public function getResource($resourceId) {
+    public function getResource($resourceId)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -80,15 +84,16 @@ class Resource {
 
     /**
      * Add new resource to project.
-     * 
+     *
      * @param string $resourceName The Name of the new resource.
      * @param integer $afterResourceId The id of the resource to insert the new resource after.
-     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document. 
-     * 
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function addResource($resourceName, $afterResourceId, $changedFileName) {
+    public function addResource($resourceName, $afterResourceId, $changedFileName)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -104,13 +109,13 @@ class Resource {
         if ($changedFileName != '') {
             $strURI .= '&fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
-        }    
+        }
 
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
-        
+
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
@@ -119,21 +124,21 @@ class Resource {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Delete a project resource with all references to it.
-     * 
+     *
      * @param integer $resourceId The id of the project resource.
-     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document. 
-     * 
+     * @param string $changedFileName The name of the project document to save changes to. If this parameter is omitted then the changes will be saved to the source project document.
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function deleteResource($resourceId, $changedFileName) {
+    public function deleteResource($resourceId, $changedFileName)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -146,13 +151,13 @@ class Resource {
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
-        }    
+        }
 
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
-        
+
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
@@ -161,9 +166,25 @@ class Resource {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
 }

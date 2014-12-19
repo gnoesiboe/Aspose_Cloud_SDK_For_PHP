@@ -5,34 +5,37 @@
 namespace Aspose\Cloud\Cells;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class ChartEditor {
-    
-	public $fileName = '';
-	public $worksheetName = '';
+class ChartEditor
+{
 
-	public function __construct($fileName, $worksheetName) {
-		$this->fileName = $fileName;
-		$this->worksheetName = $worksheetName;
-	}
+    protected $fileName = '';
+    protected $worksheetName = '';
 
-	/**
-	 * Adds a new chart.
-         * 
-	 * @param string $chartType Type of the chart.
-	 * @param integer $upperLeftRow Number of the upper left row.
-	 * @param integer $upperLeftColumn Number of the upper left column.
-	 * @param integer $lowerRightRow Number of the lower right row.
-	 * @param integer $lowerRightColumn Number of the lower right column.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function addChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn) {
+    public function __construct($fileName, $worksheetName)
+    {
+        $this->fileName = $fileName;
+        $this->worksheetName = $worksheetName;
+    }
+
+    /**
+     * Adds a new chart.
+     *
+     * @param string $chartType Type of the chart.
+     * @param integer $upperLeftRow Number of the upper left row.
+     * @param integer $upperLeftColumn Number of the upper left column.
+     * @param integer $lowerRightRow Number of the lower right row.
+     * @param integer $lowerRightColumn Number of the lower right column.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function addChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -46,23 +49,24 @@ class ChartEditor {
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder -> GetFile($this->fileName);
+            $outputStream = $folder->GetFile($this->fileName);
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Deletes a chart.
-         * 
-	 * @param integer $chartIndex Index of the chart.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function deleteChart($chartIndex) {
+    /**
+     * Deletes a chart.
+     *
+     * @param integer $chartIndex Index of the chart.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function deleteChart($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -76,23 +80,24 @@ class ChartEditor {
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder -> GetFile($this->fileName);
+            $outputStream = $folder->GetFile($this->fileName);
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
-        
+    }
+
     /**
      * Show legend of the chart.
-     * 
+     *
      * @param integer $chartIndex Index of the chart.
-     * 
+     *
      * @return string Return the file path.
      * @throws Exception
      */
-    public function showChartLegend($chartIndex) {
+    public function showChartLegend($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -106,23 +111,24 @@ class ChartEditor {
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder -> GetFile($this->fileName);
+            $outputStream = $folder->GetFile($this->fileName);
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
     }
-    
+
     /**
      * Hide legend of the chart.
-     * 
+     *
      * @param string $chartIndex Index of the chart.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function hideChartLegend($chartIndex) {
+    public function hideChartLegend($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -136,24 +142,25 @@ class ChartEditor {
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder -> GetFile($this->fileName);
+            $outputStream = $folder->GetFile($this->fileName);
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
     }
-    
+
     /**
      * Update chart legend.
-     * 
+     *
      * @param integer $chartIndex Index of the chart.
      * @param array $properties Properties of the chart legend.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateChartLegend($chartIndex,$properties='') {
+    public function updateChartLegend($chartIndex, $properties = '')
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -167,23 +174,24 @@ class ChartEditor {
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder -> GetFile($this->fileName);
+            $outputStream = $folder->GetFile($this->fileName);
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
     }
-    
+
     /**
      * Get chart legend.
-     * 
+     *
      * @param integer $chartIndex Index of the chart.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function readChartLegend($chartIndex) {
+    public function readChartLegend($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -197,15 +205,16 @@ class ChartEditor {
         return $json->Legend;
     }
 
-	/**
-	 * Gets ChartArea of a chart.
-         * 
-	 * @param integer $chartIndex Index of the chart.
-         * 
-         * @return object
-         * @throws Exception
-	 */
-	public function getChartArea($chartIndex) {
+    /**
+     * Gets ChartArea of a chart.
+     *
+     * @param integer $chartIndex Index of the chart.
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function getChartArea($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -216,18 +225,19 @@ class ChartEditor {
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return $json -> ChartArea;
-	}
+        return $json->ChartArea;
+    }
 
-	/**
-	 * Gets fill format of the ChartArea of a chart.
-         * 
-	 * @param integer $chartIndex Index of the chart.
-         * 
-         * @return object
-         * @throws Exception
-	 */
-	public function getFillFormat($chartIndex) {
+    /**
+     * Gets fill format of the ChartArea of a chart.
+     *
+     * @param integer $chartIndex Index of the chart.
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function getFillFormat($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -238,18 +248,19 @@ class ChartEditor {
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return $json -> FillFormat;
-	}
+        return $json->FillFormat;
+    }
 
-	/**
-	 * Gets border of the ChartArea of a chart.
-         * 
-	 * @param integer $chartIndex Index of the chart.
-         * 
-         * @return object
-         * @throws Exception
-	 */
-	public function getBorder($chartIndex) {
+    /**
+     * Gets border of the ChartArea of a chart.
+     *
+     * @param integer $chartIndex Index of the chart.
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function getBorder($chartIndex)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -260,7 +271,41 @@ class ChartEditor {
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
-        return $json -> Line;
-	}
+        return $json->Line;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorksheetName()
+    {
+        return $this->worksheetName;
+    }
+
+    /**
+     * @param string $worksheetName
+     */
+    public function setWorksheetName($worksheetName)
+    {
+        $this->worksheetName = $worksheetName;
+        return $this;
+    }
 
 }

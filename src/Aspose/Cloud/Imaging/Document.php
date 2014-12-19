@@ -1,30 +1,33 @@
 <?php
 /**
  * Deals with image document level aspects.
- */ 
+ */
 namespace Aspose\Cloud\Imaging;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class Document {
+class Document
+{
 
-    public $fileName = '';
+    protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Get Image Properties.
-     * 
+     *
      * @return array|boolean Returns the image properties.
      * @throws Exception
      */
-    public function getProperties() {
+    public function getProperties()
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -38,87 +41,88 @@ class Document {
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
         $json = json_decode($responseStream);
-        
+
         if ($json->Code == 200)
             return $json;
         else
             return false;
     }
-    
+
     /**
      * Update BMP Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $bitsPerPixel Color depth.
      * @param integer $horizontalResolution New horizontal resolution.
      * @param integer $verticalResolution New vertical resolution.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateBMPProperties($bitsPerPixel, $horizontalResolution, $verticalResolution, $outPath) {
+    public function updateBMPProperties($bitsPerPixel, $horizontalResolution, $verticalResolution, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($bitsPerPixel == '')
             throw new Exception('Color Depth not specified');
-        
+
         if ($horizontalResolution == '')
             throw new Exception('Horizontal Resolution not specified');
-        
+
         if ($verticalResolution == '')
             throw new Exception('Vertical Resolution not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/bmp?bitsPerPixel=' . $bitsPerPixel . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
-        
+
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET', 'json', '');
 
         $v_output = Utils::validateOutput($responseStream);
-       
+
         if ($v_output === '') {
             $folder = new Folder();
             $outputStream = $folder->GetFile($outPath);
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Update BMP Image Properties Without Storage.
-     * 
+     *
      * @param integer $bitsPerPixel Color depth.
      * @param integer $horizontalResolution New horizontal resolution.
      * @param integer $verticalResolution New vertical resolution.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateBMPPropertiesFromLocalFile($inputPath, $bitsPerPixel, $horizontalResolution, $verticalResolution, $outPath) {
+    public function updateBMPPropertiesFromLocalFile($inputPath, $bitsPerPixel, $horizontalResolution, $verticalResolution, $outPath)
+    {
         //check whether files are set or not
         if ($inputPath == '')
             throw new Exception('Input file not specified');
-        
+
         if ($bitsPerPixel == '')
             throw new Exception('Color Depth not specified');
-        
+
         if ($horizontalResolution == '')
             throw new Exception('Horizontal Resolution not specified');
-        
+
         if ($verticalResolution == '')
             throw new Exception('Vertical Resolution not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
@@ -127,11 +131,11 @@ class Document {
 
         //sign URI
         $signedURI = Utils::sign($strURI);
-        
+
         $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml', 'POST');
 
         $v_output = Utils::validateOutput($responseStream);
-        
+
         if ($v_output === '') {
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outPath);
             return $outPath;
@@ -139,88 +143,89 @@ class Document {
             return $v_output;
         }
     }
-    
+
     /**
      * Update GIF Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $backgroundColorIndex Index of the background color.
      * @param integer $pixelAspectRatio Pixel aspect ratio.
      * @param boolean $interlaced Specifies if image is interlaced.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateGIFProperties($backgroundColorIndex, $pixelAspectRatio, $interlaced, $outPath) {
+    public function updateGIFProperties($backgroundColorIndex, $pixelAspectRatio, $interlaced, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($backgroundColorIndex == '')
             throw new Exception('Background color index not specified');
-        
+
         if ($pixelAspectRatio == '')
             throw new Exception('Pixel aspect ratio not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/gif?backgroundColorIndex=' . $backgroundColorIndex . '&pixelAspectRatio=' . $pixelAspectRatio . '&interlaced=' . $interlaced . '&outPath=' . $outPath;
-      
+
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
         $v_output = Utils::validateOutput($responseStream);
-        
+
         if ($v_output === '') {
             $folder = new Folder();
             $outputStream = $folder->GetFile($outPath);
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Update GIF Image Properties without storage.
-     * 
+     *
      * @param integer $backgroundColorIndex Index of the background color.
      * @param integer $pixelAspectRatio Pixel aspect ratio.
      * @param boolean $interlaced Specifies if image is interlaced.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateGIFPropertiesFromLocalFile($inputPath, $backgroundColorIndex, $pixelAspectRatio, $interlaced, $outPath) {
+    public function updateGIFPropertiesFromLocalFile($inputPath, $backgroundColorIndex, $pixelAspectRatio, $interlaced, $outPath)
+    {
         //check whether files are set or not
         if ($inputPath == '')
             throw new Exception('Input file not specified');
-        
+
         if ($backgroundColorIndex == '')
             throw new Exception('Background color index not specified');
-        
+
         if ($pixelAspectRatio == '')
             throw new Exception('Pixel aspect ratio not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/imaging/gif?backgroundColorIndex=' . $backgroundColorIndex . '&pixelAspectRatio=' . $pixelAspectRatio;
-        
+
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml', 'POST');
 
         $v_output = Utils::validateOutput($responseStream);
-        
+
         if ($v_output === '') {
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outPath);
             return $outPath;
@@ -228,35 +233,36 @@ class Document {
             return $v_output;
         }
     }
-    
+
     /**
      * Update JPG Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $backgroundColorIndex Index of the background color.
      * @param integer $pixelAspectRatio Pixel aspect ratio.
      * @param boolean $interlaced Specifies if image is interlaced.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateJPGProperties($quality, $compressionType, $outPath) {
+    public function updateJPGProperties($quality, $compressionType, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($quality == '')
             throw new Exception('Quality not specified');
-        
+
         if ($compressionType == '')
             throw new Exception('Compression Type not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/jpg?quality=' . $quality . '&compressionType=' . $compressionType . '&outPath=' . $outPath;
-        
+
         //sign URI
         $signedURI = Utils::sign($strURI);
 
@@ -269,46 +275,46 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Update JPG Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $backgroundColorIndex Index of the background color.
      * @param integer $pixelAspectRatio Pixel aspect ratio.
      * @param boolean $interlaced Specifies if image is interlaced.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return array|boolean Returns the file path.
      * @throws Exception
      */
-    public function updateJPGPropertiesFromLocalFile($inputPath, $quality, $compressionType, $outPath) {
+    public function updateJPGPropertiesFromLocalFile($inputPath, $quality, $compressionType, $outPath)
+    {
         //check whether files are set or not
         if ($inputPath == '')
             throw new Exception('Input file not specified');
-        
+
         if ($quality == '')
             throw new Exception('Quality not specified');
-        
+
         if ($compressionType == '')
             throw new Exception('Compression Type not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/imaging/jpg?quality=' . $quality . '&compressionType=' . $compressionType . '&outPath=' . $outPath;
-       
+
         //sign URI
-        $signedURI = Utils::sign($strURI); 
+        $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml', 'POST');
 
         $v_output = Utils::validateOutput($responseStream);
-        
+
         if ($v_output === '') {
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outPath);
             return $outPath;
@@ -316,83 +322,84 @@ class Document {
             return $v_output;
         }
     }
-    
+
     /**
      * Update GIF Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $backgroundColorIndex Index of the background color.
      * @param integer $pixelAspectRatio Pixel aspect ratio.
      * @param boolean $interlaced Specifies if image is interlaced.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateTIFFProperties($resolutionUnit, $newWidth, $newHeight, $horizontalResolution, $verticalResolution, $outPath) {
+    public function updateTIFFProperties($resolutionUnit, $newWidth, $newHeight, $horizontalResolution, $verticalResolution, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($resolutionUnit == '')
             throw new Exception('Resolution unit not specified');
-        
+
         if ($newWidth == '')
             throw new Exception('New image width not specified');
-        
+
         if ($newHeight == '')
             throw new Exception('New image height not specified');
-        
+
         if ($horizontalResolution == '')
             throw new Exception('Horizontal resolution not specified');
-        
+
         if ($verticalResolution == '')
             throw new Exception('Vertical resolution not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/tiff?resolutionUnit=' . $resolutionUnit . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&horizontalResolution=' . $horizontalResolution .'&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
-       
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/tiff?resolutionUnit=' . $resolutionUnit . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
+
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
 
         $v_output = Utils::validateOutput($responseStream);
-        
+
         if ($v_output === '') {
             $folder = new Folder();
             $outputStream = $folder->GetFile($outPath);
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Update PSD Image Properties on Aspose cloud storage.
-     * 
+     *
      * @param integer $channelsCount Count of channels.
      * @param string $compression Compression method.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updatePSDProperties($channelsCount, $compression, $outPath) {
+    public function updatePSDProperties($channelsCount, $compression, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($channelsCount == '')
             throw new Exception('Channels count not specified');
-        
+
         if ($compression == '')
             throw new Exception('Compression method not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
@@ -411,32 +418,32 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
     /**
      * Update PSD Image Properties without storage.
-     * 
+     *
      * @param integer $channelsCount Count of channels.
      * @param string $compression Compression method.
      * @param string $outPath Name of the output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updatePSDPropertiesFromLocalFile($inputPath, $channelsCount, $compression, $outPath) {
+    public function updatePSDPropertiesFromLocalFile($inputPath, $channelsCount, $compression, $outPath)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
-        
+
         if ($channelsCount == '')
             throw new Exception('Channels count not specified');
-        
+
         if ($compression == '')
             throw new Exception('Compression method not specified');
-        
+
         if ($outPath == '')
             throw new Exception('Output file name not specified');
 
@@ -445,7 +452,7 @@ class Document {
 
         //sign URI
         $signedURI = Utils::sign($strURI);
-        
+
         $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml', 'POST');
 
         $v_output = Utils::validateOutput($responseStream);
@@ -455,9 +462,26 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $outPath;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
+
 }

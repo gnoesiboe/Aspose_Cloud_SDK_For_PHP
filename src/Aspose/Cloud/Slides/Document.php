@@ -5,32 +5,35 @@
 namespace Aspose\Cloud\Slides;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class Document {
+class Document
+{
 
-    public $fileName = '';
+    protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         //set default values
         $this->fileName = $fileName;
     }
-    
+
     /**
      * Change slide position.
-     * 
+     *
      * @param integer $old_position The old slide position.
      * @param integer $new_position The new slid position.
      * @param string $storageName The presentation storage name.
      * @param string $folder The presentation folder name.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function changeSlidePosition($old_position='', $new_position='',$storageName = '', $folder = '') {
+    public function changeSlidePosition($old_position = '', $new_position = '', $storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
@@ -57,26 +60,27 @@ class Document {
         else
             return false;
     }
-    
+
     /**
      * Clone slide in a presentation.
-     * 
+     *
      * @param integer $slideno The slide number.
      * @param integer $position Position of the slide.
      * @param string $storageName The presentation storage name.
      * @param string $folder The presentation folder name.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function cloneSlide($slideno='',$position='',$storageName = '', $folder = '') {
+    public function cloneSlide($slideno = '', $position = '', $storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
-        if ($position == '' )
+        if ($position == '')
             throw new Exception('Position not speciefied.');
 
-        if ($slideno == '' )
+        if ($slideno == '')
             throw new Exception('Slide not speciefied.');
 
 
@@ -98,22 +102,23 @@ class Document {
         else
             return false;
     }
-    
+
     /**
      * Add new slide in presentation.
-     * 
+     *
      * @param integer $position The position of slide.
      * @param string $storageName The presentation storage name.
      * @param string $folder The presentation folder name.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function addSlide($position='',$storageName = '', $folder = '') {
+    public function addSlide($position = '', $storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
-        if ($position == '' )
+        if ($position == '')
             throw new Exception('Position not speciefied.');
 
 
@@ -135,21 +140,22 @@ class Document {
         else
             return false;
     }
-    
+
     /**
      * Split presentation.
-     * 
+     *
      * @param integer $from The slide number.
      * @param integer $to The slide number.
      * @param string $destination The desitination folder name.
      * @param string $format Return the presentation in the specified format.
      * @param string $storageName The presenatation storage name.
      * @param string $folder The presentation folder name.
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
-    public function splitPresentation($from='',$to='',$destination='',$format='',$storageName = '', $folder = '') {
+    public function splitPresentation($from = '', $to = '', $destination = '', $format = '', $storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
@@ -178,13 +184,12 @@ class Document {
             $strURI .= '&format=' . $format;
         }
 
-        $strURI = rtrim($strURI,'?');
+        $strURI = rtrim($strURI, '?');
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
 
         $json = json_decode($responseStream);
-
 
 
         if ($json->Code == 200) {
@@ -200,26 +205,26 @@ class Document {
                 $outputFile = AsposeApp::$outPutLocation . $splitFileName;
                 Utils::saveFile($responseStream, $outputFile);
             }
-        }
-        else
+        } else
             return false;
     }
-    
+
     /**
      * Merge multiple presentations into single presentation.
-     * 
+     *
      * @param array $presentationsList The list of presenation.
-     * @param type $storageName The presentation storage name.
-     * @param type $folder The presenation folder name.
-     * 
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presenation folder name.
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function mergePresentations($presentationsList=array(),$storageName = '', $folder = '') {
+    public function mergePresentations($presentationsList = array(), $storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
-        if (!is_array($presentationsList) || empty($presentationsList) )
+        if (!is_array($presentationsList) || empty($presentationsList))
             throw new Exception('Presentation list not speciefied');
 
 
@@ -244,17 +249,18 @@ class Document {
         else
             return false;
     }
-    
+
     /**
      * Create empty presenation and store it on Aspose cloud storage.
-     * 
-     * @param type $storageName The presentation storage name.
-     * @param type $folder The presenation folder name.
-     * 
+     *
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presenation folder name.
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function createEmptyPresentation($storageName = '', $folder = ''){
+    public function createEmptyPresentation($storageName = '', $folder = '')
+    {
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
@@ -282,14 +288,15 @@ class Document {
 
     /**
      * Finds the slide count of the specified PowerPoint document.
-     * 
-     * @param type $storageName The presentation storage name.
-     * @param type $folder The presenation folder name.
-     * 
+     *
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presenation folder name.
+     *
      * @return integer
      * @throws Exception
      */
-    public function getSlideCount($storageName = '', $folder = '') {
+    public function getSlideCount($storageName = '', $folder = '')
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -314,14 +321,15 @@ class Document {
 
     /**
      * Replaces all instances of old text with new text in a presentation or a particular slide.
-     * 
+     *
      * @param string $oldText The old text.
      * @param string $newText The new text.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function replaceText() {
+    public function replaceText()
+    {
         $parameters = func_get_args();
 
         //set parameter values
@@ -332,8 +340,7 @@ class Document {
             $oldText = $parameters[0];
             $newText = $parameters[1];
             $slideNumber = $parameters[2];
-        }
-        else
+        } else
             throw new Exception('Invalid number of arguments');
 
         //check whether file is set or not
@@ -342,7 +349,7 @@ class Document {
 
         //Build URI to replace text
         $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . ((isset($parameters[2])) ? '/slides/' . $slideNumber : '') .
-                '/replaceText?oldValue=' . $oldText . '&newValue=' . $newText . '&ignoreCase=true';
+            '/replaceText?oldValue=' . $oldText . '&newValue=' . $newText . '&ignoreCase=true';
 
         $signedURI = Utils::sign($strURI);
 
@@ -357,21 +364,21 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Gets all the text items in a slide or presentation.
-     * 
+     *
      * @param integer $slideNumber The number of slide.
      * @param string $withEmpty
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getAllTextItems() {
+    public function getAllTextItems()
+    {
         $parameters = func_get_args();
 
         //set parameter values
@@ -387,7 +394,7 @@ class Document {
 
         //Build URI to get all text items
         $strURI = Product::$baseProductUri . '/slides/' . $this->fileName .
-                ((isset($parameters[0])) ? '/slides/' . $slideNumber . '/textItems?withEmpty=' . $withEmpty : '/textItems');
+            ((isset($parameters[0])) ? '/slides/' . $slideNumber . '/textItems?withEmpty=' . $withEmpty : '/textItems');
 
         $signedURI = Utils::sign($strURI);
 
@@ -400,14 +407,15 @@ class Document {
 
     /**
      * Deletes all slides from a presentation.
-     * 
-     * @param type $storageName The presentation storage name.
-     * @param type $folder The presenation folder name.
-     * 
+     *
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presenation folder name.
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function deleteAllSlides($storageName = '', $folder = '') {
+    public function deleteAllSlides($storageName = '', $folder = '')
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -433,18 +441,18 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Get Document's properties.
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
-    public function getDocumentProperties() {
+    public function getDocumentProperties()
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -468,15 +476,16 @@ class Document {
     }
 
     /**
-     * Get Resource Properties information like document source format, 
+     * Get Resource Properties information like document source format,
      * IsEncrypted, IsSigned and document properties.
-     * 
+     *
      * @param string $propertyName The name of property.
-     * 
+     *
      * @return object|boolean
      * @throws Exception
      */
-    public function getDocumentProperty($propertyName) {
+    public function getDocumentProperty($propertyName)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -503,11 +512,12 @@ class Document {
 
     /**
      * Remove All Document's properties.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeAllProperties() {
+    public function removeAllProperties()
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -534,13 +544,14 @@ class Document {
 
     /**
      * Delete a document property
-     * 
+     *
      * @param string $propertyName The name of property.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function deleteDocumentProperty($propertyName) {
+    public function deleteDocumentProperty($propertyName)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -566,14 +577,15 @@ class Document {
 
     /**
      * Set document property.
-     * 
+     *
      * @param string $propertyName The name of property.
      * @param string $propertyValue The value of property.
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
-    public function setProperty($propertyName, $propertyValue) {
+    public function setProperty($propertyName, $propertyValue)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -606,13 +618,14 @@ class Document {
 
     /**
      * Add custom document properties.
-     * 
+     *
      * @param array $propertiesList The list of property.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function addCustomProperty($propertiesList) {
+    public function addCustomProperty($propertiesList)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
@@ -638,14 +651,15 @@ class Document {
 
     /**
      * saves the document into various formats.
-     * 
+     *
      * @param string $outputPath The output directory path.
      * @param string $saveFormat Return the presentation in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function saveAs($outputPath, $saveFormat,$jpegQuality='', $storageName = '', $folder = '') {
+    public function saveAs($outputPath, $saveFormat, $jpegQuality = '', $storageName = '', $folder = '')
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -655,7 +669,6 @@ class Document {
 
         if ($saveFormat == '')
             throw new Exception('Save format not specified');
-
 
 
         $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '?format=' . $saveFormat;
@@ -675,25 +688,25 @@ class Document {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $output =  $outputPath . Utils::getFileName($this->fileName) . '.' . $saveFormat;
-            Utils::saveFile($responseStream,$output);
+            $output = $outputPath . Utils::getFileName($this->fileName) . '.' . $saveFormat;
+            Utils::saveFile($responseStream, $output);
             return $output;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Saves a particular slide into various formats.
-     * 
+     *
      * @param integer $slideNumber The slide number.
      * @param string $outputPath The output directory path.
      * @param string $saveFormat Return the presentation in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function saveSlideAs($slideNumber, $outputPath, $saveFormat) {
+    public function saveSlideAs($slideNumber, $outputPath, $saveFormat)
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -708,8 +721,7 @@ class Document {
             throw new Exception('Slide number not specified');
 
 
-
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/'.$slideNumber.'?format=' . $saveFormat;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '?format=' . $saveFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -721,8 +733,24 @@ class Document {
             $output = $outputPath . Utils::getFileName($this->fileName) . '_' . $slideNumber . '.' . $saveFormat;
             Utils::saveFile($responseStream, $output);
             return $output;
-        }
-        else
+        } else
             return $v_output;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 }

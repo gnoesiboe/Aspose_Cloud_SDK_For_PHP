@@ -5,29 +5,32 @@
 namespace Aspose\Cloud\Words;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Converter {
+class Converter
+{
 
-    public $fileName = '';
-    public $saveFormat = '';
+    protected $fileName = '';
+    protected $saveFormat = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName, $saveFormat = 'Doc')
+    {
         //set default values
         $this->fileName = $fileName;
 
-        $this->saveFormat = 'Doc';
+        $this->saveFormat = $saveFormat;
     }
 
     /**
      * Convert a document to SaveFormat using Aspose storage.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convert() {
+    public function convert()
+    {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
@@ -55,17 +58,18 @@ class Converter {
             return $v_output;
         }
     }
-    
+
     /**
      * Convert a document to SaveFormat without using Aspose storage.
-     * 
-     * @param type $inputPath The path of source file.
-     * @param type $outputPath Path where you want to file after conversion.
-     * @param type $outputFormat New file format.
-     * 
-     * @return string Returns the file path.  
+     *
+     * @param string $inputPath The path of source file.
+     * @param string $outputPath Path where you want to file after conversion.
+     * @param string $outputFormat New file format.
+     *
+     * @return string Returns the file path.
      */
-    public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
+    public function convertLocalFile($inputPath, $outputPath, $outputFormat)
+    {
         $str_uri = Product::$baseProductUri . '/words/convert?format=' . $outputFormat;
         $signed_uri = Utils::sign($str_uri);
         $responseStream = Utils::uploadFileBinary($signed_uri, $inputPath, 'xml');
@@ -85,8 +89,44 @@ class Converter {
 
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
             return $outputFilename;
-        }
-        else
+        } else
             return $v_output;
     }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     * @return self
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     * @return self
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
 }

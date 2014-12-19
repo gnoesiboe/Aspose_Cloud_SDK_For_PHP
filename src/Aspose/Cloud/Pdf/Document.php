@@ -5,25 +5,28 @@
 namespace Aspose\Cloud\Pdf;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Storage\Folder;
 
-class Document {
+class Document
+{
 
-    public $fileName = '';
+    protected $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Gets the page count of the specified PDF document.
-     * 
+     *
      * @return integer
      */
-    public function getPageCount() {
+    public function getPageCount()
+    {
         //build URI
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages';
 
@@ -40,17 +43,18 @@ class Document {
 
     /**
      * Merges two PDF documents.
-     * 
+     *
      * @param string $basePdf (name of the base/first PDF file)
      * @param string $newPdf (name of the second PDF file to merge with base PDF file)
      * @param string $startPage (page number to start merging second PDF: enter 0 to merge complete document)
      * @param string $endPage (page number to end merging second PDF: enter 0 to merge complete document)
      * @param string $sourceFolder (name of the folder where base/first and second input PDFs are present)
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
-    public function appendDocument($basePdf, $newPdf, $startPage = 0, $endPage = 0, $sourceFolder = '') {
+    public function appendDocument($basePdf, $newPdf, $startPage = 0, $endPage = 0, $sourceFolder = '')
+    {
         //check whether files are set or not
         if ($basePdf == '')
             throw new Exception('Base file not specified');
@@ -60,14 +64,14 @@ class Document {
         //build URI to merge PDFs
         if ($sourceFolder == '')
             $strURI = Product::$baseProductUri . '/pdf/' . $basePdf .
-                    '/appendDocument?appendFile=' . $newPdf . ($startPage > 0 ? '&startPage=' . $startPage : '' ) .
-                    ($endPage > 0 ? '&endPage=' . $endPage : '' );
+                '/appendDocument?appendFile=' . $newPdf . ($startPage > 0 ? '&startPage=' . $startPage : '') .
+                ($endPage > 0 ? '&endPage=' . $endPage : '');
         else
             $strURI = Product::$baseProductUri . '/pdf/' . $basePdf .
-                    '/appendDocument?appendFile=' . $sourceFolder . '/' . $newPdf .
-                    ($startPage > 0 ? '&startPage=' . $startPage : '' ) .
-                    ($endPage > 0 ? '&endPage=' . $endPage : '' ) .
-                    '&folder=' . $sourceFolder;
+                '/appendDocument?appendFile=' . $sourceFolder . '/' . $newPdf .
+                ($startPage > 0 ? '&startPage=' . $startPage : '') .
+                ($endPage > 0 ? '&endPage=' . $endPage : '') .
+                '&folder=' . $sourceFolder;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -79,9 +83,9 @@ class Document {
         if ($json->Code == 200) {
             $folder = new Folder();
             $path = "";
-            if($sourceFolder == ""){
+            if ($sourceFolder == "") {
                 $path = $basePdf;
-            }else{
+            } else {
                 $path = $sourceFolder . '/' . $basePdf;
             }
             $outputStream = $folder->GetFile($path);
@@ -94,13 +98,14 @@ class Document {
 
     /**
      * Merges tow or more PDF documents.
-     * 
+     *
      * @param array $sourceFiles List of PDF files to be merged
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function mergeDocuments(array $sourceFiles = array()) {
+    public function mergeDocuments(array $sourceFiles = array())
+    {
         $mergedFileName = $this->fileName;
         //check whether files are set or not
         if ($mergedFileName == '')
@@ -130,14 +135,15 @@ class Document {
 
     /**
      * Creates a PDF from HTML.
-     * 
+     *
      * @param string $pdfFileName Name of the PDF file to create.
      * @param string $htmlFileName Name of the HTML template file.
-     * 
+     *
      * @return string Return the file path.
      * @throws Exception
      */
-    public function createFromHtml($pdfFileName, $htmlFileName) {
+    public function createFromHtml($pdfFileName, $htmlFileName)
+    {
         //check whether files are set or not
         if ($pdfFileName == '')
             throw new Exception('PDF file name not specified');
@@ -146,7 +152,7 @@ class Document {
 
         //build URI to create PDF
         $strURI = Product::$baseProductUri . '/pdf/' . $pdfFileName .
-                '?templateFile=' . $htmlFileName . '&templateType=html';
+            '?templateFile=' . $htmlFileName . '&templateType=html';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -162,22 +168,22 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Creates a PDF from XML.
-     * 
+     *
      * @param string $pdfFileName Name of the PDF file to create.
      * @param string $xsltFileName Name of the XSLT template file.
      * @param string $xmlFileName Name of the XML file.
-     * 
+     *
      * @return string Returns the file path
      * @throws Exception
      */
-    public function createFromXml($pdfFileName, $xsltFileName, $xmlFileName) {
+    public function createFromXml($pdfFileName, $xsltFileName, $xmlFileName)
+    {
         //check whether files are set or not
         if ($pdfFileName == '')
             throw new Exception('PDF file name not specified');
@@ -188,7 +194,7 @@ class Document {
 
         //build URI to create PDF
         $strURI = Product::$baseProductUri . '/pdf/' . $pdfFileName . '?templateFile=' .
-                $xsltFileName . '&dataFile=' . $xmlFileName . '&templateType=xml';
+            $xsltFileName . '&dataFile=' . $xmlFileName . '&templateType=xml';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -204,17 +210,17 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Gets the FormField count of the specified PDF document.
-     * 
+     *
      * @return integer
      */
-    public function getFormFieldCount() {
+    public function getFormFieldCount()
+    {
         //build URI
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields';
 
@@ -231,10 +237,11 @@ class Document {
 
     /**
      * Gets the list of FormFields from the specified PDF document.
-     * 
+     *
      * @return array
      */
-    public function getFormFields() {
+    public function getFormFields()
+    {
         //build URI
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields';
 
@@ -251,12 +258,13 @@ class Document {
 
     /**
      * Gets a particular form field.
-     * 
+     *
      * @param string $fieldName Name of the field.
-     * 
+     *
      * @return object
      */
-    public function getFormField($fieldName) {
+    public function getFormField($fieldName)
+    {
         //build URI
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields/' . $fieldName;
 
@@ -273,13 +281,14 @@ class Document {
 
     /**
      * Creates an Empty Pdf document.
-     * 
+     *
      * @param string $pdfFileName Name of the PDF file to create.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function createEmptyPdf($pdfFileName) {
+    public function createEmptyPdf($pdfFileName)
+    {
         //check whether files are set or not
         if ($pdfFileName == '')
             throw new Exception('PDF file name not specified');
@@ -301,18 +310,18 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Adds new page to opened Pdf document.
-     * 
+     *
      * @return string Return the file path.
      * @throws Exception
      */
-    public function addNewPage() {
+    public function addNewPage()
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
@@ -334,20 +343,20 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Deletes selected page from Pdf document.
-     * 
+     *
      * @param integer $pageNumber Number of the page.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function deletePage($pageNumber) {
+    public function deletePage($pageNumber)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
@@ -369,28 +378,28 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Moves selected page in Pdf document to new location.
-     * 
+     *
      * @param integer $pageNumber Number of the page.
      * @param integer $newLocation New number for the page.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function movePage($pageNumber, $newLocation) {
+    public function movePage($pageNumber, $newLocation)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
         //build URI to move page
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
-                '/movePage?newIndex=' . $newLocation;
+            '/movePage?newIndex=' . $newLocation;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -406,29 +415,29 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Replaces Image in PDF File using Local Image Stream.
-     * 
+     *
      * @param integer $pageNumber Number of the page.
      * @param integer $imageIndex Index of the image.
      * @param string $imageStream The image stream.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function replaceImageUsingStream($pageNumber, $imageIndex, $imageStream) {
+    public function replaceImageUsingStream($pageNumber, $imageIndex, $imageStream)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
         //build URI to replace image
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
-                '/images/' . $imageIndex;
+            '/images/' . $imageIndex;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -444,29 +453,29 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Replaces Image in PDF File using Local Image Stream.
-     * 
+     *
      * @param integer $pageNumber Number of the page.
      * @param integer $imageIndex Index of the image.
      * @param string $fileName The file name.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function replaceImageUsingFile($pageNumber, $imageIndex, $fileName) {
+    public function replaceImageUsingFile($pageNumber, $imageIndex, $fileName)
+    {
         //check whether files are set or not
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
         //build URI to replace image
         $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
-                '/images/' . $imageIndex . '?imageFile=' . $fileName;
+            '/images/' . $imageIndex . '?imageFile=' . $fileName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -482,42 +491,43 @@ class Document {
             $outputPath = AsposeApp::$outPutLocation . $this->fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
-     * Get all the properties of the specified document	.
-     * 
+     * Get all the properties of the specified document    .
+     *
      * @return array
      * @throws Exception
      */
-    public function getDocumentProperties() {
-            if ($this->fileName == '')
-                throw new Exception('PDF file name not specified');
+    public function getDocumentProperties()
+    {
+        if ($this->fileName == '')
+            throw new Exception('PDF file name not specified');
 
-            //build URI to replace image
-            $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties';
+        //build URI to replace image
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties';
 
-            //sign URI
-            $signedURI = Utils::sign($strURI);
-            $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
 
-            $response_arr = json_decode($responseStream);
+        $response_arr = json_decode($responseStream);
 
-            return $response_arr->DocumentProperties->List;
+        return $response_arr->DocumentProperties->List;
     }
 
     /**
      * Get specified properity of the document.
-     * 	
+     *
      * @param string $propertyName Name of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getDocumentProperty($propertyName = '') {
+    public function getDocumentProperty($propertyName = '')
+    {
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
@@ -538,14 +548,15 @@ class Document {
 
     /**
      * Set specified properity of the document.
-     * 	
+     *
      * @param string $propertyName Name of the property.
      * @param string $propertyValue Value of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function setDocumentProperty($propertyName = '', $propertyValue = '') {
+    public function setDocumentProperty($propertyName = '', $propertyValue = '')
+    {
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
@@ -569,11 +580,12 @@ class Document {
 
     /**
      * Remove all properties of the document.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeAllProperties() {
+    public function removeAllProperties()
+    {
         if ($this->fileName == '')
             throw new Exception('PDF file name not specified');
 
@@ -588,14 +600,15 @@ class Document {
 
         return $response_arr->Code == 200 ? true : false;
     }
-    
+
     /**
      * Split page into multiple documents.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function splitAllPages() {
+    public function splitAllPages()
+    {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
         }
@@ -612,21 +625,22 @@ class Document {
             $fileName = $this->fileName . '_' . $i . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($responseStream, $outputFile);
-            echo $outputFile.'<br />';
+            echo $outputFile . '<br />';
             $i++;
         }
     }
-    
+
     /**
      * Split page into documents as specified in the range.
-     * 
+     *
      * @param integer $from From page number.
      * @param integer $to To page number.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function splitPages($from, $to) {
+    public function splitPages($from, $to)
+    {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
         }
@@ -647,18 +661,19 @@ class Document {
             $i++;
         }
     }
-    
+
     /**
      * Split pages to specified format.
-     * 
+     *
      * @param integer $from From page number.
      * @param integer $to To page number.
      * @param string $format Returns file in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function splitPagesToAnyFormat($from, $to, $format) {
+    public function splitPagesToAnyFormat($from, $to, $format)
+    {
         if ($this->fileName == '') {
             throw new Exception('File name not specified');
         }
@@ -678,6 +693,23 @@ class Document {
             echo $outputFile . '<br />';
             $i++;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 
 }
