@@ -12,8 +12,8 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Converter
 {
 
-    protected $fileName = '';
-    protected $saveFormat = '';
+    public $fileName = '';
+    public $saveFormat = '';
 
     public function __construct($fileName, $saveFormat = 'mpp')
     {
@@ -31,12 +31,8 @@ class Converter
      */
     public function convert()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '?format=' . $this->saveFormat;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -52,7 +48,7 @@ class Converter
                 $save_format = $this->saveFormat;
             }
 
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $save_format;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $save_format;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
@@ -65,6 +61,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

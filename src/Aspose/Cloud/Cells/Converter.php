@@ -12,9 +12,9 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Converter
 {
 
-    protected $fileName = '';
-    protected $worksheetName = '';
-    protected $saveFormat = '';
+    public $fileName = '';
+    public $worksheetName = '';
+    public $saveFormat = '';
 
     public function __construct()
     {
@@ -38,11 +38,8 @@ class Converter
      */
     public function convert()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?format=' . $this->saveFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -55,7 +52,7 @@ class Converter
             } else {
                 $saveFormat = $this->saveFormat;
             }
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $saveFormat);
+            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat);
             return $outputPath;
         } else {
             return $v_output;
@@ -73,11 +70,8 @@ class Converter
      */
     public function convertToImage($imageFormat, $worksheetName)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -86,7 +80,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -103,11 +97,8 @@ class Converter
      */
     public function save($outputFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?format=' . $outputFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?format=' . $outputFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -116,7 +107,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $outputFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $outputFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -133,13 +124,10 @@ class Converter
      */
     public function worksheetToImage($imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -148,7 +136,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -166,13 +154,10 @@ class Converter
      */
     public function pictureToImage($pictureIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -182,7 +167,7 @@ class Converter
 
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -200,13 +185,10 @@ class Converter
      */
     public function oleObjectToImage($objectIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -215,7 +197,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -233,13 +215,10 @@ class Converter
      */
     public function chartToImage($chartIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -248,7 +227,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -266,13 +245,10 @@ class Converter
      */
     public function autoShapeToImage($shapeIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -281,7 +257,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -338,6 +314,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

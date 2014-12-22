@@ -12,8 +12,8 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Converter
 {
 
-    protected $fileName = '';
-    protected $saveFormat = '';
+    public $fileName = '';
+    public $saveFormat = '';
 
     public function __construct($fileName, $saveFormat = 'Pdf')
     {
@@ -34,11 +34,9 @@ class Converter
      */
     public function convertToImagebySize($pageNumber, $imageFormat, $width, $height)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
 
         $signedURI = Utils::sign($strURI);
 
@@ -47,7 +45,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $pageNumber . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $pageNumber . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -65,11 +63,9 @@ class Converter
      */
     public function convertToImage($pageNumber, $imageFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '?format=' . $imageFormat;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '?format=' . $imageFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -78,7 +74,7 @@ class Converter
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $pageNumber . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $pageNumber . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -130,11 +126,9 @@ class Converter
      */
     public function convert()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '?format=' . $this->saveFormat;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '?format=' . $this->saveFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -149,7 +143,7 @@ class Converter
                 $saveFormat = $this->saveFormat;
             }
 
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $saveFormat);
+            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat);
             return $outputPath;
         } else {
             return $v_output;
@@ -211,6 +205,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

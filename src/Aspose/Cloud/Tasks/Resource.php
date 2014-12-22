@@ -13,7 +13,7 @@ use Aspose\Cloud\Storage\Folder;
 class Resource
 {
 
-    protected $fileName = '';
+    public $fileName = '';
 
     public function __construct($fileName)
     {
@@ -29,12 +29,10 @@ class Resource
      */
     public function getResources()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/resources/';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/resources/';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -59,15 +57,13 @@ class Resource
      */
     public function getResource($resourceId)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+
 
         if ($resourceId == '')
             throw new Exception('Resource ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/resources/' . $resourceId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/resources/' . $resourceId;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -94,9 +90,7 @@ class Resource
      */
     public function addResource($resourceName, $afterResourceId, $changedFileName)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+
 
         if ($resourceName == '')
             throw new Exception('Resource Name not specified');
@@ -105,10 +99,10 @@ class Resource
             throw new Exception('Resource ID not specified');
 
         //build URI 
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/resources?resourceName=' . $resourceName . '&afterResourceId=' . $afterResourceId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/resources?resourceName=' . $resourceName . '&afterResourceId=' . $afterResourceId;
         if ($changedFileName != '') {
             $strURI .= '&fileName=' . $changedFileName;
-            $this->fileName = $changedFileName;
+            $this->setFileName($changedFileName);
         }
 
         //sign URI
@@ -120,8 +114,8 @@ class Resource
 
         if ($v_output === '') {
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -139,18 +133,15 @@ class Resource
      */
     public function deleteResource($resourceId, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($resourceId == '')
             throw new Exception('Resource ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/resources/' . $resourceId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/resources/' . $resourceId;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
-            $this->fileName = $changedFileName;
+            $this->setFileName($changedFileName);
         }
 
         //sign URI
@@ -162,8 +153,8 @@ class Resource
 
         if ($v_output === '') {
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -175,6 +166,9 @@ class Resource
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 
