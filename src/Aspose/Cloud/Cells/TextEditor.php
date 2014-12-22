@@ -42,10 +42,7 @@ class TextEditor
         } else {
             throw new Exception('Invalid number of arguments');
         }
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . ((count($parameters) == 2) ? '/worksheets/' . $WorkSheetName : '') . '/findText?text=' . $text;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . ((count($parameters) == 2) ? '/worksheets/' . $WorkSheetName : '') . '/findText?text=' . $text;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
@@ -68,10 +65,7 @@ class TextEditor
         if (count($parameters) > 0) {
             $worksheetName = $parameters[0];
         }
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . ((isset($parameters[0])) ? '/worksheets/' . $worksheetName . '/textItems' : '/textItems');
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . ((isset($parameters[0])) ? '/worksheets/' . $worksheetName . '/textItems' : '/textItems');
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
@@ -99,19 +93,17 @@ class TextEditor
             $worksheetName = $parameters[2];
         } else
             throw new Exception('Invalid number of arguments');
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . ((count($parameters) == 3) ? '/worksheets/' . $worksheetName : '') . '/replaceText?oldValue=' . $oldText . '&newValue=' . $newText;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . ((count($parameters) == 3) ? '/worksheets/' . $worksheetName : '') . '/replaceText?oldValue=' . $oldText . '&newValue=' . $newText;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -123,6 +115,9 @@ class TextEditor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

@@ -14,7 +14,8 @@ class Document {
 
     public $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
@@ -24,14 +25,10 @@ class Document {
      * @return boolean
      * @throws Exception
      */
-    public function updateFields() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-
+    public function updateFields()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/updateFields';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/updateFields';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -52,14 +49,10 @@ class Document {
      * @return boolean
      * @throws Exception
      */
-    public function rejectTrackingChanges() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-
+    public function rejectTrackingChanges()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/revisions/rejectAll';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/revisions/rejectAll';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -81,14 +74,10 @@ class Document {
      * @return boolean
      * @throws Exception
      */
-    public function acceptTrackingChanges() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-
+    public function acceptTrackingChanges()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/revisions/acceptAll';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/revisions/acceptAll';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -110,14 +99,10 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function getStats() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-
+    public function getStats()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/statistics';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/statistics';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -144,11 +129,9 @@ class Document {
      * @throws Exception
      */
 
-    public function splitDocument($from='',$to='',$format='pdf',$storageName = '', $folder = '') {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/split?';
+    public function splitDocument($from='' ,$to='', $format='pdf', $storageName = '', $folder = '')
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/split?';
 
         if ($folder != '') {
             $strURI .= '&folder=' . $folder;
@@ -196,8 +179,6 @@ class Document {
 
     }
 
-
-
     /**
      * Appends a list of documents to this one.
      * 
@@ -208,10 +189,8 @@ class Document {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function appendDocument($appendDocs, $importFormatModes, $sourceFolder) {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function appendDocument($appendDocs, $importFormatModes, $sourceFolder)
+    {
         //check whether required information is complete
         if (count($appendDocs) != count($importFormatModes))
             throw new Exception('Please specify complete documents and import format modes');
@@ -226,7 +205,7 @@ class Document {
         $json = json_encode($data);
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/appendDocument';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/appendDocument';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -238,8 +217,8 @@ class Document {
         if ($v_output === '') {
             //Save merged docs on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         }
@@ -254,13 +233,10 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function getDocumentInfo() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getDocumentInfo()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName();
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -284,16 +260,13 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function getProperty($propertyName) {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getProperty($propertyName)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -318,11 +291,8 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function setProperty($propertyName, $propertyValue) {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function setProperty($propertyName, $propertyValue)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
@@ -330,7 +300,7 @@ class Document {
             throw new Exception('Property Value not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         $put_data_arr['Value'] = $propertyValue;
 
@@ -358,24 +328,22 @@ class Document {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function protectDocument($password, $protectionType = 'AllowOnlyComments') {
-        if ($this->fileName == '') {
-            throw new Exception('Base file not specified');
-        }
+    public function protectDocument($password, $protectionType = 'AllowOnlyComments')
+    {
         if ($password == '') {
             throw new Exception('Please Specify A Password');
         }
         $fieldsArray = array('Password' => $password, 'ProtectionType' => $protectionType);
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/protection';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', 'json', $json);
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
-            $strURI = Product::$baseProductUri . '/storage/file/' . $this->fileName;
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $outputFile = AsposeApp::$outPutLocation . $this->fileName;
+            $outputFile = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($responseStream, $outputFile);
             return $outputFile;
         }
@@ -392,24 +360,22 @@ class Document {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function unprotectDocument($password, $protectionType = 'AllowOnlyComments') {
-        if ($this->fileName == '') {
-            throw new Exception('Base file not specified');
-        }
+    public function unprotectDocument($password, $protectionType = 'AllowOnlyComments')
+    {
         if ($password == '') {
             throw new Exception('Please Specify A Password');
         }
         $fieldsArray = array('Password' => $password, 'ProtectionType' => $protectionType);
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/protection';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', 'json', $json);
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
-            $strURI = Product::$baseProductUri . '/storage/file/' . $this->fileName;
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $outputFile = AsposeApp::$outPutLocation . $this->fileName;
+            $outputFile = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($responseStream, $outputFile);
             return $outputFile;
         }
@@ -427,10 +393,8 @@ class Document {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function updateProtection($oldPassword, $newPassword, $protectionType = 'AllowOnlyComments') {
-        if ($this->fileName == '') {
-            throw new Exception('Base file not specified');
-        }
+    public function updateProtection($oldPassword, $newPassword, $protectionType = 'AllowOnlyComments')
+    {
         if ($oldPassword == '') {
             throw new Exception('Please Specify Old Password');
         }
@@ -439,15 +403,15 @@ class Document {
         }
         $fieldsArray = array('Password' => $oldPassword, 'NewPassword' => $newPassword, 'ProtectionType' => $protectionType);
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/protection';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $json);
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
-            $strURI = Product::$baseProductUri . '/storage/file/' . $this->fileName;
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $outputFile = AsposeApp::$outPutLocation . $this->fileName;
+            $outputFile = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($responseStream, $outputFile);
             return $outputFile;
         }
@@ -463,16 +427,13 @@ class Document {
      * @return boolean
      * @throws Exception
      */
-    public function deleteProperty($propertyName) {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function deleteProperty($propertyName)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -493,14 +454,10 @@ class Document {
      * @return array
      * @throws Exception
      */
-    public function getProperties() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-
+    public function getProperties()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -526,7 +483,8 @@ class Document {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertLocalFile($inputPath = '', $outputPath = '', $outputFormat = '') {
+    public function convertLocalFile($inputPath = '', $outputPath = '', $outputFormat = '')
+    {
         //check whether file is set or not
         if ($inputPath == '')
             throw new Exception('No file name specified');
@@ -572,15 +530,12 @@ class Document {
      * @throws Exception
      */
 
-    public function saveAs($options_xml = '') {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function saveAs($options_xml = '')
+    {
         if ($options_xml == '')
             throw new Exception('Options not specified.');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/saveAs';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/saveAs';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -619,13 +574,9 @@ class Document {
      * @throws Exception
      */
 
-    public function getAllSections(){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections';
+    public function getAllSections()
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/sections';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -648,16 +599,12 @@ class Document {
      * @throws Exception
      */
 
-    public function getSection($sectionid = ''){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getSection($sectionid = '')
+    {
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/sections/'.$sectionid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -677,11 +624,9 @@ class Document {
      * @return Boolean
      * @throws Exception
      */
-    public function removeAllHeadersFooters(){
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');        
-
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/headersFooters';
+    public function removeAllHeadersFooters()
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/headersFooters';
         
         $signedURI = Utils::sign($strURI);
 
@@ -696,7 +641,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get page setup information from any section of a Word document.
      *
      * $param string $filename.
@@ -705,17 +650,12 @@ class Document {
      * @return Object of page setup information.
      * @throws Exception
      */
-
-    public function getPageSetup($sectionid = ''){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getPageSetup($sectionid = '')
+    {
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/sections/'.$sectionid.'/pageSetup';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -729,7 +669,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * update page setup information from any section of a Word document.
      *
      * $param string $filename.
@@ -738,16 +678,15 @@ class Document {
      * @return Object of page setup information.
      * @throws Exception
      */
-
-    public function updatePageSetup($options_xml = '',$sectionid = ''){
-
+    public function updatePageSetup($options_xml = '',$sectionid = '')
+    {
         if ($options_xml == '')
             throw new Exception('No Options specified');
 
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/sections/'.$sectionid.'/pageSetup';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -761,7 +700,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get mail merge and mustache field names.
      *
      * $param string $filename.
@@ -769,15 +708,9 @@ class Document {
      * @return Object of Field Names.
      * @throws Exception
      */
-
-
-    public function getMailMergeFieldNames(){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/mailMergeFieldNames';
+    public function getMailMergeFieldNames()
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/mailMergeFieldNames';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -791,7 +724,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get a list of all paragraphs present in a Word document.
      *
      * $param string $filename.
@@ -799,14 +732,9 @@ class Document {
      * @return Object of All Paragraphs.
      * @throws Exception
      */
-
-    public function getAllParagraphs(){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs';
+    public function getAllParagraphs()
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/paragraphs';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -820,7 +748,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get specefic paragraphs present in a Word document.
      *
      * $param string $filename.
@@ -829,17 +757,12 @@ class Document {
      * @return Object of Specefic Paragraphs.
      * @throws Exception
      */
-
-    public function getParagraph($paragraphid = ''){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getParagraph($paragraphid = '')
+    {
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/paragraphs/'.$paragraphid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -853,7 +776,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get any run of any paragraph from a Word document.
      *
      * $param string $filename.
@@ -863,20 +786,15 @@ class Document {
      * @return Object of Specefic Run.
      * @throws Exception
      */
-
-    public function getParagraphRun($paragraphid = '',$runid = ''){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getParagraphRun($paragraphid = '',$runid = '')
+    {
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
 
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -890,7 +808,7 @@ class Document {
 
     }
 
-    /*
+    /**
      * get font information from any run of a paragraph.
      *
      * $param string $paragraphid.
@@ -899,21 +817,15 @@ class Document {
      * @return Object of Font.
      * @throws Exception
      */
-
-
-    public function getParagraphRunFont($paragraphid = '',$runid = ''){
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getParagraphRunFont($paragraphid = '', $runid = '')
+    {
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
 
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -924,10 +836,9 @@ class Document {
             return $json->Font;
         else
             return false;
-
     }
 
-    /*
+    /**
      * update font information from any run of a paragraph.
      *
      * $param string $options_xml.
@@ -937,15 +848,10 @@ class Document {
      * @return Object of Font.
      * @throws Exception
      */
-
-    public function updateParagraphRunFont($options_xml = '',$paragraphid = '',$runid = '') {
-
+    public function updateParagraphRunFont($options_xml = '', $paragraphid = '', $runid = '')
+    {
         if ($options_xml == '')
             throw new Exception('Options not specified.');
-
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
@@ -953,7 +859,7 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -973,12 +879,10 @@ class Document {
      * @return array|boolean
      * @throws Exception
      */
-    public function getHyperlinks() {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getHyperlinks()
+    {
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/hyperlinks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1001,15 +905,13 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function getHyperlink($hyperlinkIndex) {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getHyperlink($hyperlinkIndex)
+    {
         if ($hyperlinkIndex == '')
             throw new Exception('Hyperlink index not specified');
         
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks/' . $hyperlinkIndex;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/hyperlinks/' . $hyperlinkIndex;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1030,12 +932,10 @@ class Document {
      * @return int|boolean
      * @throws Exception
      */
-    public function getHyperlinksCount() {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getHyperlinksCount()
+    {
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/hyperlinks';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/hyperlinks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1056,12 +956,10 @@ class Document {
      * @return array|boolean
      * @throws Exception
      */
-    public function getBookmarks() {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getBookmarks()
+    {
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/bookmarks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1084,15 +982,13 @@ class Document {
      * @return object|boolean
      * @throws Exception
      */
-    public function getBookmark($bookmarkName) {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getBookmark($bookmarkName)
+    {
         if ($bookmarkName == '')
             throw new Exception('Bookmark name not specified');
         
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/bookmarks/' . $bookmarkName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1113,12 +1009,10 @@ class Document {
      * @return int|boolean
      * @throws Exception
      */
-    public function getBookmarksCount() {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function getBookmarksCount()
+    {
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/bookmarks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1139,10 +1033,8 @@ class Document {
      * @return boolean
      * @throws Exception
      */
-    public function updateBookmark($bookmarkName, $bookmarkText) {
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        
+    public function updateBookmark($bookmarkName, $bookmarkText)
+    {
         if ($bookmarkName == '')
             throw new Exception('Bookmark name not specified');
         
@@ -1150,7 +1042,7 @@ class Document {
             throw new Exception('Bookmark text not specified');
         
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/bookmarks/' . $bookmarkName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/bookmarks/' . $bookmarkName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -1165,6 +1057,27 @@ class Document {
             return true;
         else
             return false;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 
 }

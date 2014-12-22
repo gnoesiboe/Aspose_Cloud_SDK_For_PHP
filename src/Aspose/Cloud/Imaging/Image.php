@@ -34,11 +34,9 @@ class Image
      */
     public function convertTiffToFax()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/imaging/tiff/' . $this->fileName . '/toFax';
+
+        $strURI = Product::$baseProductUri . '/imaging/tiff/' . $this->getFileName() . '/toFax';
 
         $signedURI = Utils::sign($strURI);
 
@@ -47,7 +45,7 @@ class Image
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -65,10 +63,10 @@ class Image
     public function appendTiff($appendFile = "")
     {
         //check whether file is set or not
-        if ($this->fileName == '' || $appendFile == '')
+        if ($appendFile == '')
             throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/imaging/tiff/' . $this->fileName . '/appendTiff?appendFile=' . $appendFile;
+        $strURI = Product::$baseProductUri . '/imaging/tiff/' . $this->getFileName() . '/appendTiff?appendFile=' . $appendFile;
 
         $signedURI = Utils::sign($strURI);
 
@@ -78,8 +76,8 @@ class Image
 
         if ($json->Status == 'OK') {
             $folder = new Folder();
-            $outputStream = $folder->getFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->getFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else {
@@ -153,7 +151,7 @@ class Image
     public function cropImage($x, $y, $width, $height, $outputFormat, $outPath)
     {
         //check whether files are set or not
-        if ($this->fileName == '')
+        if ($this->getFileName() == '')
             throw new Exception('Base file not specified');
 
         if ($x == '')
@@ -175,7 +173,7 @@ class Image
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/crop?x=' . $x . '&y=' . $y . '&width=' . $width . '&height=' . $height . '&format=' . $outputFormat . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/crop?x=' . $x . '&y=' . $y . '&width=' . $width . '&height=' . $height . '&format=' . $outputFormat . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -209,9 +207,6 @@ class Image
      */
     public function rotateImage($method, $outputFormat, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($method == '')
             throw new Exception('RotateFlip method not specified');
@@ -223,7 +218,7 @@ class Image
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/rotateflip?method=' . $method . '&format=' . $outputFormat . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/rotateflip?method=' . $method . '&format=' . $outputFormat . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -250,6 +245,9 @@ class Image
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

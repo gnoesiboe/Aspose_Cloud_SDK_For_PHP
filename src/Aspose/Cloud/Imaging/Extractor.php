@@ -30,15 +30,12 @@ class Extractor
      */
     public function getTiffFrameProperties($frameId)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '/properties';
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '/properties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -64,9 +61,6 @@ class Extractor
      */
     public function extractFrames($frameId, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
@@ -75,7 +69,7 @@ class Extractor
             throw new Exception('Output file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '?saveOtherFrames=false&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '?saveOtherFrames=false&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -107,9 +101,6 @@ class Extractor
      */
     public function resizeFrame($frameId, $newWidth, $newHeight, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
@@ -124,7 +115,7 @@ class Extractor
             throw new Exception('Output file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '?saveOtherFrames=false&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '?saveOtherFrames=false&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -158,9 +149,6 @@ class Extractor
      */
     public function cropFrame($frameId, $x, $y, $recWidth, $recHeight, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
@@ -181,7 +169,7 @@ class Extractor
             throw new Exception('Output file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '?saveOtherFrames=true&$x=' . $x . '&y=' . $y . '&rectWidth=' . $recWidth . '&rectHeight=' . $recHeight . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '?saveOtherFrames=true&$x=' . $x . '&y=' . $y . '&rectWidth=' . $recWidth . '&rectHeight=' . $recHeight . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -212,9 +200,6 @@ class Extractor
      */
     public function rotateFrame($frameId, $rotateFlipMethod, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
@@ -226,7 +211,7 @@ class Extractor
             throw new Exception('Output file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '?saveOtherFrames=false&rotateFlipMethod=' . $rotateFlipMethod . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '?saveOtherFrames=false&rotateFlipMethod=' . $rotateFlipMethod . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -263,9 +248,6 @@ class Extractor
      */
     public function manipulateFrame($frameId, $rotateFlipMethod, $newWidth, $newHeight, $x, $y, $rectWidth, $rectHeight, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($frameId == '')
             throw new Exception('Frame ID not specified');
@@ -295,7 +277,7 @@ class Extractor
             throw new Exception('Output file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/frames/' . $frameId . '?saveOtherFrames=false&rotateFlipMethod=' . $rotateFlipMethod . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&x=' . $x . '&y=' . $y . '&rectWidth=' . $rectWidth . '&rectHeight=' . $rectHeight . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/frames/' . $frameId . '?saveOtherFrames=false&rotateFlipMethod=' . $rotateFlipMethod . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&x=' . $x . '&y=' . $y . '&rectWidth=' . $rectWidth . '&rectHeight=' . $rectHeight . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -319,6 +301,9 @@ class Extractor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

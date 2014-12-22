@@ -14,7 +14,8 @@ class Converter {
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         //set default values
         $this->fileName = $fileName;
 
@@ -27,13 +28,10 @@ class Converter {
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convert($folder = null) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
+    public function convert($folder = null)
+    {
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '?format=' . $this->saveFormat;
         if ($folder) {
             $strURI = $strURI . "&folder=" . urlencode($folder);
         }
@@ -51,7 +49,7 @@ class Converter {
             } else {
                 $save_format = $this->saveFormat;
             }
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $save_format;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $save_format;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
@@ -68,7 +66,8 @@ class Converter {
      * 
      * @return string Returns the file path.  
      */
-    public function convertLocalFile($inputPath, $outputPath, $outputFormat) {
+    public function convertLocalFile($inputPath, $outputPath, $outputFormat)
+    {
         $str_uri = Product::$baseProductUri . '/words/convert?format=' . $outputFormat;
         $signed_uri = Utils::sign($str_uri);
         $responseStream = Utils::uploadFileBinary($signed_uri, $inputPath, 'xml');
@@ -91,5 +90,26 @@ class Converter {
         }
         else
             return $v_output;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 }

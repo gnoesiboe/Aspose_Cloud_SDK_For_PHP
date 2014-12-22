@@ -29,12 +29,8 @@ class Calendar
      */
     public function getCalendars()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/calendars/';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/calendars/';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -59,15 +55,13 @@ class Calendar
      */
     public function getCalendar($calendarUid)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+
 
         if ($calendarUid == '')
             throw new Exception('Calendar Uid not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/calendars/' . $calendarUid;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/calendars/' . $calendarUid;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -93,18 +87,14 @@ class Calendar
      */
     public function deleteCalendar($calendarUid, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($calendarUid == '')
             throw new Exception('Calendar Uid not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/calendars/' . $calendarUid;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/calendars/' . $calendarUid;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
-            $this->fileName = $changedFileName;
+            $this->setFileName($changedFileName);
         }
 
         //sign URI
@@ -116,8 +106,8 @@ class Calendar
 
         if ($v_output === '') {
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -129,6 +119,9 @@ class Calendar
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

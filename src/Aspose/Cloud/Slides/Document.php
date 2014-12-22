@@ -34,14 +34,11 @@ class Document
      */
     public function changeSlidePosition($old_position = '', $new_position = '', $storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($old_position == '' || $new_position == '')
             throw new Exception('Missing Required Params');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides?OldPosition=' . $old_position . '&NewPosition=' . $new_position;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides?OldPosition=' . $old_position . '&NewPosition=' . $new_position;
         if ($folder != '') {
             $strURI .= 'folder=' . $folder;
         }
@@ -74,9 +71,6 @@ class Document
      */
     public function cloneSlide($slideno = '', $position = '', $storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($position == '')
             throw new Exception('Position not speciefied.');
 
@@ -84,7 +78,7 @@ class Document
             throw new Exception('Slide not speciefied.');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides?SlideToClone=' . $slideno . '&Position=' . $position;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides?SlideToClone=' . $slideno . '&Position=' . $position;
         if ($folder != '') {
             $strURI .= 'folder=' . $folder;
         }
@@ -115,14 +109,11 @@ class Document
      */
     public function addSlide($position = '', $storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($position == '')
             throw new Exception('Position not speciefied.');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides?Position=' . $position;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides?Position=' . $position;
         if ($folder != '') {
             $strURI .= 'folder=' . $folder;
         }
@@ -156,10 +147,7 @@ class Document
      */
     public function splitPresentation($from = '', $to = '', $destination = '', $format = '', $storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/split?';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/split?';
         if ($folder != '') {
             $strURI .= '&folder=' . $folder;
         }
@@ -221,14 +209,11 @@ class Document
      */
     public function mergePresentations($presentationsList = array(), $storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if (!is_array($presentationsList) || empty($presentationsList))
             throw new Exception('Presentation list not speciefied');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/merge';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/merge';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -261,11 +246,8 @@ class Document
      */
     public function createEmptyPresentation($storageName = '', $folder = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         //Build URI to get a list of slides
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName();
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -297,12 +279,10 @@ class Document
      */
     public function getSlideCount($storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to get a list of slides
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -343,12 +323,10 @@ class Document
         } else
             throw new Exception('Invalid number of arguments');
 
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . ((isset($parameters[2])) ? '/slides/' . $slideNumber : '') .
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . ((isset($parameters[2])) ? '/slides/' . $slideNumber : '') .
             '/replaceText?oldValue=' . $oldText . '&newValue=' . $newText . '&ignoreCase=true';
 
         $signedURI = Utils::sign($strURI);
@@ -360,8 +338,8 @@ class Document
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -388,12 +366,10 @@ class Document
         }
 
 
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to get all text items
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() .
             ((isset($parameters[0])) ? '/slides/' . $slideNumber . '/textItems?withEmpty=' . $withEmpty : '/textItems');
 
         $signedURI = Utils::sign($strURI);
@@ -416,12 +392,10 @@ class Document
      */
     public function deleteAllSlides($storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -437,8 +411,8 @@ class Document
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -453,13 +427,10 @@ class Document
      */
     public function getDocumentProperties()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -486,15 +457,12 @@ class Document
      */
     public function getDocumentProperty($propertyName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/presentation/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/presentation/documentProperties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -518,13 +486,10 @@ class Document
      */
     public function removeAllProperties()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -552,15 +517,12 @@ class Document
      */
     public function deleteDocumentProperty($propertyName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -586,9 +548,6 @@ class Document
      */
     public function setProperty($propertyName, $propertyValue)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
@@ -597,7 +556,7 @@ class Document
             throw new Exception('Property Value not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         $put_data_arr['Value'] = $propertyValue;
 
@@ -626,16 +585,13 @@ class Document
      */
     public function addCustomProperty($propertiesList)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($propertiesList == '')
             throw new Exception('Properties not specified');
 
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/documentProperties';
 
         $put_data = json_encode($propertiesList);
 
@@ -660,9 +616,7 @@ class Document
      */
     public function saveAs($outputPath, $saveFormat, $jpegQuality = '', $storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         if ($outputPath == '')
             throw new Exception('Output path not specified');
@@ -671,7 +625,7 @@ class Document
             throw new Exception('Save format not specified');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '?format=' . $saveFormat;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '?format=' . $saveFormat;
         if ($folder != '') {
             $strURI .= '&folder=' . $folder;
         }
@@ -688,7 +642,7 @@ class Document
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $output = $outputPath . Utils::getFileName($this->fileName) . '.' . $saveFormat;
+            $output = $outputPath . Utils::getFileName($this->getFileName()) . '.' . $saveFormat;
             Utils::saveFile($responseStream, $output);
             return $output;
         } else
@@ -707,9 +661,7 @@ class Document
      */
     public function saveSlideAs($slideNumber, $outputPath, $saveFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         if ($outputPath == '')
             throw new Exception('Output path not specified');
@@ -721,7 +673,7 @@ class Document
             throw new Exception('Slide number not specified');
 
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '?format=' . $saveFormat;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '?format=' . $saveFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -730,7 +682,7 @@ class Document
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $output = $outputPath . Utils::getFileName($this->fileName) . '_' . $slideNumber . '.' . $saveFormat;
+            $output = $outputPath . Utils::getFileName($this->getFileName()) . '_' . $slideNumber . '.' . $saveFormat;
             Utils::saveFile($responseStream, $output);
             return $output;
         } else
@@ -742,6 +694,9 @@ class Document
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

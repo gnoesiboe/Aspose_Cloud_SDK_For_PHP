@@ -45,15 +45,11 @@ class Document
      */
     public function getProperty($propertyName)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/properties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/properties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -79,10 +75,6 @@ class Document
      */
     public function setProperty($propertyName, $propertyValue)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
@@ -90,7 +82,7 @@ class Document
             throw new Exception('Property Value not specified');
 
         //build URI 
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/properties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/properties/' . $propertyName;
 
         $put_data_arr['Value'] = $propertyValue;
 
@@ -119,15 +111,11 @@ class Document
      */
     public function getAttachment($attachmentName)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($attachmentName == '')
             throw new Exception('Attachment Name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/attachments/' . $attachmentName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/attachments/' . $attachmentName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -150,6 +138,9 @@ class Document
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

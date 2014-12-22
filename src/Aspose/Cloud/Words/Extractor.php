@@ -27,11 +27,9 @@ class Extractor
      */
     public function getText()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/textItems';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/textItems';
 
         $signedURI = Utils::sign($strURI);
 
@@ -53,11 +51,9 @@ class Extractor
      */
     public function getoleData($index, $OLEFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '/oleData';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '/oleData';
 
         $signedURI = Utils::sign($strURI);
 
@@ -66,7 +62,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $OLEFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $OLEFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -84,11 +80,9 @@ class Extractor
      */
     public function getimageData($index, $renderFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '/ImageData';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '/ImageData';
 
         $signedURI = Utils::sign($strURI);
 
@@ -97,7 +91,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $renderFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $renderFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -115,11 +109,9 @@ class Extractor
      */
     public function convertDrawingObject($index, $renderFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '?format=' . $renderFormat;
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '?format=' . $renderFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -128,7 +120,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $renderFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $renderFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -143,11 +135,9 @@ class Extractor
      */
     public function getDrawingObjectList()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects';
 
         $signedURI = Utils::sign($strURI);
 
@@ -171,14 +161,12 @@ class Extractor
      */
     public function getDrawingObjects($outputPath)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         if ($outputPath == '')
             throw new Exception('Output path not specified');
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects';
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects';
 
         $signedURI = Utils::sign($strURI);
 
@@ -205,9 +193,7 @@ class Extractor
      */
     public function getDrawingObject($objectURI, $outputPath)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         if ($outputPath == '')
             throw new Exception('Output path not specified');
@@ -259,6 +245,9 @@ class Extractor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

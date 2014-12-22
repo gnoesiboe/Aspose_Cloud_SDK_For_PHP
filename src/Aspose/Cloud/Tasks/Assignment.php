@@ -29,12 +29,8 @@ class Assignment
      */
     public function getAssignments()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/assignments/';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/assignments/';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -59,15 +55,11 @@ class Assignment
      */
     public function getAssignment($assignmentId)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($assignmentId == '')
             throw new Exception('Assignment ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/assignments/' . $assignmentId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/assignments/' . $assignmentId;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -95,10 +87,6 @@ class Assignment
      */
     public function addAssignment($taskUid, $resourceUid, $units, $changedFileName = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($taskUid == '')
             throw new Exception('Task Uid not specified');
 
@@ -106,10 +94,10 @@ class Assignment
             throw new Exception('Resource Uid not specified');
 
         //build URI 
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/assignments?taskUid=' . $taskUid . '&resourceUid=' . $resourceUid . '&units' . $units;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/assignments?taskUid=' . $taskUid . '&resourceUid=' . $resourceUid . '&units' . $units;
         if ($changedFileName != '') {
             $strURI .= '&fileName=' . $changedFileName;
-            $this->fileName = $changedFileName;
+            $this->setFileName($changedFileName);
         }
 
         //sign URI
@@ -121,8 +109,8 @@ class Assignment
 
         if ($v_output === '') {
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -140,18 +128,15 @@ class Assignment
      */
     public function deleteAssignment($assignmentUid, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($assignmentUid == '')
             throw new Exception('Assignment Uid not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/assignments/' . $assignmentUid;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/assignments/' . $assignmentUid;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
-            $this->fileName = $changedFileName;
+            $this->setFileName($changedFileName);
         }
 
         //sign URI
@@ -163,8 +148,8 @@ class Assignment
 
         if ($v_output === '') {
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -176,6 +161,9 @@ class Assignment
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

@@ -36,11 +36,9 @@ class TextEditor
         if (count($parameters) > 0) {
             $pageNumber = $parameters[0];
         }
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName .
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() .
             ((isset($parameters[0])) ? '/pages/' . $pageNumber . '/TextItems' : '/TextItems');
 
         $signedURI = Utils::sign($strURI);
@@ -76,11 +74,9 @@ class TextEditor
             $pageNumber = $parameters[0];
             $fragmentNumber = $parameters[1];
         }
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName();
         if (isset($parameters[0])) {
             $strURI .= '/pages/' . $pageNumber;
             if (isset($parameters[1])) {
@@ -107,11 +103,9 @@ class TextEditor
      */
     public function getFragmentCount($pageNumber)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/fragments';
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '/fragments';
 
         $signedURI = Utils::sign($strURI);
 
@@ -128,7 +122,7 @@ class TextEditor
     public function getPagesWordCount()
     {
         try {
-            $strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/wordCount";
+            $strURI = Product::$baseProductUri . "/pdf/" . $this->getFileName() . "/pages/wordCount";
 
             $signedURI = Utils::sign($strURI);
 
@@ -154,9 +148,7 @@ class TextEditor
      */
     public function getSegmentCount($pageNumber = '', $fragmentNumber = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         if ($pageNumber == '')
             throw new Exception('page number not specified');
@@ -165,7 +157,7 @@ class TextEditor
             throw new Exception('fragment number not specified');
 
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '/fragments/' . $fragmentNumber;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '/fragments/' . $fragmentNumber;
 
         $signedURI = Utils::sign($strURI);
 
@@ -188,8 +180,6 @@ class TextEditor
     public function getTextFormat()
     {
         $args = func_get_args();
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         if (count($args) == 2) {
             $pageNumber = $args[0];
             $fragmentNumber = $args[1];
@@ -199,7 +189,7 @@ class TextEditor
             $fragmentNumber = $args[1];
             $segamentNumber = $args[2];
         }
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber .
             '/fragments/' . $fragmentNumber;
         if (isset($segamentNumber)) {
             $strURI .= '/segments/' . '/textformat';
@@ -225,15 +215,13 @@ class TextEditor
      */
     public function replaceMultipleText($fieldsArray)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build JSON to post
         $json = json_encode($fieldsArray);
 
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/replaceTextList';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/replaceTextList';
 
         $signedURI = Utils::sign($strURI);
 
@@ -244,8 +232,8 @@ class TextEditor
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -279,16 +267,14 @@ class TextEditor
             $pageNumber = $parameters[3];
         } else
             throw new Exception('Invalid number of arguments');
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build JSON to post
         $fieldsArray = array('OldValue' => $oldText, 'NewValue' => $newText, 'Regex' => $isRegularExpression);
         $json = json_encode($fieldsArray);
 
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . ((isset($parameters[3])) ? '/pages/' . $pageNumber : '') .
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . ((isset($parameters[3])) ? '/pages/' . $pageNumber : '') .
             '/replaceText';
 
         $signedURI = Utils::sign($strURI);
@@ -300,8 +286,8 @@ class TextEditor
         if ($v_output === '') {
             //Save doc on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -313,6 +299,9 @@ class TextEditor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 
