@@ -28,12 +28,9 @@ class Document
      */
     public function getProperties()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -56,12 +53,9 @@ class Document
      */
     public function getTasks()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/tasks';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/tasks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -94,7 +88,7 @@ class Document
             throw new Exception('Task ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/tasks/' . $taskId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/tasks/' . $taskId;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -132,7 +126,7 @@ class Document
             throw new Exception('Before Task ID not specified');
 
         //build URI 
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/tasks?taskName=' . $taskName . '&beforeTaskId=' . $beforeTaskId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/tasks?taskName=' . $taskName . '&beforeTaskId=' . $beforeTaskId;
         if ($changedFileName != '') {
             $strURI .= '&fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
@@ -166,15 +160,12 @@ class Document
      */
     public function deleteTask($taskId, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($taskId == '')
             throw new Exception('Task ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/tasks/' . $taskId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/tasks/' . $taskId;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
@@ -205,12 +196,9 @@ class Document
      */
     public function getLinks()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/taskLinks';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/taskLinks';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -236,15 +224,12 @@ class Document
      */
     public function deleteLink($index, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($index == '')
             throw new Exception('Index not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/taskLinks/' . $index;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/taskLinks/' . $index;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
@@ -276,12 +261,9 @@ class Document
      */
     public function getOutlineCodes()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/outlineCodes';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/outlineCodes';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -306,15 +288,12 @@ class Document
      */
     public function getOutlineCode($outlineCodeId)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($outlineCodeId == '')
             throw new Exception('Outline Code ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/outlineCodes/' . $outlineCodeId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/outlineCodes/' . $outlineCodeId;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -340,15 +319,12 @@ class Document
      */
     public function deleteOutlineCode($outlineCodeId, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($outlineCodeId == '')
             throw new Exception('Outline Code ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/outlineCodes/' . $outlineCodeId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/outlineCodes/' . $outlineCodeId;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
@@ -380,12 +356,9 @@ class Document
      */
     public function getExtendedAttributes()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/extendedAttributes';
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/extendedAttributes';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -410,15 +383,12 @@ class Document
      */
     public function getExtendedAttribute($extendedAttributeId)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($extendedAttributeId == '')
             throw new Exception('Extended Attribute ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/extendedAttributes/' . $extendedAttributeId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/extendedAttributes/' . $extendedAttributeId;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -444,15 +414,12 @@ class Document
      */
     public function deleteExtendedAttribute($extendedAttributeId, $changedFileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($extendedAttributeId == '')
             throw new Exception('Extended Attribute ID not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '/extendedAttributes/' . $extendedAttributeId;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/extendedAttributes/' . $extendedAttributeId;
         if ($changedFileName != '') {
             $strURI .= '?fileName=' . $changedFileName;
             $this->fileName = $changedFileName;
@@ -480,6 +447,9 @@ class Document
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

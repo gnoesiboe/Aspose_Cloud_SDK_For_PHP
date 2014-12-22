@@ -38,7 +38,7 @@ class Converter
             throw new Exception('Format not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/saveAs?format=' . $outputFormat;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/saveAs?format=' . $outputFormat;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -67,6 +67,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

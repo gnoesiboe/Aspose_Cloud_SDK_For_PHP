@@ -31,12 +31,10 @@ class Converter
      */
     public function convert()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //build URI
-        $strURI = Product::$baseProductUri . '/tasks/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '?format=' . $this->saveFormat;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -65,6 +63,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

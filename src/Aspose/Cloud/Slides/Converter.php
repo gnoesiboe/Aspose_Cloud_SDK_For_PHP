@@ -34,18 +34,16 @@ class Converter
      */
     public function convertToImage($slideNumber, $imageFormat)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '?format=' . $imageFormat;
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '?format=' . $imageFormat;
 
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output == '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
@@ -66,11 +64,9 @@ class Converter
      */
     public function convertToImagebySize($slideNumber, $imageFormat, $width, $height)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
 
         $signedURI = Utils::sign($strURI);
 
@@ -93,11 +89,9 @@ class Converter
      */
     public function convert()
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '?format=' . $this->saveFormat;
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '?format=' . $this->saveFormat;
 
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -110,7 +104,7 @@ class Converter
             } else {
                 $save_format = $this->saveFormat;
             }
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $save_format;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $save_format;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
@@ -123,6 +117,9 @@ class Converter
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

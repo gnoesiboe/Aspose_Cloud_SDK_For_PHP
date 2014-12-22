@@ -28,12 +28,10 @@ class Converter {
      * @throws Exception
      */
     public function convert($folder = null) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //build URI
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '?format=' . $this->saveFormat;
         if ($folder) {
             $strURI = $strURI . "&folder=" . urlencode($folder);
         }

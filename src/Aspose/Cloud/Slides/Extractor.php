@@ -31,10 +31,10 @@ class Extractor
     public function getComments($slideNo = '', $storageName = '', $folder = '')
     {
         //check whether file is set or not
-        if ($this->fileName == '' || $slideNo == '')
+        if ($slideNo == '')
             throw new Exception('Missing required parameters.');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNo . '/comments';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNo . '/comments';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -64,11 +64,9 @@ class Extractor
      */
     public function getImageCount($storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/images';
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/images';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -96,11 +94,9 @@ class Extractor
      */
     public function getSlideImageCount($slidenumber, $storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slidenumber . '/images';
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slidenumber . '/images';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -128,11 +124,9 @@ class Extractor
      */
     public function getShapes($slidenumber, $storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slidenumber . '/shapes';
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slidenumber . '/shapes';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -172,12 +166,10 @@ class Extractor
      */
     public function getColorScheme($slideNumber, $storageName = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to get color scheme
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/theme/colorScheme';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/theme/colorScheme';
         if ($storageName != '') {
             $strURI .= '?storage=' . $storageName;
         }
@@ -201,12 +193,10 @@ class Extractor
      */
     public function getFontScheme($slideNumber, $storageName = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to get font scheme
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/theme/fontScheme';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/theme/fontScheme';
         if ($storageName != '') {
             $strURI .= '?storage=' . $storageName;
         }
@@ -230,12 +220,10 @@ class Extractor
      */
     public function getFormatScheme($slideNumber, $storageName = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+
 
         //Build URI to get format scheme
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/theme/formatScheme';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/theme/formatScheme';
         if ($storageName != '') {
             $strURI .= '?storage=' . $storageName;
         }
@@ -260,11 +248,9 @@ class Extractor
      */
     public function getPlaceholderCount($slideNumber, $storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/placeholders';
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/placeholders';
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -294,11 +280,9 @@ class Extractor
      */
     public function getPlaceholder($slideNumber, $placeholderIndex, $storageName = '', $folder = '')
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
 
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/placeholders/' . $placeholderIndex;
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/placeholders/' . $placeholderIndex;
         if ($folder != '') {
             $strURI .= '?folder=' . $folder;
         }
@@ -320,6 +304,9 @@ class Extractor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

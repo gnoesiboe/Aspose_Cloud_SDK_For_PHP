@@ -28,12 +28,8 @@ class Document
      */
     public function getProperties()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/properties';
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/properties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -61,10 +57,6 @@ class Document
      */
     public function updateBMPProperties($bitsPerPixel, $horizontalResolution, $verticalResolution, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
         if ($bitsPerPixel == '')
             throw new Exception('Color Depth not specified');
 
@@ -78,7 +70,7 @@ class Document
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/bmp?bitsPerPixel=' . $bitsPerPixel . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/bmp?bitsPerPixel=' . $bitsPerPixel . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -157,9 +149,6 @@ class Document
      */
     public function updateGIFProperties($backgroundColorIndex, $pixelAspectRatio, $interlaced, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($backgroundColorIndex == '')
             throw new Exception('Background color index not specified');
@@ -171,7 +160,7 @@ class Document
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/gif?backgroundColorIndex=' . $backgroundColorIndex . '&pixelAspectRatio=' . $pixelAspectRatio . '&interlaced=' . $interlaced . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/gif?backgroundColorIndex=' . $backgroundColorIndex . '&pixelAspectRatio=' . $pixelAspectRatio . '&interlaced=' . $interlaced . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -247,9 +236,6 @@ class Document
      */
     public function updateJPGProperties($quality, $compressionType, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($quality == '')
             throw new Exception('Quality not specified');
@@ -261,7 +247,7 @@ class Document
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/jpg?quality=' . $quality . '&compressionType=' . $compressionType . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/jpg?quality=' . $quality . '&compressionType=' . $compressionType . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -336,9 +322,6 @@ class Document
      */
     public function updateTIFFProperties($resolutionUnit, $newWidth, $newHeight, $horizontalResolution, $verticalResolution, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($resolutionUnit == '')
             throw new Exception('Resolution unit not specified');
@@ -359,7 +342,7 @@ class Document
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/tiff?resolutionUnit=' . $resolutionUnit . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/tiff?resolutionUnit=' . $resolutionUnit . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -390,9 +373,6 @@ class Document
      */
     public function updatePSDProperties($channelsCount, $compression, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($channelsCount == '')
             throw new Exception('Channels count not specified');
@@ -404,7 +384,7 @@ class Document
             throw new Exception('Output file name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/imaging/' . $this->fileName . '/psd?channelsCount=' . $channelsCount . '&compression=' . $compression . '&outPath=' . $outPath;
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/psd?channelsCount=' . $channelsCount . '&compression=' . $compression . '&outPath=' . $outPath;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -434,9 +414,6 @@ class Document
      */
     public function updatePSDPropertiesFromLocalFile($inputPath, $channelsCount, $compression, $outPath)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
 
         if ($channelsCount == '')
             throw new Exception('Channels count not specified');
@@ -471,6 +448,9 @@ class Document
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

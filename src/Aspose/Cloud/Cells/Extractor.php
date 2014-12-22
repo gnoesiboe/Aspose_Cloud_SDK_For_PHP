@@ -32,11 +32,8 @@ class Extractor
      */
     public function getPicture($worksheetName, $pictureIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -45,7 +42,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -64,11 +61,8 @@ class Extractor
      */
     public function getOleObject($worksheetName, $objectIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -77,7 +71,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -96,11 +90,8 @@ class Extractor
      */
     public function getChart($worksheetName, $chartIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -109,7 +100,7 @@ class Extractor
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -128,12 +119,8 @@ class Extractor
      */
     public function getAutoShape($worksheetName, $shapeIndex, $imageFormat)
     {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
 
         //Sign URI
         $signedURI = Utils::sign($strURI);
@@ -146,7 +133,7 @@ class Extractor
 
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
@@ -158,6 +145,9 @@ class Extractor
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

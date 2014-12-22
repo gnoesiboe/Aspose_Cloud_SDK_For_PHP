@@ -31,14 +31,10 @@ class Worksheet
      */
     public function getCellsList($offset, $count)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells?offset=' .
             $offset . '&count=' . $count;
         $signedURI = Utils::sign($strURI);
@@ -46,7 +42,7 @@ class Worksheet
         $json = json_decode($responseStream);
         $listCells = array();
         foreach ($json->Cells->CellList as $cell) {
-            $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+            $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
                 '/worksheets/' . $this->worksheetName . '/cells' . $cell->link->Href;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -65,21 +61,17 @@ class Worksheet
      */
     public function getRowsList()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
         $listRows = array();
         foreach ($json->Rows->RowsList as $row) {
-            $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+            $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
                 '/worksheets/' . $this->worksheetName . '/cells/rows' . $row->link->Href;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -98,21 +90,17 @@ class Worksheet
      */
     public function getColumnsList()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/columns';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
         $listColumns = array();
         foreach ($json->Columns->ColumnsList as $column) {
-            $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+            $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
                 '/worksheets/' . $this->worksheetName . '/cells/columns' . $column->link->Href;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -135,14 +123,10 @@ class Worksheet
      */
     public function getMaxColumn($offset, $count)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells?offset=' .
             $offset . '&count=' . $count;
         $signedURI = Utils::sign($strURI);
@@ -163,14 +147,10 @@ class Worksheet
      */
     public function getMaxRow($offset, $count)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells?offset=' .
             $offset . '&count=' . $count;
         $signedURI = Utils::sign($strURI);
@@ -191,14 +171,10 @@ class Worksheet
      */
     public function getCellsCount($offset, $count)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells?offset=' .
             $offset . '&count=' . $count;
         $signedURI = Utils::sign($strURI);
@@ -216,14 +192,10 @@ class Worksheet
      */
     public function getAutoShapesCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/autoshapes';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -242,14 +214,10 @@ class Worksheet
      */
     public function getAutoShapeByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/autoshapes/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -266,14 +234,10 @@ class Worksheet
      */
     public function getChartsCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/charts';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -292,14 +256,10 @@ class Worksheet
      */
     public function getChartByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/charts/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -316,14 +276,10 @@ class Worksheet
      */
     public function getHyperlinksCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/hyperlinks';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -342,14 +298,10 @@ class Worksheet
      */
     public function getHyperlinkByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/hyperlinks/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -368,14 +320,10 @@ class Worksheet
      */
     public function deleteHyperlinkByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/hyperlinks/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -398,14 +346,10 @@ class Worksheet
      */
     public function getComment($cellName)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/comments/' . $cellName;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -424,14 +368,10 @@ class Worksheet
      */
     public function getOleObjectByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/oleobjects/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -450,14 +390,10 @@ class Worksheet
      */
     public function deleteOleObjectByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/oleobjects/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -477,14 +413,10 @@ class Worksheet
      */
     public function deleteAllOleObject()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/oleobjects';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -506,14 +438,10 @@ class Worksheet
      */
     public function getPictureByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/pictures/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -532,14 +460,10 @@ class Worksheet
      */
     public function getValidationByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/validations/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -558,14 +482,10 @@ class Worksheet
      */
     public function getMergedCellByIndex($index)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/mergedCells/' . $index;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -582,14 +502,10 @@ class Worksheet
      */
     public function getMergedCellsCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/mergedCells';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -606,14 +522,10 @@ class Worksheet
      */
     public function getValidationsCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/validations';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -630,14 +542,10 @@ class Worksheet
      */
     public function getPicturesCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/pictures';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -654,14 +562,10 @@ class Worksheet
      */
     public function getOleObjectsCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/oleobjects';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -678,14 +582,10 @@ class Worksheet
      */
     public function getCommentsCount()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether workshett name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/comments';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -702,14 +602,10 @@ class Worksheet
      */
     public function hideWorksheet()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/visible?isVisible=false';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
@@ -729,14 +625,10 @@ class Worksheet
      */
     public function unhideWorksheet()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/visible?isVisible=true';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
@@ -759,17 +651,13 @@ class Worksheet
      * @return boolean
      * @throws Exception
      */
-    public function FreezePanes($row = 1, $col = 1, $freezedRows = 1, $freezedCols = 1)
+    public function freezePanes($row = 1, $col = 1, $freezedRows = 1, $freezedCols = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/FreezePanes?row=' . $row . '&column=' . $col . '&freezedRows=' . $freezedRows . '&freezedColumns=' . $freezedCols;
 
         $signedURI = Utils::sign($strURI);
@@ -789,17 +677,13 @@ class Worksheet
      * @return boolean
      * @throws Exception
      */
-    public function UnfreezePanes()
+    public function unfreezePanes()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/FreezePanes';
 
         $signedURI = Utils::sign($strURI);
@@ -821,15 +705,11 @@ class Worksheet
      */
     public function deleteBackgroundImage()
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/Background';
 
         $signedURI = Utils::sign($strURI);
@@ -853,15 +733,11 @@ class Worksheet
      */
     public function setBackgroundImage($backgroundImage = "")
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/Background?imageFile=' . $backgroundImage;
 
         $signedURI = Utils::sign($strURI);
@@ -885,15 +761,11 @@ class Worksheet
      */
     public function updateProperties($properties = array())
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/workbook/worksheets/' . $this->worksheetName;
 
         $signedURI = Utils::sign($strURI);
@@ -919,15 +791,11 @@ class Worksheet
      */
     public function renameWorksheet($newName)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/Rename?newname=' . $newName;
 
         $signedURI = Utils::sign($strURI);
@@ -951,15 +819,11 @@ class Worksheet
      */
     public function copyWorksheet($newWorksheetName)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
 
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $newWorksheetName . '/copy?sourcesheet=' . $this->worksheetName;
 
         $signedURI = Utils::sign($strURI);
@@ -984,17 +848,13 @@ class Worksheet
      */
     public function moveWorksheet($worksheetName, $position)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
         $fieldsArray['DestinationWorsheet'] = $worksheetName;
         $fieldsArray['Position'] = $position;
         $jsonData = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/position';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $jsonData);
@@ -1016,14 +876,10 @@ class Worksheet
      */
     public function calculateFormula($formula)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/formulaResult?formula=' . $formula;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -1044,14 +900,10 @@ class Worksheet
      */
     public function setCellValue($cellName, $valueType, $value)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/' . $cellName . '?value=' . $value . '&type=' . $valueType;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1074,14 +926,10 @@ class Worksheet
      */
     public function getRowsCount($offset, $count)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows?offset=' . $offset . '&count=' . $count;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -1102,14 +950,10 @@ class Worksheet
      */
     public function copyRows($sourceRowIndex = 1, $destRowIndex = 1, $rowNumber = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/copy?sourceRowIndex=' . $sourceRowIndex . '&destinationRowIndex=' . $destRowIndex . '&rowNumber=' . $rowNumber;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1132,14 +976,10 @@ class Worksheet
      */
     public function autofitRows($firstIndex = 1, $lastIndex = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/autofit?firstIndex=' . $firstIndex . '&lastIndex=' . $lastIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1163,14 +1003,10 @@ class Worksheet
      */
     public function groupRows($firstIndex = 1, $lastIndex = 1, $hide = false)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/group?firstIndex=' . $firstIndex . '&lastIndex=' . $lastIndex . '&hide=' . $hide;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1193,14 +1029,10 @@ class Worksheet
      */
     public function ungroupRows($firstIndex = 1, $lastIndex = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/ungroup?firstIndex=' . $firstIndex . '&lastIndex=' . $lastIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1223,14 +1055,10 @@ class Worksheet
      */
     public function unhideRows($startRow = 1, $totalRows = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/unhide?startrow=' . $startRow . '&totalRows=' . $totalRows;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1253,14 +1081,10 @@ class Worksheet
      */
     public function hideRows($startRow = 1, $totalRows = 1)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/hide?startrow=' . $startRow . '&totalRows=' . $totalRows;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -1282,14 +1106,10 @@ class Worksheet
      */
     public function getRow($rowIndex)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/' . $rowIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -1308,14 +1128,10 @@ class Worksheet
      */
     public function deleteRow($rowIndex)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/rows/' . $rowIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -1337,14 +1153,10 @@ class Worksheet
      */
     public function getColumn($columnIndex)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/columns/' . $columnIndex;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -1365,14 +1177,10 @@ class Worksheet
 
     public function sortData(array $dataSort, $cellArea = '')
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/sort?cellArea=' . $cellArea;
         $json_array = json_encode($dataSort);
         $signedURI = Utils::sign($strURI);
@@ -1396,14 +1204,10 @@ class Worksheet
      */
     public function setCellStyle($cellName, array $style)
     {
-
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //check whether worksheet name is set or not
         if ($this->worksheetName == '')
             throw new Exception('Worksheet name not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
             '/worksheets/' . $this->worksheetName . '/cells/' . $cellName . '/style';
         $jsonArray = json_encode($style);
         $signedURI = Utils::sign($strURI);
@@ -1426,14 +1230,10 @@ class Worksheet
      */
     public function getCell($cellName)
     {
-
-        if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
-        }
         if ($this->worksheetName == '') {
             throw new Exception('No Worksheet Specified');
         }
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/cells/' . $cellName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/cells/' . $cellName;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', 'json');
         $json = json_decode($responseStream);
@@ -1455,14 +1255,10 @@ class Worksheet
      */
     public function getCellStyle($cellName)
     {
-
-        if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
-        }
         if ($this->worksheetName == '') {
             throw new Exception('No Worksheet Specified');
         }
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/cells/' . $cellName . '/style';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/cells/' . $cellName . '/style';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', 'json');
         $json = json_decode($responseStream);
@@ -1489,15 +1285,11 @@ class Worksheet
      */
     public function addPicture($picturePath, $pictureLocation, $upperLeftRow = 0, $upperLeftColumn = 0, $lowerRightRow = 0, $lowerRightColumn = 0)
     {
-
-        if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
-        }
         if ($this->worksheetName == '') {
             throw new Exception('No Worksheet Specified');
         }
         if ($pictureLocation == 'Server' || $pictureLocation == 'server') {
-            $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures?upperLeftRow=' .
+            $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures?upperLeftRow=' .
                 $upperLeftRow . '&upperLeftColumn=' . $upperLeftColumn .
                 '&lowerRightRow=' . $lowerRightRow . '&lowerRightColumn=' . $lowerRightColumn .
                 '&picturePath=' . $picturePath;
@@ -1508,7 +1300,7 @@ class Worksheet
                 throw new Exception('File Does not Exists');
             }
             $stream = file_get_contents($picturePath);
-            $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures?upperLeftRow=' .
+            $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures?upperLeftRow=' .
                 $upperLeftRow . '&upperLeftColumn=' . $upperLeftColumn .
                 '&lowerRightRow=' . $lowerRightRow . '&lowerRightColumn=' . $lowerRightColumn .
                 '&picturePath=' . $picturePath;
@@ -1539,14 +1331,10 @@ class Worksheet
      */
     public function addOleObject($oleFile = '', $imageFile = '', $upperLeftRow = 0, $upperLeftColumn = 0, $height = 0, $width = 0)
     {
-
-        if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
-        }
         if ($this->worksheetName == '') {
             throw new Exception('No Worksheet Specified');
         }
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/oleobjects?upperLeftRow=' .
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/oleobjects?upperLeftRow=' .
             $upperLeftRow . '&upperLeftColumn=' . $upperLeftColumn .
             '&height=' . $height . '&width=' . $width .
             '&oleFile=' . $oleFile . '&imageFile=' . $imageFile;
@@ -1574,12 +1362,8 @@ class Worksheet
 
     public function updateOleObject($objectIndex, $object_data)
     {
-
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -1600,12 +1384,8 @@ class Worksheet
      */
     public function updatePicture($pictureIndex, $picture_data)
     {
-
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -1625,12 +1405,8 @@ class Worksheet
      */
     public function deletePicture($pictureIndex)
     {
-
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -1652,12 +1428,8 @@ class Worksheet
      */
     public function deleteAllPictures()
     {
-
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures';
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -1676,6 +1448,9 @@ class Worksheet
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

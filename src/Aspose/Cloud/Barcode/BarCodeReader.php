@@ -29,11 +29,8 @@ class BarcodeReader
      */
     public function read($symbology)
     {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         //build URI to read barcode
-        $strURI = Product::$baseProductUri . '/barcode/' . $this->fileName . '/recognize?' . (!isset($symbology) || trim($symbology) === '' ? 'type=' : 'type=' . $symbology);
+        $strURI = Product::$baseProductUri . '/barcode/' . $this->getFileName() . '/recognize?' . (!isset($symbology) || trim($symbology) === '' ? 'type=' : 'type=' . $symbology);
         //sign URI
         $signedURI = Utils::sign($strURI);
         //get response stream
@@ -57,8 +54,6 @@ class BarcodeReader
      */
     public function readFromLocalImage($localImage, $remoteFolder, $barcodeReadType)
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         $folder = new Folder();
         $folder->UploadFile($localImage, $remoteFolder);
         $data = $this->ReadR(basename($localImage), $remoteFolder, $barcodeReadType);
@@ -77,8 +72,6 @@ class BarcodeReader
      */
     public function readR($remoteImageName, $remoteFolder, $readType)
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
         $uri = $this->uriBuilder($remoteImageName, $remoteFolder, $readType);
         $signedURI = Utils::sign($uri);
 
@@ -160,9 +153,6 @@ class BarcodeReader
      */
     public function readSpecificRegion($symbology, $rectX, $rectY, $rectWidth, $rectHeight)
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($symbology == '')
             throw new Exception('Symbology not specified');
 
@@ -179,7 +169,7 @@ class BarcodeReader
             throw new Exception('Height not specified');
 
         //build URI to read barcode
-        $strURI = Product::$baseProductUri . '/barcode/' . $this->fileName . '/recognize?type=' . $symbology . '&rectX=' . $rectX . '&rectY=' . $rectY
+        $strURI = Product::$baseProductUri . '/barcode/' . $this->getFileName() . '/recognize?type=' . $symbology . '&rectX=' . $rectX . '&rectY=' . $rectY
             . '&rectWidth=' . $rectWidth . '&rectHeight=' . $rectHeight;
 
         //sign URI
@@ -206,9 +196,6 @@ class BarcodeReader
      */
     public function readWithChecksum($symbology, $checksumValidation)
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($symbology == '')
             throw new Exception('Symbology not specified');
 
@@ -216,7 +203,7 @@ class BarcodeReader
             throw new Exception('Checksum not specified');
 
         //build URI to read barcode
-        $strURI = Product::$baseProductUri . '/barcode/' . $this->fileName . '/recognize?type=' . $symbology . '&checksumValidation=' . $checksumValidation;
+        $strURI = Product::$baseProductUri . '/barcode/' . $this->getFileName() . '/recognize?type=' . $symbology . '&checksumValidation=' . $checksumValidation;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -242,9 +229,6 @@ class BarcodeReader
      */
     public function readBarcodeCount($symbology, $barcodesCount)
     {
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
         if ($symbology == '')
             throw new Exception('Symbology not specified');
 
@@ -252,7 +236,7 @@ class BarcodeReader
             throw new Exception('Barcodes count not specified');
 
         //build URI to read barcode
-        $strURI = Product::$baseProductUri . '/barcode/' . $this->fileName . '/recognize?type=' . $symbology . '&barcodesCount=' . $barcodesCount;
+        $strURI = Product::$baseProductUri . '/barcode/' . $this->getFileName() . '/recognize?type=' . $symbology . '&barcodesCount=' . $barcodesCount;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -272,6 +256,9 @@ class BarcodeReader
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 

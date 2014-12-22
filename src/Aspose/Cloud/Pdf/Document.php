@@ -28,7 +28,7 @@ class Document
     public function getPageCount()
     {
         //build URI
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -106,7 +106,7 @@ class Document
      */
     public function mergeDocuments(array $sourceFiles = array())
     {
-        $mergedFileName = $this->fileName;
+        $mergedFileName = $this->getFileName();
         //check whether files are set or not
         if ($mergedFileName == '')
             throw new Exception('Output file not specified');
@@ -222,7 +222,7 @@ class Document
     public function getFormFieldCount()
     {
         //build URI
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/fields';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -243,7 +243,7 @@ class Document
     public function getFormFields()
     {
         //build URI
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/fields';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -266,7 +266,7 @@ class Document
     public function getFormField($fieldName)
     {
         //build URI
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/fields/' . $fieldName;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/fields/' . $fieldName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -322,12 +322,9 @@ class Document
      */
     public function addNewPage()
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         //build URI to add page
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -339,8 +336,8 @@ class Document
         if ($v_output === '') {
             //Save PDF file on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -357,12 +354,9 @@ class Document
      */
     public function deletePage($pageNumber)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         //build URI to delete page
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -374,8 +368,8 @@ class Document
         if ($v_output === '') {
             //Save PDF file on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -393,12 +387,8 @@ class Document
      */
     public function movePage($pageNumber, $newLocation)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
-
         //build URI to move page
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber .
             '/movePage?newIndex=' . $newLocation;
 
         //sign URI
@@ -411,8 +401,8 @@ class Document
         if ($v_output === '') {
             //Save PDF file on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -431,12 +421,8 @@ class Document
      */
     public function replaceImageUsingStream($pageNumber, $imageIndex, $imageStream)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
-
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber .
             '/images/' . $imageIndex;
 
         //sign URI
@@ -449,8 +435,8 @@ class Document
         if ($v_output === '') {
             //Save PDF file on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -469,12 +455,9 @@ class Document
      */
     public function replaceImageUsingFile($pageNumber, $imageIndex, $fileName)
     {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber .
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber .
             '/images/' . $imageIndex . '?imageFile=' . $fileName;
 
         //sign URI
@@ -487,8 +470,8 @@ class Document
         if ($v_output === '') {
             //Save PDF file on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($this->fileName);
-            $outputPath = AsposeApp::$outPutLocation . $this->fileName;
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         } else
@@ -503,11 +486,9 @@ class Document
      */
     public function getDocumentProperties()
     {
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -528,14 +509,12 @@ class Document
      */
     public function getDocumentProperty($propertyName = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         if ($propertyName == '')
             throw new Exception('Property name not specified');
 
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -557,14 +536,12 @@ class Document
      */
     public function setDocumentProperty($propertyName = '', $propertyValue = '')
     {
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
 
         if ($propertyName == '')
             throw new Exception('Property name not specified');
 
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/documentProperties/' . $propertyName;
 
         $putArray['Value'] = $propertyValue;
         $json = json_encode($putArray);
@@ -586,11 +563,8 @@ class Document
      */
     public function removeAllProperties()
     {
-        if ($this->fileName == '')
-            throw new Exception('PDF file name not specified');
-
         //build URI to replace image
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/documentProperties';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -609,10 +583,8 @@ class Document
      */
     public function splitAllPages()
     {
-        if ($this->fileName == '') {
-            throw new Exception('File name not specified');
-        }
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/split';
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/split';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
@@ -622,7 +594,7 @@ class Document
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->fileName . '_' . $i . '.pdf';
+            $fileName = $this->getFileName() . '_' . $i . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
@@ -641,10 +613,8 @@ class Document
      */
     public function splitPages($from, $to)
     {
-        if ($this->fileName == '') {
-            throw new Exception('File name not specified');
-        }
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/split?from=' . $from . '&to=' . $to;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/split?from=' . $from . '&to=' . $to;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
@@ -654,7 +624,7 @@ class Document
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->fileName . '_' . $i . '.pdf';
+            $fileName = $this->getFileName() . '_' . $i . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
@@ -674,10 +644,7 @@ class Document
      */
     public function splitPagesToAnyFormat($from, $to, $format)
     {
-        if ($this->fileName == '') {
-            throw new Exception('File name not specified');
-        }
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/split?from=' . $from . '&to=' . $to . '&format=' . $format;
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/split?from=' . $from . '&to=' . $to . '&format=' . $format;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
@@ -687,7 +654,7 @@ class Document
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->fileName . '_' . $i . '.' . $format;
+            $fileName = $this->getFileName() . '_' . $i . '.' . $format;
             $outputFile = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
@@ -700,6 +667,9 @@ class Document
      */
     public function getFileName()
     {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
         return $this->fileName;
     }
 
