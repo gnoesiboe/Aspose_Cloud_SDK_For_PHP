@@ -13,7 +13,7 @@ use Aspose\Cloud\Storage\Folder;
 class Extractor
 {
 
-    protected $fileName = '';
+    public $fileName = '';
 
     public function __construct($fileName)
     {

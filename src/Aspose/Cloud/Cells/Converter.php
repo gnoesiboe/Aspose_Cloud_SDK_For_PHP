@@ -12,9 +12,9 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Converter
 {
 
-    protected $fileName = '';
-    protected $worksheetName = '';
-    protected $saveFormat = '';
+    public $fileName = '';
+    public $worksheetName = '';
+    public $saveFormat = '';
 
     public function __construct()
     {

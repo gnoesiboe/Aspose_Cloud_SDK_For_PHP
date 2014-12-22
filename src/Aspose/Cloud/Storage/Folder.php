@@ -11,10 +11,10 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Folder
 {
 
-    protected $strURIFolder = '';
-    protected $strURIFile = '';
-    protected $strURIExist = '';
-    protected $strURIDisc = '';
+    public $strURIFolder = '';
+    public $strURIFile = '';
+    public $strURIExist = '';
+    public $strURIDisc = '';
 
     public function __construct()
     {

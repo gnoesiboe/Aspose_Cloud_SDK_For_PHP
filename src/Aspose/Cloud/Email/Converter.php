@@ -28,8 +28,8 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Converter
 {
 
-    protected $fileName = '';
-    protected $saveFormat = '';
+    public $fileName = '';
+    public $saveFormat = '';
 
     public function __construct($fileName)
     {

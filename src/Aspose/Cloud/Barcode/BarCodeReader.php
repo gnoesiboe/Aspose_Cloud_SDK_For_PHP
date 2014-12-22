@@ -12,7 +12,7 @@ use Aspose\Cloud\Storage\Folder;
 class BarcodeReader
 {
 
-    protected $fileName = '';
+    public $fileName = '';
 
     public function __construct($fileName)
     {

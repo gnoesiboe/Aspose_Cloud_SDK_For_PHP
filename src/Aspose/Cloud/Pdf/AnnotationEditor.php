@@ -12,7 +12,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class AnnotationEditor
 {
 
-    protected $fileName = '';
+    public $fileName = '';
 
     public function __construct($fileName)
     {

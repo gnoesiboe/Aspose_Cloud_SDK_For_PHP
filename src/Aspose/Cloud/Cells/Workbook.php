@@ -11,7 +11,7 @@ use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 class Workbook
 {
 
-    protected $fileName = '';
+    public $fileName = '';
 
     public function __construct($fileName)
     {

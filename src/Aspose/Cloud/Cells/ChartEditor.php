@@ -13,8 +13,8 @@ use Aspose\Cloud\Storage\Folder;
 class ChartEditor
 {
 
-    protected $fileName = '';
-    protected $worksheetName = '';
+    public $fileName = '';
+    public $worksheetName = '';
 
     public function __construct($fileName, $worksheetName)
     {

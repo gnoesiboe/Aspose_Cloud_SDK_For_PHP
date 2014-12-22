@@ -18,7 +18,7 @@ class Image
 {
 
 
-    protected $fileName;
+    public $fileName;
 
     public function __construct($fileName)
     {
