@@ -4,30 +4,30 @@
  */
 namespace Aspose\Cloud\Cells;
 
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Workbook {
+class Workbook
+{
 
     public $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Get Document's properties.
-     * 
+     *
      * @return array|boolean
      * @throws Exception
      */
-    public function getProperties() {
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function getProperties()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/documentProperties';
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -39,23 +39,20 @@ class Workbook {
     }
 
     /**
-     * Get Resource Properties information like document source format, 
+     * Get Resource Properties information like document source format,
      * IsEncrypted, IsSigned and document properties
-     * 
+     *
      * @param string $propertyName Name of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getProperty($propertyName) {
-        
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function getProperty($propertyName)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/documentProperties/' . $propertyName;
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -64,30 +61,27 @@ class Workbook {
             return $json->DocumentProperty;
         else
             return false;
-        
+
     }
 
     /**
      * Set document property.
-     * 
+     *
      * @param string $propertyName Name of the property.
      * @param string $propertyValue Value of the property.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function setProperty($propertyName, $propertyValue) {
-        
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function setProperty($propertyName, $propertyValue)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
         if ($propertyValue == '')
             throw new Exception('Property Value not specified');
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/documentProperties/' . $propertyName;
         $put_data_arr['Value'] = $propertyValue;
         $put_data = json_encode($put_data_arr);
         //sign URI
@@ -99,22 +93,19 @@ class Workbook {
         } else {
             return false;
         }
-       
+
     }
 
     /**
      * Remove All Document's properties.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeAllProperties() {
-        
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function removeAllProperties()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/documentProperties';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/documentProperties';
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE');
@@ -126,26 +117,23 @@ class Workbook {
                 return false;
         }
         return true;
-        
+
     }
 
     /**
      * Delete a document property.
-     * 
+     *
      * @param string $propertyName Name of the property.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeProperty($propertyName) {
-        
-        //check whether files are set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function removeProperty($propertyName)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/documentProperties/' . $propertyName;
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
@@ -154,40 +142,42 @@ class Workbook {
             return true;
         else
             return false;
-        
+
     }
 
     /**
      * Create Empty Workbook.
-     * 
-     * @return null 
+     *
+     * @return null
      */
-    public function createEmptyWorkbook() {
-        
+    public function createEmptyWorkbook()
+    {
+
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName();
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT');
         $json = json_decode($responseStream);
         return $json;
-        
+
     }
 
     /**
      * Create Empty Workbook.
-     * 
+     *
      * @param string $templateFileName Name of the template file.
-     * 
+     *
      * @return null
      * @throws Exception
      */
-    public function createWorkbookFromTemplate($templateFileName) {
-        
+    public function createWorkbookFromTemplate($templateFileName)
+    {
+
         if ($templateFileName == '')
             throw new Exception('Template file not specified');
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?templatefile=' . $templateFileName;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?templatefile=' . $templateFileName;
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT');
@@ -198,21 +188,22 @@ class Workbook {
 
     /**
      * Create Empty Workbook.
-     * 
+     *
      * @param string $templateFileName Name of the template file.
-     * @param string $dataFile	Data file.
-     * 
+     * @param string $dataFile Data file.
+     *
      * @return null
      * @throws Exception
      */
-    public function createWorkbookFromSmartMarkerTemplate($templateFileName, $dataFile) {
-        
+    public function createWorkbookFromSmartMarkerTemplate($templateFileName, $dataFile)
+    {
+
         if ($templateFileName == '')
             throw new Exception('Template file not specified');
         if ($dataFile == '')
             throw new Exception('Data file not specified');
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?templatefile=' . $templateFileName . '&dataFile=' . $dataFile;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?templatefile=' . $templateFileName . '&dataFile=' . $dataFile;
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT');
@@ -223,18 +214,19 @@ class Workbook {
 
     /**
      * Process Smartmaker Datafile.
-     * 
+     *
      * @param string $dataFile
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function processSmartMarker($dataFile) {
-        
+    public function processSmartMarker($dataFile)
+    {
+
         if ($dataFile == '')
             throw new Exception('Data file not specified');
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/smartmarker?xmlFile=' . $dataFile;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/smartmarker?xmlFile=' . $dataFile;
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST');
@@ -245,16 +237,14 @@ class Workbook {
 
     /**
      * Get Worksheets Count in Workbook.
-     * 
+     *
      * @return integer
      * @throws Exception
      */
-    public function getWorksheetsCount() {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function getWorksheetsCount()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets';
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -265,16 +255,14 @@ class Workbook {
 
     /**
      * Get Names Count in Workbook.
-     * 
+     *
      * @return integer
      * @throws Exception
      */
-    public function getNamesCount() {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function getNamesCount()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/names';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/names';
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
@@ -285,16 +273,14 @@ class Workbook {
 
     /**
      * Get Default Style.
-     * 
+     *
      * @return object
      * @throws Exception
      */
-    public function getDefaultStyle() {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function getDefaultStyle()
+    {
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/defaultStyle';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/defaultStyle';
         //sign URI
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'GET', '');
@@ -302,27 +288,25 @@ class Workbook {
         return $json->Style;
 
     }
-    
+
     /**
      * Encrypt workbook.
-     * 
+     *
      * @param string $encryptionType Type of the encryption.
-     * @param string $password Document encryption password. 
-     * @param integer $keyLength The key length. This parameter is only for Excel97~2003 format 
-     * 
+     * @param string $password Document encryption password.
+     * @param integer $keyLength The key length. This parameter is only for Excel97~2003 format
+     *
      * @return boolean
      * @throws Exception
      */
-    public function encryptWorkbook($encryptionType = 'XOR', $password = '', $keyLength = '') {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function encryptWorkbook($encryptionType = 'XOR', $password = '', $keyLength = '')
+    {
         //Build JSON to post
         $fieldsArray['EncriptionType'] = $encryptionType;
         $fieldsArray['KeyLength'] = $keyLength;
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/encryption';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/encryption';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -332,25 +316,23 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Protect workbook.
-     * 
-     * @param string $password Document protection password. 
+     *
+     * @param string $password Document protection password.
      * @param string $protectionType Document protection type.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function protectWorkbook($password, $protectionType = 'all') {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function protectWorkbook($password, $protectionType = 'all')
+    {
         //Build JSON to post
         $fieldsArray['ProtectionType'] = $protectionType;
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/protection';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -360,23 +342,21 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Unprotect workbook.
-     * 
+     *
      * @param string $password Protection password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function unprotectWorkbook($password) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function unprotectWorkbook($password)
+    {
         //Build JSON to post
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/protection';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -386,23 +366,21 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Change password.
-     * 
+     *
      * @param string $password Modify document password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function setModifyPassword($password) {
-
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function setModifyPassword($password)
+    {
         //Build JSON to post
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/writeProtection';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/writeProtection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -412,23 +390,21 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Clear modify password.
-     * 
+     *
      * @param string $password Modify document password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function clearModifyPassword($password) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function clearModifyPassword($password)
+    {
         //Build JSON to post
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/writeProtection';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/writeProtection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -438,23 +414,21 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Decrypt workbook.
-     * 
+     *
      * @param string $password Document decryption password.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function decryptWorkbook($password) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
+    public function decryptWorkbook($password)
+    {
         //Build JSON to post
         $fieldsArray['Password'] = $password;
         $json = json_encode($fieldsArray);
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/encryption';
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/encryption';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', 'json', $json);
         $json_response = json_decode($responseStream);
@@ -464,20 +438,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Add worksheet.
-     * 
+     *
      * @param string $worksheetName Name of the sheet.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function addWorksheet($worksheetName) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName;
+    public function addWorksheet($worksheetName)
+    {
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
         $json_response = json_decode($responseStream);
@@ -487,20 +459,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Remove worksheet from workbook.
-     * 
+     *
      * @param string $worksheetName Name of the worksheet.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function removeWorksheet($worksheetName) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName;
+    public function removeWorksheet($worksheetName)
+    {
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
         $json_response = json_decode($responseStream);
@@ -510,20 +480,18 @@ class Workbook {
             return false;
 
     }
-    
+
     /**
      * Merge workbook.
-     * 
+     *
      * @param string $mergeFileName Name of merge file.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function mergeWorkbook($mergeFileName) {
-        
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/merge?mergeWith=' . $mergeFileName;
+    public function mergeWorkbook($mergeFileName)
+    {
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/merge?mergeWith=' . $mergeFileName;
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json_response = json_decode($responseStream);
@@ -533,5 +501,26 @@ class Workbook {
             return false;
 
     }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
 
 }

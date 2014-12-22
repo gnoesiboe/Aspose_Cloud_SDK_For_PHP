@@ -5,30 +5,31 @@
 namespace Aspose\Cloud\Words;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Extractor {
+class Extractor
+{
 
     public $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Gets Text items list from document.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getText() {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function getText()
+    {
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/textItems';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/textItems';
 
         $signedURI = Utils::sign($strURI);
 
@@ -41,19 +42,18 @@ class Extractor {
 
     /**
      * Get the OLE drawing object from document.
-     * 
+     *
      * @param int $index The index of OLE object.
      * @param string $OLEFormat The format to save.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function getoleData($index, $OLEFormat) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function getoleData($index, $OLEFormat)
+    {
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '/oleData';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '/oleData';
 
         $signedURI = Utils::sign($strURI);
 
@@ -62,29 +62,27 @@ class Extractor {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath =  AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $OLEFormat;
-            Utils::saveFile($responseStream,$outputPath);
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $OLEFormat;
+            Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Get the Image drawing object from document.
-     * 
+     *
      * @param int $index The index of drawing object.
      * @param string $renderformat The render format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function getimageData($index, $renderFormat) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function getimageData($index, $renderFormat)
+    {
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '/ImageData';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '/ImageData';
 
         $signedURI = Utils::sign($strURI);
 
@@ -93,29 +91,27 @@ class Extractor {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $renderFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $renderFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Convert drawing object to image.
-     * 
+     *
      * @param int $index The index of drawing object.
      * @param string $renderformat Returns object in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertDrawingObject($index, $renderFormat) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function convertDrawingObject($index, $renderFormat)
+    {
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects/' . $index . '?format=' . $renderFormat;
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects/' . $index . '?format=' . $renderFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -124,26 +120,24 @@ class Extractor {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $index . '.' . $renderFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $index . '.' . $renderFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Get the List of drawing object from document.
-     * 
+     *
      * @return array|boolean
-     * @throws Exception	
+     * @throws Exception
      */
-    public function getDrawingObjectList() {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function getDrawingObjectList()
+    {
 
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects';
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects';
 
         $signedURI = Utils::sign($strURI);
 
@@ -158,18 +152,48 @@ class Extractor {
     }
 
     /**
-     * Get the drawing object from document.
-     * 	
-     * @param string $objectURI The URI of object.
+     * Get the List of drawing object from document.
+     *
      * @param string $outputPath The output directory path.
-     * 
+     *
      * @return string|boolean
      * @throws Exception
      */
-    public function getDrawingObject($objectURI, $outputPath) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function getDrawingObjects($outputPath)
+    {
+
+
+        if ($outputPath == '')
+            throw new Exception('Output path not specified');
+
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/drawingObjects';
+
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200) {
+            foreach ($json->DrawingObjects->List as $object) {
+                $this->getDrawingObject(Product::$baseProductUri . '/words/' . $object->link->Href, $outputPath);
+            }
+        } else
+            return false;
+    }
+
+    /**
+     * Get the drawing object from document.
+     *
+     * @param string $objectURI The URI of object.
+     * @param string $outputPath The output directory path.
+     *
+     * @return string|boolean
+     * @throws Exception
+     */
+    public function getDrawingObject($objectURI, $outputPath)
+    {
+
 
         if ($outputPath == '')
             throw new Exception('Output path not specified');
@@ -209,46 +233,31 @@ class Extractor {
             if ($v_output === '') {
                 Utils::saveFile($responseStream, $outputPath);
                 return $outputPath;
-            }
-            else
+            } else
                 return $v_output;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Get the List of drawing object from document.
-     * 	
-     * @param string outputPath The output directory path.
-     * 
-     * @return string|boolean
-     * @throws Exception
+     * @return string
      */
-    public function getDrawingObjects($outputPath) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
-
-        if ($outputPath == '')
-            throw new Exception('Output path not specified');
-
-        $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/drawingObjects';
-
-        $signedURI = Utils::sign($strURI);
-
-        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-
-        $json = json_decode($responseStream);
-
-        if ($json->Code == 200) {
-            foreach ($json->DrawingObjects->List as $object) {
-                $this->getDrawingObject(Product::$baseProductUri . '/words/' . $object->link->Href, $outputPath);
-            }
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
         }
-        else
-            return false;
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 
 }

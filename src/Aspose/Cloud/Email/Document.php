@@ -17,41 +17,39 @@
  * @author  Masood Anwer <masood.anwer@aspose.com>
  * @link    https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP
  */
- 
+
 namespace Aspose\Cloud\Email;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
-use Aspose\Cloud\Storage\Folder;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Document {
+class Document
+{
 
     public $fileName = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName)
+    {
         $this->fileName = $fileName;
     }
 
     /**
      * Get resource properties information like From, To, Subject.
-     *  
+     *
      * @param string $propertyName The name of property.
-     * 
+     *
      * @return string Returns value of the property.
      * @throws Exception
      */
-    public function getProperty($propertyName) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getProperty($propertyName)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/properties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/properties/' . $propertyName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -68,18 +66,15 @@ class Document {
 
     /**
      * Set document property.
-     * 
+     *
      * @param string $propertyName The name of property.
      * @param string $propertyValue The value of property.
-     * 
+     *
      * @return string|boolean Return value if property is set or FALSE if it is not set.
      * @throws Exception
      */
-    public function setProperty($propertyName, $propertyValue) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function setProperty($propertyName, $propertyValue)
+    {
         if ($propertyName == '')
             throw new Exception('Property Name not specified');
 
@@ -87,7 +82,7 @@ class Document {
             throw new Exception('Property Value not specified');
 
         //build URI 
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/properties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/properties/' . $propertyName;
 
         $put_data_arr['Value'] = $propertyValue;
 
@@ -105,39 +100,57 @@ class Document {
         else
             return false;
     }
-	
+
     /**
      * Get email attachment.
-     * 
+     *
      * @param string $attachmentName The name of attached file.
-     * 
+     *
      * @return string Return path of the attached file.
      * @throws Exception
      */
-    public function getAttachment($attachmentName) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('Base file not specified');
-
+    public function getAttachment($attachmentName)
+    {
         if ($attachmentName == '')
             throw new Exception('Attachment Name not specified');
-		
+
         //build URI
-        $strURI = Product::$baseProductUri . '/email/' . $this->fileName . '/attachments/' . $attachmentName;
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/attachments/' . $attachmentName;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-		
-	$v_output = Utils::validateOutput($responseStream);
-		
+
+        $v_output = Utils::validateOutput($responseStream);
+
         if ($v_output === '') {
-                $outputFilename = $attachmentName; 
-                Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
-                return $outputFilename;
+            $outputFilename = $attachmentName;
+            Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
+            return $outputFilename;
         } else {
             return $v_output;
-        }    
+        }
     }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
 }

@@ -5,41 +5,41 @@
 namespace Aspose\Cloud\Cells;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Converter {
+class Converter
+{
 
-	public $fileName = '';
-	public $worksheetName = '';
-	public $saveFormat = '';
+    public $fileName = '';
+    public $worksheetName = '';
+    public $saveFormat = '';
 
-	public function __construct() {
-		$parameters = func_get_args();
+    public function __construct()
+    {
+        $parameters = func_get_args();
 
-		//set default values
-		if (isset($parameters[0])) {
-			$this->fileName = $parameters[0];
-		}
-		if (isset($parameters[1])) {
-			$this->worksheetName = $parameters[1];
-		}
-		$this->saveFormat = 'xls';
-	}
+        //set default values
+        if (isset($parameters[0])) {
+            $this->fileName = $parameters[0];
+        }
+        if (isset($parameters[1])) {
+            $this->worksheetName = $parameters[1];
+        }
+        $this->saveFormat = 'xls';
+    }
 
-	/**
-	 * Converts a document to saveformat using Aspose cloud storage.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function convert() {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Converts a document to saveformat using Aspose cloud storage.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function convert()
+    {
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?format=' . $this->saveFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?format=' . $this->saveFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -52,28 +52,26 @@ class Converter {
             } else {
                 $saveFormat = $this->saveFormat;
             }
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $saveFormat);
+            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat);
             return $outputPath;
         } else {
             return $v_output;
         }
-	}
+    }
 
-	/**
-	 * Converts a sheet to image.
-         * 
-	 * @param string $worksheetName Name of the sheet.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function convertToImage($imageFormat, $worksheetName) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Converts a sheet to image.
+     *
+     * @param string $worksheetName Name of the sheet.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function convertToImage($imageFormat, $worksheetName)
+    {
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $worksheetName . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $worksheetName . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -82,27 +80,25 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Converts a document to outputFormat.
-         * 
-	 * @param string $outputFormat Returns document in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function save($outputFormat) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Converts a document to outputFormat.
+     *
+     * @param string $outputFormat Returns document in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function save($outputFormat)
+    {
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '?format=' . $outputFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?format=' . $outputFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -111,29 +107,27 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $outputFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $outputFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Converts a sheet to image.
-         * 
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function worksheetToImage($imageFormat) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Converts a sheet to image.
+     *
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function worksheetToImage($imageFormat)
+    {
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -142,30 +136,28 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific picture from a specific sheet as image.
-         * 
-	 * @param integer $pictureIndex Index of the picture.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function pictureToImage($pictureIndex, $imageFormat) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Saves a specific picture from a specific sheet as image.
+     *
+     * @param integer $pictureIndex Index of the picture.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function pictureToImage($pictureIndex, $imageFormat)
+    {
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/pictures/' . $pictureIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -175,30 +167,28 @@ class Converter {
 
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific OleObject from a specific sheet as image.
-         * 
-	 * @param integer $objectIndex Index of the object.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function oleObjectToImage($objectIndex, $imageFormat) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Saves a specific OleObject from a specific sheet as image.
+     *
+     * @param integer $objectIndex Index of the object.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function oleObjectToImage($objectIndex, $imageFormat)
+    {
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/oleobjects/' . $objectIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -207,30 +197,28 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific chart from a specific sheet as image.
-         * 
-	 * @param integer $chartIndex Index of the chart.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the path file.
-         * @throws Exception
-	 */
-	public function chartToImage($chartIndex, $imageFormat) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Saves a specific chart from a specific sheet as image.
+     *
+     * @param integer $chartIndex Index of the chart.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the path file.
+     * @throws Exception
+     */
+    public function chartToImage($chartIndex, $imageFormat)
+    {
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -239,30 +227,28 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
+    }
 
-	/**
-	 * Saves a specific auto-shape from a specific sheet as image.
-         * 
-	 * @param integer $shapeIndex Index of the shape.
-	 * @param string $imageFormat Returns image in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-	 */
-	public function autoShapeToImage($shapeIndex, $imageFormat) {
-        //check whether file and sheet is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    /**
+     * Saves a specific auto-shape from a specific sheet as image.
+     *
+     * @param integer $shapeIndex Index of the shape.
+     * @param string $imageFormat Returns image in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function autoShapeToImage($shapeIndex, $imageFormat)
+    {
         if ($this->worksheetName == '')
             throw new Exception('No worksheet specified');
         //Build URI
-        $strURI = Product::$baseProductUri . '/cells/' . $this->fileName . '/worksheets/' . $this->worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/autoshapes/' . $shapeIndex . '?format=' . $imageFormat;
         //Sign URI
         $signedURI = Utils::sign($strURI);
         //Send request and receive response stream
@@ -271,23 +257,24 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
         if ($v_output === '') {
             //Save ouput file
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $this->worksheetName . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $this->worksheetName . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else
             return $v_output;
-	}
-        
-        /**
-         * Convert file into specified format without using Aspose cloud storage.
-         * @param type $inputFile Path of the source file.
-         * @param type $outputFile Name of the output file.
-         * @param type $saveFormat Returns document in the specified format.
-         * 
-         * @return string Returns the file path.
-         * @throws Exception
-         */
-	public function convertLocalFile($inputFile, $outputFile, $saveFormat) {
+    }
+
+    /**
+     * Convert file into specified format without using Aspose cloud storage.
+     * @param string $inputFile Path of the source file.
+     * @param string $outputFile Name of the output file.
+     * @param string $saveFormat Returns document in the specified format.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function convertLocalFile($inputFile, $outputFile, $saveFormat)
+    {
         if ($inputFile == '') {
             throw new Exception('Please Specify Input File Name along with path');
         }
@@ -313,12 +300,67 @@ class Converter {
             if ($outputFile == '') {
                 $outputFileName = Utils::getFileName($inputFile) . '.' . $outputFormat;
             } else {
-      $outputFileName = Utils::getFileName($outputFile) . '.' . $outputFormat;
-    }
+                $outputFileName = Utils::getFileName($outputFile) . '.' . $outputFormat;
+            }
             Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFileName);
             return $outputFileName;
         } else {
             return $v_output;
         }
-	}
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorksheetName()
+    {
+        return $this->worksheetName;
+    }
+
+    /**
+     * @param string $worksheetName
+     */
+    public function setWorksheetName($worksheetName)
+    {
+        $this->worksheetName = $worksheetName;
+        return $this;
+    }
+
 }

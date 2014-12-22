@@ -5,38 +5,38 @@
 namespace Aspose\Cloud\Pdf;
 
 use Aspose\Cloud\Common\AsposeApp;
-use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Converter {
+class Converter
+{
 
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName) {
+    public function __construct($fileName, $saveFormat = 'Pdf')
+    {
         $this->fileName = $fileName;
-
-        $this->saveFormat = 'Pdf';
+        $this->saveFormat = $saveFormat;
     }
 
     /**
      * Convert a particular page to image with specified size.
-     * 
+     *
      * @param integer $pageNumber The document page number.
      * @param string $imageFormat Return the document in the specified format.
      * @param integer $width The width of image.
      * @param integer $height The height of image.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertToImagebySize($pageNumber, $imageFormat, $width, $height) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function convertToImagebySize($pageNumber, $imageFormat, $width, $height)
+    {
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '?format=' . $imageFormat . '&width=' . $width . '&height=' . $height;
 
         $signedURI = Utils::sign($strURI);
 
@@ -45,29 +45,27 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $pageNumber . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $pageNumber . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Convert a particular page to image with default size.
-     * 
+     *
      * @param integer $pageNumber The document page number.
      * @param string $imageFormat Return the document in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertToImage($pageNumber, $imageFormat) {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function convertToImage($pageNumber, $imageFormat)
+    {
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '/pages/' . $pageNumber . '?format=' . $imageFormat;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '?format=' . $imageFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -76,29 +74,29 @@ class Converter {
         $v_output = Utils::validateOutput($responseStream);
 
         if ($v_output === '') {
-            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '_' . $pageNumber . '.' . $imageFormat;
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '_' . $pageNumber . '.' . $imageFormat;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
     }
 
     /**
      * Convert a document by url to SaveFormat.
-     * 
+     *
      * @param string $url URL of the document.
      * @param string $outputFilename The name of output file.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertByUrl($url='',$format='',$outputFilename='') {
+    public function convertByUrl($url = '', $format = '', $outputFilename = '')
+    {
         //check whether file is set or not
         if ($url == '')
             throw new Exception('Url not specified');
 
-        $strURI = Product::$baseProductUri . '/pdf/convert?url='.$url.'&format='.$format;
+        $strURI = Product::$baseProductUri . '/pdf/convert?url=' . $url . '&format=' . $format;
 
         $signedURI = Utils::sign($strURI);
 
@@ -122,16 +120,15 @@ class Converter {
 
     /**
      * Convert a document to SaveFormat using Aspose cloud storage.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convert() {
-        //check whether file is set or not
-        if ($this->fileName == '')
-            throw new Exception('No file name specified');
+    public function convert()
+    {
 
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->fileName . '?format=' . $this->saveFormat;
+
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '?format=' . $this->saveFormat;
 
         $signedURI = Utils::sign($strURI);
 
@@ -146,7 +143,7 @@ class Converter {
                 $saveFormat = $this->saveFormat;
             }
 
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->fileName) . '.' . $saveFormat);
+            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat);
             return $outputPath;
         } else {
             return $v_output;
@@ -155,15 +152,16 @@ class Converter {
 
     /**
      * Convert PDF to different file format without using Aspose cloud storage.
-     * 
+     *
      * $param string $inputFile The path of source file.
      * @param string $outputFilename The output file name.
      * @param string $outputFormat Returns document in the specified format.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convertLocalFile($inputFile = '', $outputFilename = '', $outputFormat = '') {
+    public function convertLocalFile($inputFile = '', $outputFilename = '', $outputFormat = '')
+    {
         //check whether file is set or not
         if ($inputFile == '')
             throw new Exception('No file name specified');
@@ -198,9 +196,45 @@ class Converter {
             $outputPath = AsposeApp::$outPutLocation . $outputFilename;
             Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
-        }
-        else
+        } else
             return $v_output;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('No File Name Specified');
+        }
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+        return $this;
     }
 
 }

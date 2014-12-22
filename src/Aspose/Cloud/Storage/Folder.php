@@ -8,14 +8,16 @@ use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
-class Folder {
+class Folder
+{
 
     public $strURIFolder = '';
     public $strURIFile = '';
     public $strURIExist = '';
     public $strURIDisc = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->strURIFolder = Product::$baseProductUri . '/storage/folder/';
         $this->strURIFile = Product::$baseProductUri . '/storage/file/';
         $this->strURIExist = Product::$baseProductUri . '/storage/exist/';
@@ -24,11 +26,12 @@ class Folder {
 
     /**
      * Uploads a file from your local machine to specified folder / subfolder on Aspose storage.
-     * 
+     *
      * @param string $strFile
      * @param string $strFolder
      */
-    public function uploadFile($strFile, $strFolder, $storageName = '') {
+    public function uploadFile($strFile, $strFolder, $storageName = '')
+    {
         $strRemoteFileName = basename($strFile);
         $strURIRequest = $this->strURIFile;
         if ($strFolder == '')
@@ -48,11 +51,12 @@ class Folder {
      *
      * @param string $fileName The name of file.
      * @param string $storageName The name of storage.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function fileExists($fileName, $storageName = '') {
+    public function fileExists($fileName, $storageName = '')
+    {
         //check whether file is set or not
         if ($fileName == '')
             throw new Exception('No file name specified');
@@ -77,11 +81,12 @@ class Folder {
      *
      * @param string $fileName The name of file.
      * @param string $storageName The name of storage.
-     * 
+     *
      * @return boolean
      * @throws Exception
      */
-    public function deleteFile($fileName, $storageName = '') {
+    public function deleteFile($fileName, $storageName = '')
+    {
         //check whether file is set or not
         //build URI
         if ($fileName == '')
@@ -101,15 +106,16 @@ class Folder {
     }
 
     /**
-     * Creates a new folder  under the specified folder on Aspose storage. 
+     * Creates a new folder  under the specified folder on Aspose storage.
      * If no path specified, creates a folder under the root folder.
-     * 
+     *
      * @param string $strFolder The name of folder.
      * @param string $storageName The name of storage.
-     * 
+     *
      * @return boolean
      */
-    public function createFolder($strFolder, $storageName = '') {
+    public function createFolder($strFolder, $storageName = '')
+    {
         //build URI
         $strURIRequest = $this->strURIFolder . $strFolder;
         if ($storageName != '') {
@@ -135,7 +141,8 @@ class Folder {
      * @return boolean
      * @throws Exception
      */
-    public function deleteFolder($folderName, $recursive = false) {
+    public function deleteFolder($folderName, $recursive = false)
+    {
         //check whether folder is set or not
         if ($folderName == '')
             throw new Exception('No folder name specified');
@@ -158,23 +165,24 @@ class Folder {
 
     /**
      * Provides the total / free disc size in bytes for your app.
-     * 
+     *
      * @param string $storageName The name of storage.
-     * 
-     * @return ineger
+     *
+     * @return integer
      */
-    public function getDiscUsage($storageName = '') {
-            //build URI
-            $strURI = $this->strURIDisc;
-            if ($storageName != '') {
-                $strURI .= '?storage=' . $storageName;
-            }
-            //sign URI
-            $signedURI = Utils::sign($strURI);
+    public function getDiscUsage($storageName = '')
+    {
+        //build URI
+        $strURI = $this->strURIDisc;
+        if ($storageName != '') {
+            $strURI .= '?storage=' . $storageName;
+        }
+        //sign URI
+        $signedURI = Utils::sign($strURI);
 
-            $responseStream = json_decode(Utils::processCommand($signedURI, 'GET', '', ''));
+        $responseStream = json_decode(Utils::processCommand($signedURI, 'GET', '', ''));
 
-            return $responseStream->DiscUsage;
+        return $responseStream->DiscUsage;
     }
 
     /**
@@ -182,11 +190,12 @@ class Folder {
      *
      * @param string $fileName The name of file.
      * @param string $storageName The name of storage.
-     * 
+     *
      * @return array
      * @throws Exception
      */
-    public function getFile($fileName, $storageName = '') {
+    public function getFile($fileName, $storageName = '')
+    {
         //check whether file is set or not
         if ($fileName == '')
             throw new Exception('No file name specified');
@@ -205,15 +214,16 @@ class Folder {
     }
 
     /**
-     * Retrives the list of files and folders under the specified folder. 
+     * Retrives the list of files and folders under the specified folder.
      * Use empty string to specify root folder.
      *
      * @param string $strFolder The name of folder.
      * @param string $storageName The name of storage.
-     * 
+     *
      * @return array
      */
-    public function getFilesList($strFolder, $storageName = '') {
+    public function getFilesList($strFolder, $storageName = '')
+    {
         //build URI
         $strURI = $this->strURIFolder;
         //check whether file is set or not
@@ -221,7 +231,7 @@ class Folder {
             $strURI .= $strFolder;
         }
         if ($storageName != '') {
-            $strURI .='?storage=' . $storageName;
+            $strURI .= '?storage=' . $storageName;
         }
 
         //sign URI
@@ -232,6 +242,70 @@ class Folder {
         $json = json_decode($responseStream);
 
         return $json->Files;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIDisc()
+    {
+        return $this->strURIDisc;
+    }
+
+    /**
+     * @param string $strURIDisc
+     */
+    public function setStrURIDisc($strURIDisc)
+    {
+        $this->strURIDisc = $strURIDisc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIExist()
+    {
+        return $this->strURIExist;
+    }
+
+    /**
+     * @param string $strURIExist
+     */
+    public function setStrURIExist($strURIExist)
+    {
+        $this->strURIExist = $strURIExist;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIFile()
+    {
+        return $this->strURIFile;
+    }
+
+    /**
+     * @param string $strURIFile
+     */
+    public function setStrURIFile($strURIFile)
+    {
+        $this->strURIFile = $strURIFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrURIFolder()
+    {
+        return $this->strURIFolder;
+    }
+
+    /**
+     * @param string $strURIFolder
+     */
+    public function setStrURIFolder($strURIFolder)
+    {
+        $this->strURIFolder = $strURIFolder;
     }
 
 }
