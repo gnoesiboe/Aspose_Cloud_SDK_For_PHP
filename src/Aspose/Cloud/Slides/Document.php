@@ -432,7 +432,7 @@ class Document
             throw new Exception('Slide number not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -730,7 +730,7 @@ class Document
             throw new Exception('Slide number not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber .'/background';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber .'/background';
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -758,7 +758,7 @@ class Document
             throw new Exception('Slide number not specified');
 
         //build URI
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber .'/background';
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber .'/background';
 
         //sign URI
         $signedURI = Utils::sign($strURI);

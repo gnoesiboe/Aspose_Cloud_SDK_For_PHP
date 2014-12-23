@@ -167,7 +167,7 @@ class Extractor
      * @throws Exception
      */
     public function getShape($slideNumber, $shapeIndex, $storageName = '', $folderName = '') {    
-        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber . '/shapes/' . $shapeIndex;
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/shapes/' . $shapeIndex;
         if ($folderName != '') {
             $strURI .= '?folder=' . $folderName;
         }
