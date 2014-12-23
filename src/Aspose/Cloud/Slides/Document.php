@@ -418,6 +418,34 @@ class Document
         } else
             return $v_output;
     }
+    
+    /**
+     * Delete a Slides from a PowerPoint Presentation.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
+    public function deleteSlide($slideNumber) {    
+        if ($slideNumber == '')
+            throw new Exception('Slide number not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
 
     /**
      * Get Document's properties.
