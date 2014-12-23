@@ -111,6 +111,49 @@ class Converter
             return $v_output;
         }
     }
+    
+    /**
+     * Convert a document to SaveFormat without using Aspose storage.
+     * 
+     * @param string $inputPath The path of source file.
+     * @param string $outputFile Path where you want to file after conversion.
+     * @param string $saveFormat New file format.
+     * 
+     * @return string|boolean Return the file path.
+     * @throws Exception
+     */
+    public function convertLocalFile($inputPath, $outputFile, $saveFormat) {
+        if ($inputPath == '')
+            throw new Exception('Please specify input file');
+            
+        if ($outputFile == '') 
+            throw new Exception('Please specify output file');
+            
+        if ($saveFormat == '') 
+            throw new Exception('Please specify save format');
+        
+        $strURI = Product::$baseProductUri . '/slides/convert?format=' . $saveFormat;
+
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml');        
+
+        $v_output = Utils::validateOutput($responseStream);
+        
+        if ($v_output === '') {
+            if ($saveFormat == 'html') {
+                $outputFormat = 'zip';
+            } else {
+                $outputFormat = $saveFormat;
+            }
+            
+            $outputFileName = Utils::getFileName($outputFile) . '.' . $outputFormat;
+            Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFileName);
+            return $outputFileName;
+        } else {
+            return $v_output;
+        }
+    }
 
     /**
      * @return string

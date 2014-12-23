@@ -688,7 +688,63 @@ class Document
         } else
             return $v_output;
     }
+    
+    /**
+     * Delete Background of a PowerPoint Slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
+    public function deleteBackground($slideNumber) {
+        if ($slideNumber == '')
+            throw new Exception('Slide number not specified');
 
+        //build URI
+        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber .'/background';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
+    
+    /**
+     * Get Background of a PowerPoint Slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function getBackground($slideNumber) {        
+        if ($slideNumber == '')
+            throw new Exception('Slide number not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/slides/' . $this->fileName . '/slides/' . $slideNumber .'/background';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);
+        
+        if ($json->Code == 200)
+            return $json->Background;
+        else
+            return false;
+    }
+    
     /**
      * @return string
      */
