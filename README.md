@@ -83,7 +83,7 @@ The Aspose Cloud SDK for PHP allows you to save the output files at your specifi
 
 ###Docs
 
-For SDK API Ref Docs, please go through [wiki](http://asposeforcloud.github.io/php-sdk-docs/).
+For SDK API Ref Docs, please go through [API Docs](http://asposeforcloud.github.io/php-sdk-docs/).
 For SDK Usage Examples, please go through [wiki](https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP/wiki).
 For Aspose Cloud APIs related help, please go through [Aspose.Total for Cloud](http://www.aspose.com/cloud/total-api.aspx).
 
