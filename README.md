@@ -1,6 +1,6 @@
 #Aspose Cloud SDK for PHP Repository
 
-This repository contains Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose REST API in your PHP applications quickly and easily. 
+This repository holds Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose REST API in your PHP applications quickly and easily. 
 
 
 ##What's included in this SDK repository?
@@ -63,6 +63,11 @@ This repository contains Aspose Cloud SDK for PHP source code. This SDK allows y
 <td>This module provides the features to process image file formats using Aspose.Imaging for Cloud.</td>
 </tr>
 
+<tr>
+<td>Tasks</td>
+<td>This module provides the features to process Microsoft Project file formats using Aspose.Tasks for Cloud.</td>
+</tr>
+
 </table>
 
 
@@ -78,7 +83,8 @@ The Aspose Cloud SDK for PHP allows you to save the output files at your specifi
 
 ###Docs
 
-For SDK related help, please go through [wiki](https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP/wiki).
+For SDK API Ref Docs, please go through [wiki](http://asposeforcloud.github.io/php-sdk-docs/).
+For SDK Usage Examples, please go through [wiki](https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP/wiki).
 For Aspose Cloud APIs related help, please go through [Aspose.Total for Cloud](http://www.aspose.com/cloud/total-api.aspx).
 
 ##Start a Free Trial Today
