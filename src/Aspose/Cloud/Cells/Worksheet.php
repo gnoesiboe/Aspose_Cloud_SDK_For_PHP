@@ -14,7 +14,7 @@ class Worksheet
     public $fileName = '';
     public $worksheetName = '';
 
-    public function __construct($fileName, $worksheetName)
+    public function __construct($fileName='', $worksheetName='')
     {
         $this->fileName = $fileName;
         $this->worksheetName = $worksheetName;

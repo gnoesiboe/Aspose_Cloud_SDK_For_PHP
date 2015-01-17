@@ -15,7 +15,7 @@ class Converter
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName, $saveFormat = 'mpp')
+    public function __construct($fileName='', $saveFormat = 'mpp')
     {
         //set default values
         $this->fileName = $fileName;

@@ -14,7 +14,7 @@ class Extractor
 
     public $fileName = '';
 
-    public function __construct($fileName)
+    public function __construct($fileName='')
     {
         //set default values
         $this->fileName = $fileName;
