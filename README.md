@@ -5,8 +5,6 @@ This repository contains Aspose Cloud SDK for PHP source code. This SDK allows y
 
 ##What's included in this SDK repository?
 
-###Code
-
 <table>
 <tr>
 <th>Module</th>
@@ -67,20 +65,72 @@ This repository contains Aspose Cloud SDK for PHP source code. This SDK allows y
 
 
 
-###Data
+### Data
 
 In order to manipulate any files, you first need to upload them to the Aspose Cloud storage using Storage module. 
 
-###Output
+### Output
 
 The Aspose Cloud SDK for PHP allows you to save the output files at your specified location.
 
+Make use of the EventDispatcher
+-------------------------------
 
-###Docs
+The SDK allows you to alter the calls made by [connecting `EventListeners`](http://symfony.com/doc/current/components/event_dispatcher/introduction.html#connecting-listeners). You can simply register a php callable in your code by using the following example:
+
+```php
+use Aspose\Cloud\Common\AsposeApp;
+use Aspose\Cloud\Event\ProcessCommandEvent;
+
+$dispatcher = AsposeApp::getEventDispatcher();
+$dispatcher->addListener(ProcessCommandEvent::PRE_CURL, function (ProcessCommandEvent $event) {
+    // will be executed when the ProcessCommandEvent::PRE_CURL event is dispatched
+    curl_setopt($event->getSession(), CURLOPT_TIMEOUT, 60); 
+});
+```
+
+The SDK currenlty dispatches the following events. Please use the Event class constants in your code to register to the specific events.
+
+<table>
+<tr>
+<th>Module</th>
+<th>Event names</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Utils</td>
+<td>ProcessCommandEvent::PRE_CURL</td>
+<td>Allows you to alter the curl session before the call is executed.</td>
+</tr>
+
+<tr>
+<td>Utils</td>
+<td>ProcessCommandEvent::POST_CURL</td>
+<td>Allows you to alter the curl session and response after the curl request is executed, but before the curl session is closed.</td>
+</tr>
+
+<tr>
+<td>Utils</td>
+<td>ValidateOutputEvent::VALIDATE_OUTPUT</td>
+<td>Allows you to add extra validation on the result, by altering the invalid variable.</td>
+</tr>
+
+<tr>
+<td>Pdf & Document</td>
+<td>SplitPageEvent::PAGE_IS_SPLIT</td>
+<td>Triggers after a SDK split call, for each page that was split. This allows you to use the `$outputFile` and `$pageNumber` directly after it was saved by `Utils::saveFile`.</td>
+</tr>
+
+</table>
+
+Docs
+----
 
 For SDK related help, please go through [wiki](https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP/wiki).
 For Aspose Cloud APIs related help, please go through [Aspose.Total for Cloud](http://www.aspose.com/cloud/total-api.aspx).
 
-##Start a Free Trial Today
+Start a Free Trial Today
+------------------------
 
 Start a free trial today – all you need is to [sign up](https://cloud.aspose.com/SignUp) with Aspose for Cloud service. Once you have signed up, you are ready to try powerful file processing features offered by Aspose for Cloud.
