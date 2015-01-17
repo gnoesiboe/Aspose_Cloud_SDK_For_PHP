@@ -179,7 +179,6 @@ class Document
 
         $json = json_decode($responseStream);
 
-
         if ($json->Code == 200) {
             foreach ($json->SplitResult->Slides as $splitPage) {
                 $splitFileName = basename($splitPage->Href);
