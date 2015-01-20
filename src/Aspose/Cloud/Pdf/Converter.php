@@ -15,7 +15,7 @@ class Converter
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName, $saveFormat = 'Pdf')
+    public function __construct($fileName='', $saveFormat = 'Pdf')
     {
         $this->fileName = $fileName;
         $this->saveFormat = $saveFormat;

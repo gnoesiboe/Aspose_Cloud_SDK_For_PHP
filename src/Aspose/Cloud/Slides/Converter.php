@@ -15,7 +15,7 @@ class Converter
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName, $saveFormat = 'PPT')
+    public function __construct($fileName='', $saveFormat = 'PPT')
     {
         //set default values
         $this->fileName = $fileName;
