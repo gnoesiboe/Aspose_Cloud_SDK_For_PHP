@@ -6,10 +6,10 @@ use Aspose\Cloud\Event\ValidateOutputEvent;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 if (!function_exists('curl_init')) {
-    throw new Exception('Aspose needs the CURL PHP extension.');
+    AsposeApp::getLogger()->emergency('Aspose needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-    throw new Exception('Aspose needs the JSON PHP extension.');
+    AsposeApp::getLogger()->emergency('Aspose needs the JSON PHP extension.');
 }
 
 /**
@@ -97,6 +97,15 @@ class Utils
 
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
+
+        AsposeApp::getLogger()->info("Aspose Cloud SDK: processCommand called", array(
+            'url' => $url,
+            'method' => $method,
+            'headerType' => $headerType,
+            'src' => $src,
+            'returnType' => $returnType,
+        ));
+
         $session = curl_init();
 
         curl_setopt($session, CURLOPT_URL, $url);
@@ -124,9 +133,11 @@ class Utils
         $result = curl_exec($session);
         $header = curl_getinfo($session);
         if ($header['http_code'] != 200 && $header['http_code'] != 201) {
+            AsposeApp::getLogger()->error($result);
             throw new Exception($result);
         } else {
             if (preg_match('/You have processed/i', $result) || preg_match('/Your pricing plan allows only/i', $result)) {
+                AsposeApp::getLogger()->critical($result);
                 throw new Exception($result);
             }
         }
@@ -147,15 +158,24 @@ class Utils
      * Performs Aspose Api Request to Upload a file.
      *
      * @param string $url Target Aspose API URL.
-     * @param string $localfile Local file
+     * @param string $localFile Local file
      * @param string $headerType XML or JSON
+     * @param string $method
+     * @return mixed
      */
-    public static function uploadFileBinary($url, $localfile, $headerType = 'XML', $method = 'PUT')
+    public static function uploadFileBinary($url, $localFile, $headerType = 'XML', $method = 'PUT')
     {
-
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
-        $fp = fopen($localfile, 'r');
+
+        AsposeApp::getLogger()->info("Aspose Cloud SDK: uploadFileBinary called", array(
+            'url' => $url,
+            'localFile' => $localFile,
+            'headerType' => $headerType,
+            'method' => $method,
+        ));
+
+        $fp = fopen($localFile, 'r');
         $session = curl_init();
         curl_setopt($session, CURLOPT_VERBOSE, 1);
         curl_setopt($session, CURLOPT_USERPWD, 'user:password');
@@ -174,18 +194,18 @@ class Utils
             curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-aspose-client: PHPSDK/v1.0'));
         }
         curl_setopt($session, CURLOPT_INFILE, $fp);
-        curl_setopt($session, CURLOPT_INFILESIZE, filesize($localfile));
+        curl_setopt($session, CURLOPT_INFILESIZE, filesize($localFile));
         $result = curl_exec($session);
         curl_close($session);
         fclose($fp);
         return $result;
     }
 
-    public static function sign($UrlToSign)
+    public static function sign($urlToSign)
     {
         // parse the url
-        $UrlToSign = rtrim($UrlToSign, "/");
-        $url = parse_url($UrlToSign);
+        $urlToSign = rtrim($urlToSign, "/");
+        $url = parse_url($urlToSign);
 
         $urlPartToSign = $url['scheme'] . '://' . $url['host'] . str_replace(array(' ', '+'), array('%20', '%2B'), $url['path']);
 
@@ -207,15 +227,20 @@ class Utils
             $encodedSignature = str_replace($code, strtoupper($code), $encodedSignature);
         }
 
-        return $urlPartToSign . '&signature=' . $encodedSignature;
+        $returnUrl = $urlPartToSign . '&signature=' . $encodedSignature;
+        AsposeApp::getLogger()->debug("Aspose Cloud SDK: url signed", array(
+            'urlToSign' => $urlToSign,
+            'returnUrl' => $returnUrl,
+        ));
+
+        return $returnUrl;
     }
 
     /**
      * Encode a string to URL-safe base64
      *
-     * @param string $value Valure to endode.
-     *
-     *
+     * @param string $value value to encode
+     * @return mixed
      */
     private static function encodeBase64UrlSafe($value)
     {
@@ -227,8 +252,6 @@ class Utils
      *
      * @param string $input input stream.
      * @param string $fileName fileName along with the full path.
-     *
-     *
      */
     public static function saveFile($input, $fileName)
     {
@@ -285,24 +308,12 @@ class Utils
     }
 
     /**
-     * Decode a string from URL-safe base64
-     *
-     * @param string $value Value to Decode.
-     *
-     *
-     */
-    private static function decodeBase64UrlSafe($value)
-    {
-        return base64_decode(str_replace(array('-', '_'), array('+', '/'), $value));
-    }
-
-    /**
      * Will get the value of a field in JSON Response
      *
-     * @param string $jsonRespose JSON Response string.
+     * @param string $jsonResponse JSON Response string.
      * @param string $fieldName Field to be found.
      *
-     * @return getFieldValue($jsonRespose, $fieldName) - String Value of the given Field.
+     * @return getFieldValue($jsonResponse, $fieldName) - String Value of the given Field.
      */
     public function getFieldValue($jsonResponse, $fieldName)
     {
@@ -312,10 +323,10 @@ class Utils
     /**
      * This method parses XML for a count of a particular field.
      *
-     * @param string $jsonRespose JSON Response string.
+     * @param string $jsonResponse JSON Response string.
      * @param string $fieldName Field to be found.
      *
-     * @return getFieldCount($jsonRespose, $fieldName) - String Value of the given Field.
+     * @return getFieldCount($jsonResponse, $fieldName) - String Value of the given Field.
      */
     public function getFieldCount($jsonResponse, $fieldName)
     {
