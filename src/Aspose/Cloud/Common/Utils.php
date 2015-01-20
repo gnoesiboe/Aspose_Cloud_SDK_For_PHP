@@ -1,6 +1,8 @@
 <?php
 namespace Aspose\Cloud\Common;
 
+use Aspose\Cloud\Event\ProcessCommandEvent;
+use Aspose\Cloud\Event\ValidateOutputEvent;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
 if (!function_exists('curl_init')) {
@@ -85,15 +87,18 @@ class Utils
      * @param string $method Method to access the API such as GET, POST, PUT and DELETE
      * @param string $headerType XML or JSON
      * @param string $src Post data.
-     *
-     *
+     * @param string $returnType
+     * @return string
+     * @throws Exception
      */
     public static function processCommand($url, $method = 'GET', $headerType = 'XML', $src = '', $returnType = 'xml')
     {
+        $dispatcher = AsposeApp::getEventDispatcher();
 
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
         $session = curl_init();
+
         curl_setopt($session, CURLOPT_URL, $url);
         if ($method == 'GET') {
             curl_setopt($session, CURLOPT_HTTPGET, 1);
@@ -111,6 +116,11 @@ class Utils
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         if (preg_match('/^(https)/i', $url))
             curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);
+
+        // Allow users to register curl options before the call is executed
+        $event = new ProcessCommandEvent($session);
+        $dispatcher->dispatch(ProcessCommandEvent::PRE_CURL, $event);
+
         $result = curl_exec($session);
         $header = curl_getinfo($session);
         if ($header['http_code'] != 200 && $header['http_code'] != 201) {
@@ -120,8 +130,17 @@ class Utils
                 throw new Exception($result);
             }
         }
+
+        // Allow users to alter the result
+        $event = new ProcessCommandEvent($session, $result);
+
+        /** @var ProcessCommandEvent $dispatchedEvent */
+        $dispatchedEvent = $dispatcher->dispatch(ProcessCommandEvent::POST_CURL, $event);
+
         curl_close($session);
-        return $result;
+
+        // TODO test or the Event result needs to be returned in case an listener was triggered
+        return $dispatchedEvent->getResult();
     }
 
     /**
@@ -130,8 +149,6 @@ class Utils
      * @param string $url Target Aspose API URL.
      * @param string $localfile Local file
      * @param string $headerType XML or JSON
-     *
-     *
      */
     public static function uploadFileBinary($url, $localfile, $headerType = 'XML', $method = 'PUT')
     {
@@ -227,24 +244,44 @@ class Utils
         return $file_name;
     }
 
+    /**
+     * Check or the result does not contain an error message. If $result is invalid it contains the error message
+     * @param $result
+     * @return string
+     */
     public static function validateOutput($result)
     {
-        $string = (string)$result;
-        $validate = array('Unknown file format.', 'Unable to read beyond the end of the stream',
-            'Index was out of range', 'Cannot read that as a ZipFile', 'Not a Microsoft PowerPoint 2007 presentation',
-            'Index was outside the bounds of the array', 'An attempt was made to move the position before the beginning of the stream',
+        $result = (string) $result;
+        $validate = array(
+            'Unknown file format.',
+            'Unable to read beyond the end of the stream',
+            'Index was out of range',
+            'Cannot read that as a ZipFile',
+            'Not a Microsoft PowerPoint 2007 presentation',
+            'Index was outside the bounds of the array',
+            'An attempt was made to move the position before the beginning of the stream',
         );
         $invalid = 0;
         foreach ($validate as $key => $value) {
-            $pos = strpos($string, $value);
+            $pos = strpos($result, $value);
             if ($pos === 1) {
-                $invalid = 1;
+                $invalid = true;
             }
         }
-        if ($invalid == 1)
-            return $string;
-        else
-            return '';
+
+        // Event can be used to perform extra validation on the result
+        $dispatcher = AsposeApp::getEventDispatcher();
+        $event = new ValidateOutputEvent($result, $invalid);
+
+        /** @var ValidateOutputEvent $dispatchedEvent */
+        $dispatchedEvent = $dispatcher->dispatch(ValidateOutputEvent::VALIDATE_OUTPUT, $event);
+
+        // If the output is invalid it contains the error message
+        if ($dispatchedEvent->isInvalid() === true) {
+            return $result;
+        } else {
+            return ''; // FIXME returning an empty string here is really weird
+        }
     }
 
     /**

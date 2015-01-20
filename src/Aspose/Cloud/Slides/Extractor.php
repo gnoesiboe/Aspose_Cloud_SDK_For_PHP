@@ -154,6 +154,38 @@ class Extractor
 
         return $shapes;
     }
+    
+    /**
+     * Get a Particular Shape from the Slide.
+     * 
+     * @param integer $slideNumber The number of slide.
+     * @param integer $shapeIndex The index of shape.
+     * @param string $storageName The presentation storage name.
+     * @param string $folderName The presentation folder name.
+     * 
+     * @return array|boolean
+     * @throws Exception
+     */
+    public function getShape($slideNumber, $shapeIndex, $storageName = '', $folderName = '') {    
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber . '/shapes/' . $shapeIndex;
+        if ($folderName != '') {
+            $strURI .= '?folder=' . $folderName;
+        }
+        if ($storageName != '') {
+            $strURI .= '&storage=' . $storageName;
+        }
+        
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($responseStream);
+        
+        if ($json->Code == 200)
+            return $json->Shape;
+        else 
+            return false;
+    }
 
     /**
      * Get color scheme from the specified slide.

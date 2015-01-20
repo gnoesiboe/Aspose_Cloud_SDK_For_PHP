@@ -14,12 +14,11 @@ class Converter {
     public $fileName = '';
     public $saveFormat = '';
 
-    public function __construct($fileName='')
+    public function __construct($fileName, $saveFormat='Doc')
     {
         //set default values
         $this->fileName = $fileName;
-
-        $this->saveFormat = 'Doc';
+        $this->saveFormat = $saveFormat;
     }
 
     /**
@@ -112,4 +111,22 @@ class Converter {
         $this->fileName = $fileName;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getSaveFormat()
+    {
+        return $this->saveFormat;
+    }
+
+    /**
+     * @param string $saveFormat
+     */
+    public function setSaveFormat($saveFormat)
+    {
+        $this->saveFormat = $saveFormat;
+        return $this;
+    }
+
 }
