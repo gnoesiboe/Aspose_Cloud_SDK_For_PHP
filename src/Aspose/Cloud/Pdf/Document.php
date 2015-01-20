@@ -7,6 +7,7 @@ namespace Aspose\Cloud\Pdf;
 use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Common\Utils;
+use Aspose\Cloud\Event\SplitPageEvent;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 use Aspose\Cloud\Storage\Folder;
 
@@ -744,22 +745,30 @@ class Document
      */
     public function splitAllPages()
     {
-
         $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/split';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.pdf';
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
-            echo $outputFile . '<br />';
-            $i++;
+            echo $outputFile . '<br />'; // FIXME what is the function of this, why let the API echo?
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
     }
 
@@ -779,17 +788,26 @@ class Document
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.pdf';
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
-            $i++;
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
     }
 
@@ -809,17 +827,26 @@ class Document
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.' . $format;
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.' . $format;
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
-            $i++;
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
     }
     
