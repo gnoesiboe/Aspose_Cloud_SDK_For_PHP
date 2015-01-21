@@ -2,6 +2,7 @@
 
 namespace Aspose\Cloud\Event;
 
+use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Exception\AsposeCloudException;
 
 class SplitPageEvent extends AbstractEvent
@@ -50,6 +51,7 @@ class SplitPageEvent extends AbstractEvent
     public function getPageNumber()
     {
         if (null === $this->pageNumber) {
+            AsposeApp::getLogger()->error('PageNumber is not set for this event.');
             throw new AsposeCloudException('PageNumber is not set for this event.');
         }
         return $this->pageNumber;

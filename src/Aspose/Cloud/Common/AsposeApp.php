@@ -6,6 +6,8 @@
  */
 namespace Aspose\Cloud\Common;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -36,6 +38,12 @@ class AsposeApp
      * @var EventDispatcherInterface
      */
     private static $eventDispatcher;
+
+    /**
+     * @var LoggerInterface
+     */
+    private static $logger;
+
 
     /**
      * @return string
@@ -109,10 +117,10 @@ class AsposeApp
      */
     public static function getEventDispatcher()
     {
-        if (null !== self::$eventDispatcher) {
-            return self::$eventDispatcher;
+        if (null === self::$eventDispatcher) {
+            self::$eventDispatcher = new EventDispatcher();
         }
-        self::$eventDispatcher = new EventDispatcher();
+        return self::$eventDispatcher;
     }
 
     /**
@@ -130,4 +138,24 @@ class AsposeApp
     {
         return (null !== self::$eventDispatcher);
     }
+
+    /**
+     * @return LoggerInterface
+     */
+    public static function getLogger()
+    {
+        if (null === self::$logger) {
+            self::$logger = Logger::newInstance();
+        }
+        return self::$logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public static function setLogger($logger)
+    {
+        self::$logger = $logger;
+    }
+
 }

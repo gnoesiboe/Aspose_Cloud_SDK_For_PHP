@@ -888,14 +888,13 @@ class Document
             return false;
         }    
     }
-    
+
     /**
      * Sign PDF Documents
-     * 
-     * @param integer $pageNumber Number of the page.
+     *
+     * @param int|string $pageNumber Number of the page.
      * @param json $postData Data should be in JSON format.
-     * 
-     * @return string|boolean
+     * @return bool|string
      * @throws Exception
      */
     public function addSignature($pageNumber='', $postData) 
@@ -933,7 +932,8 @@ class Document
     public function getFileName()
     {
         if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
         }
         return $this->fileName;
     }
