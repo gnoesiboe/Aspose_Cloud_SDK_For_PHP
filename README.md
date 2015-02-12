@@ -1,6 +1,23 @@
 #Aspose Cloud SDK for PHP Repository
 
-This repository holds Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose REST API in your PHP applications quickly and easily. 
+This repository holds Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose REST API in your PHP applications quickly and easily.
+
+Installation
+----------------------------------
+
+Add the following line to your composer.json file:
+
+```json
+// composer.json
+{
+    require: {
+        "aspose/cloud-sdk-php": "dev-master"
+    }
+}
+```
+
+Install the new dependencies by running `composer update` from the directory where your composer.json file is located.
+ 
 
 
 ##What's included in this SDK repository?
