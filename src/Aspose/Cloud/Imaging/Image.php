@@ -20,7 +20,7 @@ class Image
 
     public $fileName;
 
-    public function __construct($fileName)
+    public function __construct($fileName='')
     {
         $this->fileName = $fileName;
     }

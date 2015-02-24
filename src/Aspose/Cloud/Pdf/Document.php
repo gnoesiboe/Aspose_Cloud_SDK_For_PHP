@@ -7,6 +7,7 @@ namespace Aspose\Cloud\Pdf;
 use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Common\Utils;
+use Aspose\Cloud\Event\SplitPageEvent;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 use Aspose\Cloud\Storage\Folder;
 
@@ -15,7 +16,7 @@ class Document
 
     public $fileName = '';
 
-    public function __construct($fileName)
+    public function __construct($fileName='')
     {
         $this->fileName = $fileName;
     }
@@ -213,6 +214,123 @@ class Document
         } else
             return $v_output;
     }
+    
+    /**
+     * Creates a PDF from JPEG.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * @param string $jpegFileName Name of the JPEG file.     
+     * 
+     * @return string Returns the file path
+     * @throws Exception
+     */
+    public function createFromJpeg($pdfFileName, $jpegFileName) 
+    {
+        //check whether files are set or not
+        if ($pdfFileName == '')
+            throw new Exception('PDF file name not specified');
+        if ($jpegFileName == '')
+            throw new Exception('Template file name not specified');        
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/pdf/' . $pdfFileName . '?templateFile=' . $jpegFileName . '&templateType=jpeg';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            //Save PDF file on server
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($pdfFileName);
+            $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        }
+        else
+            return $v_output;
+    }
+    
+    /**
+     * Creates a PDF from SVG.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * @param string $svgFileName Name of the Svg file.     
+     * 
+     * @return string Returns the file path
+     * @throws Exception
+     */
+    public function createFromSvg($pdfFileName, $svgFileName) 
+    {
+        //check whether files are set or not
+        if ($pdfFileName == '')
+            throw new Exception('PDF file name not specified');
+        if ($svgFileName == '')
+            throw new Exception('Svg file name not specified');        
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/pdf/' . $pdfFileName . '?templateFile=' . $svgFileName . '&templateType=svg';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            //Save PDF file on server
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($pdfFileName);
+            $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        }
+        else
+            return $v_output;
+    }
+    
+    /**
+     * Creates a PDF from TIFF.
+     * 
+     * @param string $pdfFileName Name of the PDF file to create.
+     * @param string $tiffFileName Name of the Tiff file.     
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function createFromTiff($pdfFileName, $tiffFileName) 
+    {
+        //check whether files are set or not
+        if ($pdfFileName == '')
+            throw new Exception('PDF file name not specified');
+        if ($tiffFileName == '')
+            throw new Exception('Tiff file name not specified');        
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/pdf/' . $pdfFileName . '?templateFile=' . $tiffFileName . '&templateType=tiff';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'PUT', '', '');
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            //Save PDF file on server
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($pdfFileName);
+            $outputPath = AsposeApp::$outPutLocation . $pdfFileName;
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        }
+        else
+            return $v_output;
+    }
 
     /**
      * Gets the FormField count of the specified PDF document.
@@ -277,6 +395,50 @@ class Document
         $json = json_decode($responseStream);
 
         return $json->Field;
+    }
+    
+    /**
+     * Update a Form Field in a PDF Document.
+     *  
+     * @param string $fieldName The name of the field.
+     * @param string $fieldType A value indicating the type of the form field. Available values - text, boolean, integer, list.
+     * @param string $fieldValue The value of the form field.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function updateFormField($fieldName, $fieldType, $fieldValue) 
+    {
+        if ($fieldName == '')
+            throw new Exception('Field name not specified');
+        
+        if ($fieldType == '')
+            throw new Exception('Field type not specified');
+        
+        if ($fieldValue == '')
+            throw new Exception('Field value not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/fields/' . $fieldName;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        $postData = json_encode(array(
+                            "Name" => $fieldName,
+                            "Type" => $fieldType,
+                            "Values" => array($fieldValue)
+                          ));
+
+        //get response stream
+        $responseStream = Utils::ProcessCommand($signedURI, 'PUT', 'JSON', $postData);
+
+        $json = json_decode($responseStream);
+        
+        if ($json->Code == 200)
+            return $json->Field;
+        else
+            return false;
     }
 
     /**
@@ -583,22 +745,30 @@ class Document
      */
     public function splitAllPages()
     {
-
         $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/split';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.pdf';
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
-            echo $outputFile . '<br />';
-            $i++;
+            echo $outputFile . '<br />'; // FIXME what is the function of this, why let the API echo?
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
     }
 
@@ -618,17 +788,26 @@ class Document
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.pdf';
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.pdf';
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
-            $i++;
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
     }
 
@@ -648,18 +827,103 @@ class Document
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
         $json = json_decode($responseStream);
-        $i = 1;
+
+        $dispatcher = AsposeApp::getEventDispatcher();
+
+        $pageNumber = 1;
         foreach ($json->Result->Documents as $splitPage) {
             $splitFileName = basename($splitPage->Href);
             $strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
-            $fileName = $this->getFileName() . '_' . $i . '.' . $format;
+
+            $fileName = $this->getFileName() . '_' . $pageNumber . '.' . $format;
             $outputFile = AsposeApp::$outPutLocation . $fileName;
+
             Utils::saveFile($responseStream, $outputFile);
             echo $outputFile . '<br />';
-            $i++;
+
+            $event = new SplitPageEvent($outputFile, $pageNumber);
+            $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
+
+            $pageNumber++;
         }
+    }
+    
+    /**
+     * Add Text Stamp (Watermark) to a PDF Page
+     * Add Image Stamp (Watermark) to a PDF Page
+     * Add PDF Page as Stamp (Watermark) to a PDF Page
+     * Add Page Number Stamp to a PDF Page
+     * 
+     * @param integer $pageNumber Number of the page.
+     * @param json $postData Data shoud be in JSON format.
+     * 
+     * @return string|boolean
+     * @throws Exception
+     */
+    public function addStamp($pageNumber, $postData) 
+    {        
+        if ($pageNumber == '')
+            throw new Exception('Page number not specified');        
+        
+        if ($postData == '')
+            throw new Exception('Data not provided');        
+        
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/pages/' . $pageNumber . '/stamp';
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::processCommand($signedURI, 'PUT', 'JSON', $postData);
+        
+        $json = json_decode($responseStream);        
+        
+        if ($json->Code == 200) {                                    
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($outputStream, $outputPath);            
+            return $outputPath;
+        } else {
+            return false;
+        }    
+    }
+
+    /**
+     * Sign PDF Documents
+     *
+     * @param int|string $pageNumber Number of the page.
+     * @param json $postData Data should be in JSON format.
+     * @return bool|string
+     * @throws Exception
+     */
+    public function addSignature($pageNumber='', $postData) 
+    {
+        if ($postData == '')
+            throw new Exception('Data not provided');        
+        
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName();
+        
+        if ($pageNumber)
+            $strURI .= '/pages/' . $pageNumber;
+        
+        $strURI .= '/sign';
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'JSON', $postData);
+        
+        $json = json_decode($responseStream);
+        
+        if ($json->Code == 200) {                                    
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($outputStream, $outputPath);            
+            return $outputPath;
+        } else {
+            return false;
+        }    
     }
 
     /**
@@ -668,7 +932,8 @@ class Document
     public function getFileName()
     {
         if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
         }
         return $this->fileName;
     }

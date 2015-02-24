@@ -7,6 +7,7 @@ namespace Aspose\Cloud\Words;
 use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
+use Aspose\Cloud\Event\SplitPageEvent;
 use Aspose\Cloud\Storage\Folder;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
 
@@ -14,7 +15,7 @@ class Document {
 
     public $fileName = '';
 
-    public function __construct($fileName)
+    public function __construct($fileName='')
     {
         $this->fileName = $fileName;
     }
@@ -161,7 +162,9 @@ class Document {
         $json = json_decode($responseStream);
 
         if ($json->Code == 200) {
-            foreach ($json->SplitResult->Pages as $splitPage) {
+
+            $dispatcher = AsposeApp::getEventDispatcher();
+            foreach ($json->SplitResult->Pages as $pageNumber => $splitPage) {
                 $splitFileName = basename($splitPage->Href);
 
                 //build URI to download split slides
@@ -169,10 +172,15 @@ class Document {
                 //sign URI
                 $signedURI = Utils::Sign($strURI);
                 $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
                 //save split slides
                 $outputFile = AsposeApp::$outPutLocation . $splitFileName;
                 Utils::saveFile($responseStream, $outputFile);
+
+                $event = new SplitPageEvent($outputFile, $pageNumber +1);
+                $dispatcher->dispatch(SplitPageEvent::PAGE_IS_SPLIT, $event);
             }
+            return $json->SplitResult->Pages;
         }
         else
             return false;
@@ -1066,7 +1074,8 @@ class Document {
     public function getFileName()
     {
         if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
         }
         return $this->fileName;
     }

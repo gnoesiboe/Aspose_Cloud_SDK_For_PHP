@@ -15,7 +15,7 @@ class Assignment
 
     public $fileName = '';
 
-    public function __construct($fileName)
+    public function __construct($fileName='')
     {
         $this->fileName = $fileName;
     }
@@ -162,7 +162,8 @@ class Assignment
     public function getFileName()
     {
         if ($this->fileName == '') {
-            throw new Exception('No File Name Specified');
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
         }
         return $this->fileName;
     }

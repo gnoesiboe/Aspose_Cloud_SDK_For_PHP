@@ -4,6 +4,7 @@
  */
 namespace Aspose\Cloud\Storage;
 
+use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
@@ -58,8 +59,10 @@ class Folder
     public function fileExists($fileName, $storageName = '')
     {
         //check whether file is set or not
-        if ($fileName == '')
-            throw new Exception('No file name specified');
+        if ($fileName == '') {
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
+        }
 
         //build URI
         $strURI = $this->strURIExist . $fileName;
@@ -88,9 +91,12 @@ class Folder
     public function deleteFile($fileName, $storageName = '')
     {
         //check whether file is set or not
+        if ($fileName == '') {
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
+        }
+
         //build URI
-        if ($fileName == '')
-            throw new Exception('No file name specified');
         $strURI = $this->strURIFile . $fileName;
         if ($storageName != '') {
             $strURI .= '?storage=' . $storageName;
@@ -197,8 +203,10 @@ class Folder
     public function getFile($fileName, $storageName = '')
     {
         //check whether file is set or not
-        if ($fileName == '')
-            throw new Exception('No file name specified');
+        if ($fileName == '') {
+            AsposeApp::getLogger()->error(Exception::MSG_NO_FILENAME);
+            throw new Exception(Exception::MSG_NO_FILENAME);
+        }
 
         //build URI
         $strURI = $this->strURIFile . $fileName;
