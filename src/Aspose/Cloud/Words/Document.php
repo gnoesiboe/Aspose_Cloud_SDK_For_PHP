@@ -10,6 +10,7 @@ use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Event\SplitPageEvent;
 use Aspose\Cloud\Storage\Folder;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Document {
 
@@ -120,48 +121,47 @@ class Document {
     }
 
     /**
-     * @param string $from From page number.
-     * @param string $to To page number.
-     * @param string $format Returns document in the specified format.
-     * @param string $storageName Name of the storage.
-     * @param string $folder Name of the folder.
-     * 
+     * @param array $options that will get processed using a OptionsResolver
+     * <ul>
+     *  <li>'from' => (int) page number,</li>
+     *  <li>'to' => (int) page number,</li>
+     *  <li>'format' => (string) Returns document in the specified format,</li>
+     *  <li>'storageName' => (string) Name of the storage,</li>
+     *  <li>'folder' => (string) Name of the folder,</li>
+     *  <li>'zipOutput' => (bool) save the results as .zip file,</li>
+     * </ul>
+     *
      * @return string|boolean
      * @throws Exception
+     * @see OptionsResolver
      */
-
-    public function splitDocument($from='' ,$to='', $format='pdf', $storageName = '', $folder = '')
+    public function splitDocument(array $options=array())
     {
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/split?';
 
-        if ($folder != '') {
-            $strURI .= '&folder=' . $folder;
-        }
+        $resolver = new OptionsResolver();
+        $resolver->setDefined(array(
+            'from',
+            'to',
+            'format',
+            'storage',
+            'folder',
+            'zipOutput',
+        ));
+        $options = $resolver->resolve($options);
 
-        if ($storageName != '') {
-            $strURI .= '&storage=' . $storageName;
-        }
-
-        if ($from != '') {
-            $strURI .= '&from=' . $from;
-        }
-
-        if ($to != '') {
-            $strURI .= '&to=' . $to;
-        }
-
-        if ($format != '') {
-            $strURI .= '&format=' . $format;
-        }
-
-        $strURI = rtrim($strURI,'?');
+        $strURI .=  http_build_query($options);
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
-
         $json = json_decode($responseStream);
 
         if ($json->Code == 200) {
+
+            // Just return the json in case of a zip result
+            if (isset($options['zipOutput'])) {
+                return $json->SplitResult;
+            }
 
             $dispatcher = AsposeApp::getEventDispatcher();
             foreach ($json->SplitResult->Pages as $pageNumber => $splitPage) {
