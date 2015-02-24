@@ -11,7 +11,7 @@ Add the following line to your composer.json file:
 // composer.json
 {
     require: {
-        "aspose/cloud-sdk-php": "dev-master"
+        "aspose/cloud-sdk-php": "~1.1"
     }
 }
 ```
