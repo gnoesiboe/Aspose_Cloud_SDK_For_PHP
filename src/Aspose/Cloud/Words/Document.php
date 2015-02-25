@@ -132,7 +132,7 @@ class Document {
      * </ul>
      *
      * @return string|boolean
-     * @throws Exception
+     * @throws Exception|InvalidOptionsException
      * @see OptionsResolver
      */
     public function splitDocument(array $options=array())
@@ -300,7 +300,7 @@ class Document {
      * </ul>
      *
      * @return object|boolean
-     * @throws Exception
+     * @throws Exception|InvalidOptionsException
      * @see OptionsResolver
      */
     public function setProperty(array $options)
@@ -332,33 +332,49 @@ class Document {
     /**
      * Protect a document on the Aspose cloud storage.
      * 
-     * @param type $password Document protection password. 
-     * @param type $protectionType Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection. 
+     * @param array $options that will get processed using a OptionsResolver
+     * <ul>
+     *  <li>'ProtectionType' => (string) Document protection password</li>
+     *  <li>'ProtectionType' => (string) Document protection type, one from: AllowOnlyComments, AllowOnlyFormFields, AllowOnlyRevisions, ReadOnly, NoProtection</li>
+     * </ul>
      * 
-     * @return string Returns the file path.
-     * @throws Exception
+     * @return string $filePath.
+     * @throws Exception|InvalidOptionsException
      */
-    public function protectDocument($password, $protectionType = 'AllowOnlyComments')
+    public function protectDocument(array $options)
     {
-        if ($password == '') {
-            throw new Exception('Please Specify A Password');
-        }
-        $fieldsArray = array('Password' => $password, 'ProtectionType' => $protectionType);
-        $json = json_encode($fieldsArray);
+        $resolver = new OptionsResolver();
+        $resolver->setRequired('Password')
+                 ->setDefaults(array(
+                     'ProtectionType' => 'AllowOnlyComments'
+                 ))
+                 ->setAllowedValues('ProtectionType', array(
+                     'AllowOnlyComments',
+                     'AllowOnlyFormFields',
+                     'AllowOnlyRevisions',
+                     'ReadOnly',
+                     'NoProtection',
+                 ));
+        $options = $resolver->resolve($options);
+
+        $json = json_encode($options);
+
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/protection';
         $signedURI = Utils::sign($strURI);
         $responseStream = Utils::processCommand($signedURI, 'PUT', 'json', $json);
         $v_output = Utils::validateOutput($responseStream);
+
         if ($v_output === '') {
             $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
             $signedURI = Utils::sign($strURI);
             $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
             $outputFile = AsposeApp::$outPutLocation . $this->getFileName();
             Utils::saveFile($responseStream, $outputFile);
+
             return $outputFile;
-        }
-        else
+        } else {
             return $v_output;
+        }
     }
 
     /**
