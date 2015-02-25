@@ -292,25 +292,27 @@ class Document {
 
     /**
      * Set document property.
-     * 
-     * @param string $propertyName The name of property.
-     * @param string $propertyValue The value of property.
-     * 
+     *
+     * @param array $options that will get processed using a OptionsResolver
+     * <ul>
+     *  <li>'propertyName' => (string) Name of the Word property,</li>
+     *  <li>'propertyValue' => (string) Value of the Word property,</li>
+     * </ul>
+     *
      * @return object|boolean
      * @throws Exception
+     * @see OptionsResolver
      */
-    public function setProperty($propertyName, $propertyValue)
+    public function setProperty(array $options)
     {
-        if ($propertyName == '')
-            throw new Exception('Property Name not specified');
-
-        if ($propertyValue == '')
-            throw new Exception('Property Value not specified');
+        $resolver = new OptionsResolver();
+        $resolver->setRequired(array('propertyName', 'propertyValue'));
+        $options = $resolver->resolve($options);
 
         //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties/' . $propertyName;
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/documentProperties/' . $options['propertyName'];
 
-        $put_data_arr['Value'] = $propertyValue;
+        $put_data_arr['Value'] = $options['propertyValue'];
 
         $put_data = json_encode($put_data_arr);
 
