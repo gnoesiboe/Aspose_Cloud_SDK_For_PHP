@@ -31,6 +31,10 @@ class Document {
     {
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/updateFields';
+        
+        AsposeApp::getLogger()->info('WordsDocument updateFields call will be made', array(
+            'call-uri' => $strURI,
+        ));
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -39,10 +43,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -56,6 +64,10 @@ class Document {
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/revisions/rejectAll';
 
+        AsposeApp::getLogger()->info('WordsDocument rejectTrackingChanges call will be made', array(
+            'call-uri' => $strURI,
+        ));
+        
         //sign URI
         $signedURI = Utils::sign($strURI);
 
@@ -63,11 +75,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -80,6 +95,10 @@ class Document {
     {
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/revisions/acceptAll';
+        
+        AsposeApp::getLogger()->info('WordsDocument acceptTrackingChanges call will be made', array(
+            'call-uri' => $strURI,
+        ));
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -88,11 +107,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -105,6 +127,10 @@ class Document {
     {
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/statistics';
+        
+        AsposeApp::getLogger()->info('WordsDocument getStats call will be made', array(
+            'call-uri' => $strURI,
+        ));
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -113,11 +139,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->StatData;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -151,6 +180,11 @@ class Document {
         $options = $resolver->resolve($options);
 
         $strURI .=  http_build_query($options);
+        
+        AsposeApp::getLogger()->info('WordsDocument splitDocument call will be made', array(
+            'call-uri' => $strURI,
+        ));
+        
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
@@ -160,8 +194,11 @@ class Document {
 
             // Just return the json in case of a zip result
             if (isset($options['zipOutput'])) {
+                AsposeApp::getLogger()->info('zipOutput found, so return entire splitResult');
                 return $json->SplitResult;
             }
+            
+            AsposeApp::getLogger()->info('Separately save each of the split pages');
 
             $dispatcher = AsposeApp::getEventDispatcher();
             foreach ($json->SplitResult->Pages as $pageNumber => $splitPage) {
@@ -182,9 +219,11 @@ class Document {
             }
             return $json->SplitResult->Pages;
         }
-        else
-            return false;
-
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -230,8 +269,11 @@ class Document {
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
         }
-        else
-            return $v_output;
+        
+        AsposeApp::getLogger()->warning('Error occured, output could not be validated.', array(
+            'v-output' => $v_output,
+        ));
+        return $v_output;
     }
 
     /**
@@ -253,10 +295,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Document;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -284,10 +330,14 @@ class Document {
         $json = json_decode($responseStream);
 
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->DocumentProperty;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -323,10 +373,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->DocumentProperty;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -483,10 +537,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -508,10 +566,14 @@ class Document {
         $json = json_decode($responseStream);
 
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->DocumentProperties->List;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /*
@@ -601,10 +663,11 @@ class Document {
                 return $v_output;
 
         }
-        else {
-            return false;
-        }
-
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /*
@@ -623,11 +686,14 @@ class Document {
         $responseStream = Utils::processCommand($signedURI, 'GET','');
 
         $json = json_decode($responseStream);
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Sections->SectionLinkList;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /*
@@ -652,11 +718,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Section;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /*
@@ -675,11 +744,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -703,11 +775,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->PageSetup;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -734,11 +809,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->PageSetup;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -758,11 +836,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->FieldNames;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -782,11 +863,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Paragraphs->ParagraphLinkList;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -810,11 +894,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Paragraph;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -842,11 +929,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Run;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -873,10 +963,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Font;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
     /**
@@ -907,11 +1001,14 @@ class Document {
 
         $json = json_decode($responseStream);
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Font;
-        else
-            return false;
-
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -932,10 +1029,14 @@ class Document {
 
         $json = json_decode($responseStream);        
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Hyperlinks->HyperlinkList;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -961,10 +1062,14 @@ class Document {
 
         $json = json_decode($responseStream);        
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Hyperlink;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -985,10 +1090,14 @@ class Document {
 
         $json = json_decode($responseStream);        
 
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return count($json->Hyperlinks->HyperlinkList);
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -1009,10 +1118,14 @@ class Document {
 
         $json = json_decode($responseStream);        
         
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Bookmarks->BookmarkList;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -1038,10 +1151,14 @@ class Document {
 
         $json = json_decode($responseStream);        
         
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return $json->Bookmark;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -1062,10 +1179,14 @@ class Document {
 
         $json = json_decode($responseStream);        
         
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return count($json->Bookmarks->BookmarkList);
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
     
     /**
@@ -1094,10 +1215,14 @@ class Document {
 
         $json = json_decode($responseStream);        
         
-        if ($json->Code == 200)
+        if ($json->Code == 200) {
             return true;
-        else
-            return false;
+        }
+        
+        AsposeApp::getLogger()->warning('Error occured, http 200 code was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
     }
 
 
