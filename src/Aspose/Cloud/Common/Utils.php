@@ -133,11 +133,11 @@ class Utils
         $result = curl_exec($session);
         $header = curl_getinfo($session);
         if ($header['http_code'] != 200 && $header['http_code'] != 201) {
-            AsposeApp::getLogger()->error($result);
+            AsposeApp::getLogger()->warning($result);
             throw new Exception($result);
         } else {
             if (preg_match('/You have processed/i', $result) || preg_match('/Your pricing plan allows only/i', $result)) {
-                AsposeApp::getLogger()->critical($result);
+                AsposeApp::getLogger()->alert($result);
                 throw new Exception($result);
             }
         }
