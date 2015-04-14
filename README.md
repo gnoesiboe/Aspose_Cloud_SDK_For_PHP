@@ -1,3 +1,5 @@
+[![PHP version](https://badge.fury.io/ph/aspose%2Fcloud-sdk-php.svg)](http://badge.fury.io/ph/aspose%2Fcloud-sdk-php)
+
 #Aspose Cloud SDK for PHP Repository
 
 This repository holds Aspose Cloud SDK for PHP source code. This SDK allows you to work with Aspose REST API in your PHP applications quickly and easily.
