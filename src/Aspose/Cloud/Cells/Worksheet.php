@@ -4,6 +4,7 @@
  */
 namespace Aspose\Cloud\Cells;
 
+use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
@@ -334,6 +335,95 @@ class Worksheet
             return false;
         }
 
+    }
+    
+    /**
+     * Add Hyperlinks to Excel Worksheet
+     *
+     * @param integer $firstRow Index of the first row.
+     * @param integer $firstColumn Index of the first column.
+     * @param integer $totalRows Number of rows to be operated.
+     * @param integer $totalColumns Number of column to be operated.
+     * @param string $url The address of a hyperlink.
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function addHyperlink($firstRow, $firstColumn, $totalRows, $totalColumns, $url)
+    {
+        //check whether worksheet name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+	
+        if ($firstRow == '')
+            throw new Exception('First Row not specified');
+	
+        if ($firstColumn == '')
+            throw new Exception('First Column not specified');
+	
+        if ($totalRows == '')
+            throw new Exception('Total Rows not specified');
+	
+        if ($totalColumns == '')
+            throw new Exception('Total Columns not specified');
+	
+        if ($url == '')
+            throw new Exception('URL not specified');				
+						
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
+            '/worksheets/' . $this->worksheetName . '/hyperlinks?firstRow=' . $firstRow .
+			'&firstColumn=' . $firstColumn . '&totalRows=' . $totalRows . '&totalColumns=' . $totalColumns .
+			'&address=' . $url;
+        $signedURI = Utils::sign($strURI);
+        $response = Utils::processCommand($signedURI, 'PUT', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
+	
+    /**
+     * Update Hyperlinks to Excel Worksheet
+     *
+     * @param integer $hyperlinkIndex The index of a hyperlink.
+     * @param string $url The address of a hyperlink.
+     * @param string $screenTip The ScreenTip text for the specified hyperlink.
+     * @param string $displayText The text to be displayed for the specified hyperlink.
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function updateHyperlink($hyperlinkIndex, $url, $screenTip, $displayText)
+    {
+        //check whether worksheet name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+	
+        if ($hyperlinkIndex == '')
+            throw new Exception('Hyperlink Index not specified');
+	
+        if ($url == '')
+            throw new Exception('URL not specified');
+	
+        if ($screenTip == '')
+            throw new Exception('Screen Tip not specified');
+	
+        if ($displayText == '')
+            throw new Exception('Display Text not specified');
+			
+	$data = array('address' => $url, 'ScreenTip' => $screenTip, 'TextToDisplay' => $displayText);
+	$json_data = json_encode($data);	
+						
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() .
+            '/worksheets/' . $this->worksheetName . '/hyperlinks/' . $hyperlinkIndex;
+        $signedURI = Utils::sign($strURI);
+        $response = Utils::processCommand($signedURI, 'POST', 'json', $json_data);
+        $json = json_decode($response);
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -1441,6 +1531,284 @@ class Worksheet
             return false;
         }
 
+    }
+    
+    /**
+     * Add an Empty Row in a Worksheet
+     * 
+     * @param integer $rowId ID of the row.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function addEmptyRow($rowId)
+    {
+        if ($rowId == '')
+            throw new Exception('Row ID not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/cells/rows/' . $rowId;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response
+        $response = Utils::processCommand($signedURI, 'PUT', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200)
+            return $json->Row;
+        else
+            return false;
+    }
+    
+    /**
+     * Set Formula for a Cell in Excel Worksheets
+     * 
+     * @param string $cellName Name of the cell.
+     * @param string $formula Formula for the cell.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function setFormula($cellName, $formula)
+    {
+        if ($cellName == '')
+            throw new Exception('Cell Name not specified');
+        
+        if ($formula == '')
+            throw new Exception('Formula not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells/' . $cellName . '?formula=' . $formula;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response
+        $response = Utils::processCommand($signedURI, 'POST', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200)
+            return $json->Cell;
+        else
+            return false;
+    }
+    
+    /**
+     * Clear Contents and Styles of Cells in Excel Worksheet
+     * 
+     * @param type $range Range of cells.
+     * 
+     * @return boolean
+     * @throws Exception
+     */
+    public function clearCellsContents($range)
+    {
+        if ($range == '')
+            throw new Exception('Range not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells/clearcontents?range=' . $range;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response
+        $response = Utils::processCommand($signedURI, 'POST', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
+    
+    /**
+     * Merge Cells in Excel Worksheet
+     * 
+     * @param integer $startRow Start row index.
+     * @param integer $startColumn Start column index.
+     * @param integer $totalRows Number of rows.
+     * @param integer $totalColumns Number of columns.
+     * 
+     * @return string|boolean
+     * @throws Exception
+     */
+    public function mergeCells($startRow, $startColumn, $totalRows, $totalColumns)
+    {
+        if ($startRow == '')
+            throw new Exception('Start Row not specified');
+        
+        if ($startColumn == '')
+            throw new Exception('Start Column not specified');
+        
+        if ($totalRows == '')
+            throw new Exception('Total Rows not specified');
+        
+        if ($totalColumns == '')
+            throw new Exception('Total Columns not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells/merge?startrow=' . $startRow . '&startcolumn=' . $startColumn .
+                  '&totalrows=' . $totalRows . '&totalcolumns=' . $totalColumns;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response
+        $response = Utils::processCommand($signedURI, 'POST', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200) {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
+        }    
+        else
+            return false;
+    }
+    
+    /**
+     * Unmerge Cells in Excel Worksheet
+     * 
+     * @param integer $startRow Start row index.
+     * @param integer $startColumn Start column index.
+     * @param integer $totalRows Number of rows.
+     * @param integer $totalColumns Number of columns.
+     * 
+     * @return string|boolean
+     * @throws Exception
+     */
+    public function unmergeCells($startRow, $startColumn, $totalRows, $totalColumns)
+    {
+        if ($startRow == '')
+            throw new Exception('Start Row not specified');
+        
+        if ($startColumn == '')
+            throw new Exception('Start Column not specified');
+        
+        if ($totalRows == '')
+            throw new Exception('Total Rows not specified');
+        
+        if ($totalColumns == '')
+            throw new Exception('Total Columns not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells/unmerge?startrow=' . $startRow . '&startcolumn=' . $startColumn .
+                  '&totalrows=' . $totalRows . '&totalcolumns=' . $totalColumns;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response
+        $response = Utils::processCommand($signedURI, 'POST', '', '');
+        $json = json_decode($response);
+        if ($json->Code == 200) {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
+        }    
+        else
+            return false;
+    }
+    
+    /**
+     * Set Range Value in Excel Worksheet
+     * 
+     * @param string $cellarea Cells area.
+     * @param string $value Value of the cell.
+     * @param string $type Type of the value.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function setRangeValue($cellarea, $value, $type)
+    {
+        if ($cellarea == '')
+            throw new Exception('Cellarea not specified');
+        
+        if ($value == '')
+            throw new Exception('Value not specified');
+        
+        if ($type == '')
+            throw new Exception('Type not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells?cellarea=' . $cellarea . '&value=' . $value . '&type=' . $type;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response stream
+        $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
+        
+        $v_output = Utils::validateOutput($responseStream);
+        
+        if ($v_output == '') {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
+        }    
+        else
+            return $v_output;
+    }
+    
+    /**
+     * Clear Cells Formatting in Excel Worksheet
+     * 
+     * @param type $startRow Start row index.
+     * @param type $startColumn Start column index.
+     * @param type $endRow End row index.
+     * @param type $endColumn End column index.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function clearCellsFormatting($startRow, $startColumn, $endRow, $endColumn)
+    {
+        if ($startRow == '')
+            throw new Exception('Start Row not specified');
+        
+        if ($startColumn == '')
+            throw new Exception('Start Column not specified');
+        
+        if ($endRow == '')
+            throw new Exception('End Row not specified');
+        
+        if ($endColumn == '')
+            throw new Exception('End Column not specified');
+        
+        //Build URI
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . 
+                  '/cells/ClearFormats?startRow=' . $startRow . '&startColumn=' . $startColumn . 
+                  '&endRow=' . $endRow . '&endColumn=' . $endColumn;
+        //Sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        //Send request and receive response stream
+        $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
+        
+        $v_output = Utils::validateOutput($responseStream);
+        
+        if ($v_output == '') {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
+        }    
+        else
+            return $v_output;
     }
 
     /**
