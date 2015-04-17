@@ -1,9 +1,10 @@
 <?php
 /**
- * This class contains features to work with charts.
+ * This class contains features to work with workbooks.
  */
 namespace Aspose\Cloud\Cells;
 
+use Aspose\Cloud\Common\AsposeApp;
 use Aspose\Cloud\Common\Product;
 use Aspose\Cloud\Common\Utils;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
@@ -500,7 +501,81 @@ class Workbook
         else
             return false;
 
+    }          
+    
+    /**
+     * Auto Fit Rows in Excel Workbooks
+     * 
+     * @param string $saveFormat Format for the output file.
+     *
+     * @return string Returns file path.
+     */
+    public function autofitRows($saveFormat = "")
+    {
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '?isAutoFit=true';
+        if ($saveFormat != '')
+            $strURI .= '&format=' . $saveFormat;
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+        
+        $v_output = Utils::validateOutput($responseStream);
+        
+        if ($v_output === '') {
+            if ($saveFormat == '') {
+                $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+                $signedURI = Utils::Sign($strURI);
+                $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+                
+                $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+                Utils::saveFile($responseStream, $outputFile);
+            } else {
+                $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat;
+                Utils::saveFile($responseStream, $outputPath);
+            }
+            return $outputPath;
+        } else {
+            return $v_output;
+        }
     }
+    
+    /**
+     * Convert Excel Workbook with Additional Settings
+     * 
+     * @param xml $strXML Data in XML format.
+     * @param string $outputFile The name of output file.
+     * 
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function saveAs($strXML, $outputFile)
+    {
+        if ($strXML == '')
+            throw new Exception('XML Data not specified');
+        
+        if ($outputFile == '')
+            throw new Exception('Output Filename along extension not specified');
+        
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/saveAs?newfilename=' . $outputFile;
+        $signedURI = Utils::Sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, "POST", "XML", $strXML);
+        
+        $v_output = Utils::validateOutput($responseStream);
+        
+        if ($v_output === '') {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $outputFile;
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $outputFile;
+            Utils::saveFile($responseStream, $outputPath);
+            
+            return $outputPath;
+        } else {
+            return $v_output;
+        }         
+    }        
 
     /**
      * @return string
