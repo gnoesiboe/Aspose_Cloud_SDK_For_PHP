@@ -90,6 +90,44 @@ class Converter {
         else
             return $v_output;
     }
+    
+    /**
+     * Convert web pages to Word Documents
+     * 
+     * @param XML $strXML Provide XML data.
+     * 
+     * @return string
+     * @throws Exception
+     */
+    public function convertWebPages($strXML)        
+    {
+        if ($strXML == '')
+            throw new Exception('XML not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/words/loadWebDocument';
+        
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+           
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $strXML);
+        
+        $xml = simplexml_load_string($responseStream);
+        
+        if ($xml->Status == 'OK') {
+            $fileName = $xml->SaveResult->Dest['href'];
+            $strURI = Product::$baseProductUri . '/storage/file/' . $fileName;            
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $fileName;
+            Utils::saveFile($responseStream, $outputPath);
+            
+            return $outputPath;
+        } else {
+            return false;
+        }
+    }
 
 
     /**

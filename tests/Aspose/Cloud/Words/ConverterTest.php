@@ -32,6 +32,23 @@ class ConverterTest extends PHPUnit_Framework_TestCase {
         $outputFormat = 'pdf';
         $this->object->convertLocalFile($inputPath, $outputPath, $outputFormat);
         $this->assertFileExists(getcwd(). '/Data/Output/MyFile.pdf');
-    }   
+    }
+    
+    public function testConvertWebPages()
+    {  
+        $xml = <<<XML
+                <LoadWebDocumentData>
+                    <LoadingDocumentUrl>http://google.com</LoadingDocumentUrl>
+                    <DocSaveOptionsData>
+                    <SaveFormat>doc</SaveFormat>
+                    <FileName>google.doc</FileName>
+                    </DocSaveOptionsData>
+                 </LoadWebDocumentData>
+XML;
+        $strXML = simplexml_load_string($xml);
+        
+        $this->object->convertWebPages($strXML->asXML());
+        $this->assertFileExists(getcwd(). '/Data/Output/google.doc');
+    }
     
 }
