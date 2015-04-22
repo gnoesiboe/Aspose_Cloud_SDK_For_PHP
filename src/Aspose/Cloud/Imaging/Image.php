@@ -239,6 +239,73 @@ class Image
         } else
             return $v_output;
     }
+    
+    /**
+     * Perform Several Operations on Image
+     * 
+     * @param string $rotateFlipMethod RotateFlip method.
+     * @param integer $newWidth New width of the scaled image.
+     * @param integer $newHeight New height of the scaled image.
+     * @param integer $xPosition X position of start point for cropping rectangle.
+     * @param integer $yPosition Y position of start point for cropping rectangle.
+     * @param integer $rectWidth Width of cropping rectangle.
+     * @param integer $rectHeight Height of cropping rectangle.
+     * @param string $saveFormat Save image in another format.
+     * @param string $outPath Path to updated file.
+     * 
+     * @return boolean|string
+     * @throws Exception
+     */
+    public function updateImage($rotateFlipMethod, $newWidth, $newHeight, $xPosition, $yPosition, $rectWidth, $rectHeight, $saveFormat, $outPath)
+    {
+        if ($rotateFlipMethod == '')
+            throw new Exception('Rotate Flip Method not specified');
+        
+        if ($newWidth == '')
+            throw new Exception('New width not specified');
+        
+        if ($newHeight == '')
+            throw new Exception('New Height not specified');
+        
+        if ($xPosition == '')
+            throw new Exception('X position not specified');
+        
+        if ($yPosition == '')
+            throw new Exception('Y position not specified');
+        
+        if ($rectWidth == '')
+            throw new Exception('Rectangle width not specified');
+        
+        if ($rectHeight == '')
+            throw new Exception('Rectangle Height not specified');
+        
+        if ($saveFormat == '')
+            throw new Exception('Format not specified');
+        
+        if ($outPath == '')
+            throw new Exception('Output file name not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/imaging/' . $this->getFileName() . '/updateimage?rotateFlipMethod=' . $rotateFlipMethod .
+                '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&x=' . $xPosition . '&y=' . $yPosition .
+                '&rectWidth=' . $rectWidth . '&rectHeight=' . $rectHeight . '&format=' . $saveFormat . '&outPath=' . $outPath;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        //$json = json_decode($response);
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            
+            return $outputPath;
+        } else
+            return false;
+    }
 
     /**
      * @return mixed

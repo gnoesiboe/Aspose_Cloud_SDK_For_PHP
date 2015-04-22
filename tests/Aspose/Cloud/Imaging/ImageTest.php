@@ -30,4 +30,11 @@ class ImageTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/Append.tiff');
     }
     
+    public function testUpdateImage()
+    {  
+        $this->image->updateImage($rotateFlipMethod="rotate90flipnone", $newWidth=200, $newHeight=200, $xPosition=20, $yPosition=20, $rectWidth=100, $rectHeight=100, 
+$saveFormat="tiff", $outPath="Updated.tiff");
+        $this->assertFileExists(getcwd(). '/Data/Output/Updated.tiff');
+    }
+    
 }    

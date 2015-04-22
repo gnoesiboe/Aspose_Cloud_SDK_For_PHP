@@ -360,6 +360,64 @@ class Document
         } else
             return $v_output;
     }
+    
+    /**
+     * Update TIFF Image Properties Without Storage.
+     *
+     * @param string $inputPath Input file path.
+     * @param string $compression Tiff compression.
+     * @param integer $backgroundColorIndex Index of the background color.
+     * @param integer $pixelAspectRatio Pixel aspect ratio.
+     * @param boolean $interlaced Specifies if image is interlaced.
+     * @param string $outPath Name of the output file.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function updateTIFFPropertiesFromLocalFile($inputPath, $compression, $resolutionUnit, $newWidth, $newHeight, $horizontalResolution, $verticalResolution, $outPath)
+    {
+        if ($inputPath == '')
+            throw new Exception('Input file not specified');
+        
+        if ($compression == '')
+            throw new Exception('Compression not specified');
+        
+        if ($resolutionUnit == '')
+            throw new Exception('Resolution unit not specified');
+
+        if ($newWidth == '')
+            throw new Exception('New image width not specified');
+
+        if ($newHeight == '')
+            throw new Exception('New image height not specified');
+
+        if ($horizontalResolution == '')
+            throw new Exception('Horizontal resolution not specified');
+
+        if ($verticalResolution == '')
+            throw new Exception('Vertical resolution not specified');
+
+        if ($outPath == '')
+            throw new Exception('Output file name not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/imaging/tiff?compression=' . $compression . '&resolutionUnit=' . $resolutionUnit . '&newWidth=' . $newWidth . '&newHeight=' . $newHeight . '&horizontalResolution=' . $horizontalResolution . '&verticalResolution=' . $verticalResolution . '&outPath=' . $outPath;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::uploadFileBinary($signedURI, $inputPath, 'xml', 'POST');
+
+        $v_output = Utils::validateOutput($responseStream);
+        if ($v_output === '') {
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($outPath);
+            $outputPath = AsposeApp::$outPutLocation . $outPath;
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        } else
+            return $v_output;
+    }
 
     /**
      * Update PSD Image Properties on Aspose cloud storage.
