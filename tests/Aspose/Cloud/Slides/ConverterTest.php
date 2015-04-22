@@ -43,4 +43,13 @@ class ConverterTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/Test.pdf');
     }
     
+    public function testConvertWithAdditionalSettings()
+    {  
+        $this->converter->convertWithAdditionalSettings($saveFormat = 'pdf', $textCompression = 'Flat', 
+                                                        $embedFullFonts = false, $compliance ='Pdf15', 
+                                                        $jpegQuality = 50, $saveMetafilesAsPng = false, 
+                                                        $pdfPassword = '123456', $embedTrueTypeFontsForASCII = false);
+        $this->assertFileExists(getcwd(). '/Data/Output/Test.pdf');
+    }
+    
 }

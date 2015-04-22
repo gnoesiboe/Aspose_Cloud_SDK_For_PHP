@@ -138,4 +138,10 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/Test_1.png');
     }
     
+    public function testAspectRatio()
+    {
+        $result = $this->document->aspectRatio($slideNumber=1); 
+        $this->assertInternalType('float',$result);
+    }
+    
 }

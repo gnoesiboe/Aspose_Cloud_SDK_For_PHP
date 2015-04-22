@@ -773,6 +773,35 @@ class Document
     }
     
     /**
+     * Get Aspect Ratio of a PowerPoint Slide
+     * 
+     * @param type $slideNumber The number of slide.
+     * 
+     * @return float|boolean
+     * @throws Exception
+     */
+    public function aspectRatio($slideNumber)
+    {
+        if ($slideNumber == '')
+            throw new Exception('Slide number not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/slides/' . $slideNumber;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $response = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($response);
+        
+        if ($json->Code == 200)
+            return $json->Slide->Width / $json->Slide->Height;
+        else
+            return false;
+    }
+    
+    /**
      * @return string
      */
     public function getFileName()

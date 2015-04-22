@@ -154,6 +154,59 @@ class Converter
             return $v_output;
         }
     }
+    
+    /**
+     * Convert PowerPoint Documents to other File Formats with Additional Settings
+     * 
+     * @param type $saveFormat Return the presentation in the specified format. 
+     * @param type $textCompression Specifies compression type to be used for all textual content in the document. 
+     * @param type $embedFullFonts Determines if all characters of font should be embedded or only used subset. 
+     * @param type $compliance Desired conformance level for generated PDF document.
+     * @param type $jpegQuality Value determining the quality of the JPEG images inside PDF document. 
+     * @param type $saveMetafilesAsPng True to convert all metafiles used in a presentation to the PNG images. 
+     * @param type $pdfPassword Setting user password to protect the PDF document. 
+     * @param type $embedTrueTypeFontsForASCII Determines service will embed common fonts for ASCII.
+     * 
+     * @return string Returns the file path.
+     */
+    public function convertWithAdditionalSettings($saveFormat = 'pdf', $textCompression = '', $embedFullFonts = '', $compliance ='', $jpegQuality = '', $saveMetafilesAsPng = '', $pdfPassword = '', $embedTrueTypeFontsForASCII = '')
+    {
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '?format=' . $saveFormat;
+        if ($textCompression != '')
+            $strURI .= '&TextCompression=' . $textCompression;
+        
+        if ($embedFullFonts != '')
+            $strURI .= '&EmbedFullFonts=' . $embedFullFonts;
+        
+        if ($compliance != '')
+            $strURI .= '&Compliance=' . $compliance;
+        
+        if ($jpegQuality != '')
+            $strURI .= '&JpegQuality=' . $jpegQuality;
+        
+        if ($saveMetafilesAsPng != '')
+            $strURI .= '&SaveMetafilesAsPng=' . $saveMetafilesAsPng;
+        
+        if ($pdfPassword != '')
+            $strURI .= '&PdfPassword=' . $pdfPassword;
+        
+        if ($embedTrueTypeFontsForASCII != '')
+            $strURI .= '&EmbedTrueTypeFontsForASCII=' . $embedTrueTypeFontsForASCII;
+
+        $signedURI = Utils::sign($strURI);
+        
+        $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat;
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
+        } else {
+            return $v_output;
+        }
+    }
 
     /**
      * @return string
