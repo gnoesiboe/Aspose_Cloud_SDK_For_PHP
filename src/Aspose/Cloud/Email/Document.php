@@ -1,21 +1,6 @@
 <?php
 /**
- * Copyright (c) Aspose 2002-2014. All Rights Reserved.
- *
- * LICENSE: This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://opensource.org/licenses/gpl-3.0.html>;.
- *
- * @package Aspose_Cloud_SDK_For_PHP
- * @author  Masood Anwer <masood.anwer@aspose.com>
- * @link    https://github.com/asposeforcloud/Aspose_Cloud_SDK_For_PHP
+ * This class contains features to work with email document.
  */
 
 namespace Aspose\Cloud\Email;
@@ -132,7 +117,44 @@ class Document
             return $v_output;
         }
     }
+    
+    /**
+     * Add email attachment.
+     *
+     * @param string $attachmentName The name of attached file.
+     *
+     * @return string Return path of the attached file.
+     * @throws Exception
+     */
+    public function addAttachment($attachmentName)
+    {
+        if ($attachmentName == '')
+            throw new Exception('Attachment Name not specified');
 
+        //build URI
+        $strURI = Product::$baseProductUri . '/email/' . $this->getFileName() . '/attachments/' . $attachmentName;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'POST', '', '');
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            $strURI = Product::$baseProductUri . '/storage/file/' . $this->getFileName();
+            $signedURI = Utils::Sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, "GET", "", "");
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($responseStream, $outputPath);
+            
+            return $outputPath;
+        } else {
+            return $v_output;
+        }
+    }
+    
     /**
      * @return string
      */

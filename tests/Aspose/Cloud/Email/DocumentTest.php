@@ -37,6 +37,13 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
         $attachmentName = 'readme.txt';
         $result = $this->object->getAttachment($attachmentName);
         $this->assertInternalType('string',$result);
+    }    
+    
+    public function testAddAttachment()
+    {
+        $attachmentName = 'watermark.png';
+        $result = $this->object->addAttachment($attachmentName);
+        $this->assertFileExists(getcwd(). '/Data/Output/test.eml');
     }        
     
 }    
