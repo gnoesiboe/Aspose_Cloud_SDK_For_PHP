@@ -239,6 +239,27 @@ class Extractor
             return false;
         }
     }
+    
+    /**
+     * Get the Current Protection of the Word
+     * 
+     * @return string|boolean
+     */
+    public function getProtection()
+    {
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/protection';
+
+        $signedURI = Utils::sign($strURI);
+
+        $response = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($response);
+
+        if ($json->Code == 200)
+            return $json->ProtectionData->ProtectionType;
+        else
+            return false;
+    }
 
     /**
      * @return string

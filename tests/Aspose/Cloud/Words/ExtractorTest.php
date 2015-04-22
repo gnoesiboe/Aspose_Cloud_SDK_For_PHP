@@ -40,4 +40,10 @@ class ExtractorTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/DrawingObject_'.$index.'.'.$renderFormat);
     }
     
+    public function testGetProtection()
+    {
+        $result = $this->object->getProtection();
+        $this->assertInternalType('string',$result);
+    }        
+    
 }    
