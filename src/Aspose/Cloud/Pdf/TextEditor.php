@@ -209,19 +209,22 @@ class TextEditor
      * Replaces all instances of old text with new text in a PDF file or a particular page.
      *
      * @param array $fieldsArray List of fields.
+     * @param integer $pageNumber Th number of page.
      *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function replaceMultipleText($fieldsArray)
+    public function replaceMultipleText($pageNumber, $fieldsArray)
     {
-
-
         //Build JSON to post
         $json = json_encode($fieldsArray);
 
         //Build URI to replace text
-        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/replaceTextList';
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName();
+        if ($pageNumber != '')
+            $strURI .= '/pages/' . $pageNumber;
+        
+        $strURI .= '/replaceTextList';
 
         $signedURI = Utils::sign($strURI);
 
