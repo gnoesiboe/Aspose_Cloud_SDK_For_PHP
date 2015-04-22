@@ -58,6 +58,12 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
         $this->assertInternalType('array',$result);
     }
     
+    public function testAddLink()
+    {  
+        $result = $this->object->addLink($link="NewProductDev.mpp/taskLinks/1", $index=1, $predecessorUid=1, $successorUid=2, $linkType="StartToStart", $lag=0, $lagFormat="Day");
+        $this->assertTrue($result);
+    }
+    
     public function testDeleteLink()
     {  
         $index = 1;

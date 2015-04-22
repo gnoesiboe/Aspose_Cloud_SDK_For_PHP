@@ -75,6 +75,35 @@ class Calendar
         else
             return false;
     }
+    
+    /**
+     * Add Calendar to Project
+     * 
+     * @param JSON $jsonData Data in JSON format.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function addCalendar($jsonData)
+    {
+        if ($jsonData == '')
+            throw new Exception('Data not specified');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/calendars/';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $jsonData);
+
+        $json = json_decode($responseStream);
+
+        if ($json->Status == 'Created')
+            return $json->CalendarItem;
+        else
+            return false;
+    }
 
     /**
      * Delete a project calendar.

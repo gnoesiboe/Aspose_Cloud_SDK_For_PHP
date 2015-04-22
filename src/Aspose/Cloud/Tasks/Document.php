@@ -206,6 +206,64 @@ class Document
         else
             return false;
     }
+    
+    /**
+     * Add a Task Link to Project
+     * 
+     * @param string $link URL of the link.
+     * @param integer $index
+     * @param integer $predecessorUid Predecessor UID.
+     * @param integer $successorUid Successor UID.
+     * @param string $linkType Type of the link.
+     * @param integer $lag
+     * @param string $lagFormat
+     * 
+     * @return boolean
+     * @throws Exception
+     */
+    public function addLink($link, $index, $predecessorUid, $successorUid, $linkType, $lag, $lagFormat)
+    {
+        if ($link == '')
+            throw new Exception('Link not specified');
+        
+        if ($index == '')
+            throw new Exception('Index not specified');
+        
+        if ($predecessorUid == '')
+            throw new Exception('Predecessor UID not specified');
+        
+        if ($successorUid == '')
+            throw new Exception('Successor UID not specified');
+        
+        if ($linkType == '')
+            throw new Exception('Link Type not specified');
+        
+        if (!isset($lag))
+            throw new Exception('Lag not specified');
+        
+        if ($lagFormat == '')
+            throw new Exception('Lag Format not specified');
+        
+        //build URI
+        $strURI = Product::$baseProductUri . '/tasks/' . $this->getFileName() . '/taskLinks';
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+        
+        $data = array('Link' => $link, 'Index' => $index, 'PredecessorUid' => $predecessorUid, 
+                      'SuccessorUid' => $successorUid, 'LinkType' => $linkType, 'Lag' => $lag, 
+                      'LagFormat' => $lagFormat);
+        $jsonData = json_encode($data);
+        
+        $response = Utils::processCommand($signedURI, 'POST', 'json', $jsonData);
+
+        $json = json_decode($response);
+
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
+    }
 
     /**
      * Delete a task link.

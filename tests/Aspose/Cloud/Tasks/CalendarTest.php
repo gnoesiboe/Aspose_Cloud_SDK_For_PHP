@@ -31,6 +31,13 @@ class CalendarTest extends PHPUnit_Framework_TestCase {
         $result = $this->object->getCalendar($calendarUid);
         $this->assertInstanceOf('stdClass',$result);
     }
+    
+    public function testAddCalendar()
+    {  
+        $jsonData = '';
+        $result = $this->object->addCalendar($jsonData);
+        $this->assertInstanceOf('stdClass',$result);
+    }
      
     public function testDeleteCalendar()
     {
