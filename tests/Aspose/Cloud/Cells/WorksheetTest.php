@@ -17,7 +17,7 @@ class WorksheetTest extends PHPUnit_Framework_TestCase {
 
         $this->worksheet = new Worksheet('Test.xlsx', 'Sheet1');
     } 
-        
+    
     public function testGetRowsList()
     {  
         $result = $this->worksheet->getRowsList();
@@ -435,6 +435,48 @@ class WorksheetTest extends PHPUnit_Framework_TestCase {
     {  
         $result = $this->worksheet->getRowsCount($offset=0, $count=0);
         $this->assertInternalType('integer',$result);
+    }
+    
+    public function testAddEmptyRow()
+    {  
+        $result = $this->worksheet->addEmptyRow($rowId=1);
+        $this->assertInstanceOf('stdClass',$result);
+    }
+    
+    public function testSetFormula()
+    {  
+        $result = $this->worksheet->setFormula($cellName="A1", $formula="sum(b1:b8)");
+        $this->assertInstanceOf('stdClass',$result);
+    }
+    
+    public function testClearCellsContents()
+    {  
+        $result = $this->worksheet->clearCellsContents($range="A1:C4");
+        $this->assertTrue($result);
+    }
+    
+    public function testMergeCells()
+    {  
+        $result = $this->worksheet->mergeCells($startRow=1, $startColumn=1, $totalRows=2, $totalColumns=2);
+        $this->assertFileExists(getcwd(). '/Data/output/Test.xlsx');
+    }
+    
+    public function testUnmergeCells()
+    {  
+        $result = $this->worksheet->unmergeCells($startRow=1, $startColumn=1, $totalRows=2, $totalColumns=2);
+        $this->assertFileExists(getcwd(). '/Data/output/Test.xlsx');
+    }
+    
+    public function testSetRangeValue()
+    {  
+        $result = $this->worksheet->setRangeValue($cellarea="A1:A10", $value="Sample", $type="string");
+        $this->assertFileExists(getcwd(). '/Data/output/Test.xlsx');
+    }
+    
+    public function testClearCellsFormatting()
+    {  
+        $result = $this->worksheet->clearCellsFormatting($startRow=1, $startColumn=1, $endRow=2, $endColumn=2);
+        $this->assertFileExists(getcwd(). '/Data/output/Test.xlsx');
     }
     
 }    

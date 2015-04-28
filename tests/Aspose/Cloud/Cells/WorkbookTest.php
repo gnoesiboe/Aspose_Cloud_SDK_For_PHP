@@ -147,4 +147,26 @@ class WorkbookTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(true,$result);
     }
     
+    public function testAutofitRows()
+    {  
+        $result = $this->workbook->autofitRows($saveFormat='pdf');
+        $this->assertFileExists(getcwd(). '/Data/output/Test.pdf');
+    }
+    
+    public function testSaveAs()
+    {  
+        $xml = <<<XML
+                <PdfSaveOptions>
+                    <desiredPPI>300</desiredPPI>
+                    <jpegQuality>70</jpegQuality>
+                    <OnePagePerSheet>true</OnePagePerSheet>
+                    <SaveFormat>Pdf</SaveFormat>
+                 </PdfSaveOptions>
+XML;
+        $strXML = simplexml_load_string($xml);
+
+        $result = $this->workbook->saveAs($strXML, $outputFile='saveas.pdf');
+        $this->assertFileExists(getcwd(). '/Data/output/saveas.pdf');
+    }
+    
 }

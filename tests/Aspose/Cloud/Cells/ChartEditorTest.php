@@ -30,6 +30,12 @@ class ChartEditorTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/MyBook.xlsx');
     }
     
+    public function testDeleteCharts()
+    {  
+        $this->charteditor->deleteCharts();
+        $this->assertFileExists(getcwd(). '/Data/Output/MyBook.xlsx');
+    }
+    
     public function testDeleteChart()
     {  
         $chartIndex = 0;
@@ -85,6 +91,38 @@ class ChartEditorTest extends PHPUnit_Framework_TestCase {
         $chartIndex = 0;
         $result = $this->charteditor->getBorder($chartIndex);
         $this->assertInstanceOf('stdClass',$result);
+    }
+    
+    public function testSetChartTitle()
+    {  
+        $xml = <<<XML
+                <Title>
+                    <Text>Sales Chart</Text>
+                </Title>
+XML;
+        $strXML = simplexml_load_string($xml);
+        
+        $result = $this->charteditor->setChartTitle($chartIndex=0, $strXML);
+        $this->assertTrue($result);
+    }
+    
+    public function testUpdateChartTitle()
+    {  
+        $xml = <<<XML
+                <Title>
+                    <Text>Update Sales Chart</Text>
+                </Title>
+XML;
+        $strXML = simplexml_load_string($xml);
+        
+        $result = $this->charteditor->updateChartTitle($chartIndex=0, $strXML);
+        $this->assertTrue($result);
+    }
+    
+    public function testDeleteChartTitle()
+    {        
+        $result = $this->charteditor->deleteChartTitle($chartIndex=0);
+        $this->assertTrue($result);
     }
     
 }    
