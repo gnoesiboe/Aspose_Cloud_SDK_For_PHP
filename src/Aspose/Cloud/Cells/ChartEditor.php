@@ -53,6 +53,32 @@ class ChartEditor
         } else
             return $v_output;
     }
+    
+    /**
+     * Deletes all charts.
+     *
+     * @return string Returns the file path.
+     * @throws Exception
+     */
+    public function deleteCharts()
+    {
+        //check whether workshett name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/';
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'DELETE', '', '');
+        $v_output = Utils::validateOutput($responseStream);
+        if ($v_output === '') {
+            //Save doc on server
+            $folder = new Folder();
+            $outputStream = $folder->GetFile($this->getFileName());
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        } else
+            return $v_output;
+    }
 
     /**
      * Deletes a chart.
@@ -242,6 +268,107 @@ class ChartEditor
         $responseStream = Utils::processCommand($signedURI, 'GET', '', '');
         $json = json_decode($responseStream);
         return $json->Line;
+    }
+    
+    /**
+     * Set Chart Title in Excel Worksheet
+     *
+     * @param integer $chartIndex Index of the chart.
+     * @param xml $xml Data in xml format.
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function setChartTitle($chartIndex, $strXML)
+    {
+        //check whether workshett name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+        
+        if (!isset($chartIndex))
+            throw new Exception('Chart Index not specified');
+        
+        if ($strXML == '')
+            throw new Exception('XML data not specified');
+        
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '/title';
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $response = Utils::processCommand($signedURI, 'PUT', 'xml', $strXML);
+        
+        $xml = simplexml_load_string($response);
+        
+        if ($xml->Status == 'OK')
+            return true;
+        else
+            return false;
+    }
+	
+    /**
+     * Update Chart Title in Excel Worksheet
+     *
+     * @param integer $chartIndex Index of the chart.
+     * @param xml $xml Data in xml format.
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function updateChartTitle($chartIndex, $strXML)
+    {
+        //check whether workshett name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+        
+        if (!isset($chartIndex))
+            throw new Exception('Chart Index not specified');
+        
+        if ($strXML == '')
+            throw new Exception('XML data not specified');
+        
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '/title';
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $response = Utils::processCommand($signedURI, 'POST', 'xml', $strXML);
+        
+        $xml = simplexml_load_string($response);
+        
+        if ($xml->Status == 'OK')
+            return true;
+        else
+            return false;
+    }
+	
+    /**
+     * Delete Chart Title in Excel Worksheet
+     *
+     * @param integer $chartIndex Index of the chart.
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function deleteChartTitle($chartIndex)
+    {
+        //check whether workshett name is set or not
+        if ($this->worksheetName == '')
+            throw new Exception('Worksheet name not specified');
+        
+        if (!isset($chartIndex))
+            throw new Exception('Chart Index not specified');
+        
+        $strURI = Product::$baseProductUri . '/cells/' . $this->getFileName() . '/worksheets/' . $this->worksheetName . '/charts/' . $chartIndex . '/title';
+        
+        $signedURI = Utils::sign($strURI);
+        
+        $response = Utils::processCommand($signedURI, 'DELETE', '', '');
+        
+        $json = json_decode($response);
+        
+        if ($json->Code == 200)
+            return true;
+        else
+            return false;
     }
 
     /**
