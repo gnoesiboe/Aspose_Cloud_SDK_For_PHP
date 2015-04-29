@@ -250,6 +250,39 @@ class BarcodeReader
         else
             return false;
     }
+    
+    /**
+     * Read Barcodes by Applying Image Processing Algorithm
+     * 
+     * @param type $symbology Type of barcode.
+     * @param type $binarizationHints Image processing algorithm.
+     * 
+     * @return object|boolean
+     * @throws Exception
+     */
+    public function readByAlgorithm($symbology, $binarizationHints)
+    {
+        if ($symbology == '')
+            throw new Exception('Symbology not specified');
+
+        if ($binarizationHints == '')
+            throw new Exception('Binarization Hints count not specified');
+
+        //build URI to read barcode
+        $strURI = Product::$baseProductUri . '/barcode/' . $this->getFileName() . '/recognize?type=' . $symbology . '&BinarizationHints=' . $binarizationHints;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $response = Utils::processCommand($signedURI, 'GET', '', '');
+
+        $json = json_decode($response);
+
+        if ($json->Code == 200)
+            return $json->Barcodes;
+        else
+            return false;
+    }
 
     /**
      * @return string
