@@ -111,7 +111,8 @@ class Converter
                 $saveFormat = $this->saveFormat;
             }
 
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($outputFilename) . '.' . $format);
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($outputFilename) . '.' . $format;
+            Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
             return $v_output;
@@ -143,7 +144,8 @@ class Converter
                 $saveFormat = $this->saveFormat;
             }
 
-            $outputPath = Utils::saveFile($responseStream, AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat);
+            $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($this->getFileName()) . '.' . $saveFormat;
+            Utils::saveFile($responseStream, $outputPath);
             return $outputPath;
         } else {
             return $v_output;
