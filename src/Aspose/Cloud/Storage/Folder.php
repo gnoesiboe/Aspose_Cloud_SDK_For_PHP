@@ -31,7 +31,7 @@ class Folder
      * @param string $strFile
      * @param string $strFolder
      */
-    public function uploadFile($strFile, $strFolder, $storageName = '')
+    public function uploadFile($strFile, $strFolder = '', $storageName = '')
     {
         $strRemoteFileName = basename($strFile);
         $strURIRequest = $this->strURIFile;
