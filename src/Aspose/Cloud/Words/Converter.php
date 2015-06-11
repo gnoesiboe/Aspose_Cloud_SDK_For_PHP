@@ -59,9 +59,9 @@ class Converter {
     /**
      * Convert a document to SaveFormat without using Aspose storage.
      * 
-     * @param type $inputPath The path of source file.
-     * @param type $outputPath Path where you want to file after conversion.
-     * @param type $outputFormat New file format.
+     * @param string $inputPath The path of source file.
+     * @param string $outputPath Path where you want to file after conversion.
+     * @param string $outputFormat New file format.
      * 
      * @return string Returns the file path.  
      */
@@ -81,11 +81,11 @@ class Converter {
             }
 
             if ($outputPath == '') {
-                $outputFilename = Utils::getFileName($inputPath) . '.' . $saveFormat;
+                $outputPath = AsposeApp::$outPutLocation . Utils::getFileName($inputPath) . '.' . $saveFormat;
             }
 
-            Utils::saveFile($responseStream, AsposeApp::$outPutLocation . $outputFilename);
-            return $outputFilename;
+            Utils::saveFile($responseStream, $outputPath);
+            return $outputPath;
         }
         else
             return $v_output;
