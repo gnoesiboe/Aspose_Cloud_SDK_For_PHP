@@ -272,7 +272,7 @@ class Utils
      * @param $result
      * @return string
      */
-    public static function validateOutput($result)
+    public static function validateOutput($result, $saveFormat='')
     {
         $result = (string) $result;
         $validate = array(
@@ -283,11 +283,12 @@ class Utils
             'Not a Microsoft PowerPoint 2007 presentation',
             'Index was outside the bounds of the array',
             'An attempt was made to move the position before the beginning of the stream',
+            "Format '$saveFormat' is not supported."
         );
         $invalid = 0;
         foreach ($validate as $key => $value) {
             $pos = strpos($result, $value);
-            if ($pos === 1) {
+            if ($pos === 1 || $pos === 16) {
                 $invalid = true;
             }
         }

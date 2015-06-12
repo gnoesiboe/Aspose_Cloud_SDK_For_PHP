@@ -183,7 +183,7 @@ class Converter
 
         $responseStream = Utils::uploadFileBinary($signedURI, $inputFile, 'xml');
 
-        $v_output = Utils::validateOutput($responseStream);
+        $v_output = Utils::validateOutput($responseStream, $outputFormat);
 
         if ($v_output === '') {
             if ($outputFormat == 'html') {
