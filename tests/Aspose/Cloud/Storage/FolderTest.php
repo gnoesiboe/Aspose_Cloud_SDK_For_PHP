@@ -56,8 +56,8 @@ class FolderTest extends PHPUnit_Framework_TestCase {
     public function testUploadFile()
     {
         $strFile = getcwd(). '/Data/Input/TestStorage.txt';
-        $result = $this->object->uploadFile($strFile, '');
-        $this->assertEquals(NULL,$result);
+        $result = $this->object->uploadFile($strFile);
+        $this->assertInternalType('string',$result);
     }
     
     public function testDeleteFile()

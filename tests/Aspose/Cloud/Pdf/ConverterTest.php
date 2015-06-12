@@ -38,18 +38,19 @@ class ConverterTest extends PHPUnit_Framework_TestCase {
     
     public function testConvertByUrl()
     {  
-        $url = 'http://www.example.com/sample.pdf';
-        $format = 'tiff';
-        $outputFilename = 'sample.tiff';
+        $url = 'http://cdn.aspose.com/tmp/pdf-sample.pdf';
+        $format = 'doc';
+        $outputFilename = 'pdf-sample-out.doc';
         $this->converter->convertByUrl($url, $format, $outputFilename);
         $this->assertFileExists(getcwd(). '/Data/Output/' . $outputFilename);
     }
     
     public function testConvert()
     {  
-        $this->converter->saveFormat = 'tiff';
+        $this->converter->fileName = 'Test.pdf';
+        $this->converter->saveFormat = 'doc';
         $this->converter->convert();
-        $this->assertFileExists(getcwd(). '/Data/Output/Test.tiff');
+        $this->assertFileExists(getcwd(). '/Data/Output/Test.doc');
     }
     
     public function testConvertLocalFile()
