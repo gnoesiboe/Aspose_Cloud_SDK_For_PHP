@@ -30,6 +30,8 @@ class Folder
      *
      * @param string $strFile
      * @param string $strFolder
+     * 
+     * @return string $strRemoteFileName that can be used after uploading
      */
     public function uploadFile($strFile, $strFolder, $storageName = '')
     {
@@ -45,6 +47,8 @@ class Folder
         $signedURI = Utils::sign($strURIRequest);
 
         Utils::uploadFileBinary($signedURI, $strFile);
+        
+        return $strRemoteFileName;
     }
 
     /**
