@@ -30,6 +30,28 @@ class ImageTest extends PHPUnit_Framework_TestCase {
         $this->assertFileExists(getcwd(). '/Data/Output/Append.tiff');
     }
     
+    public function testResizeImage()
+    {  
+        $image = new Image('');
+        $inputPath = getcwd() . '/Data/Input/barcodeQR.png';
+        $image->resizeImage($inputPath, $newWidth=10, $newHeight=10, $outputFormat='png');
+        $this->assertFileExists(getcwd(). '/Data/Output/barcodeQR_resized.png');
+    }
+    
+    public function testCropImage()
+    {  
+        $image = new Image('barcodeQR.png');
+        $image->cropImage($x=0, $y=0, $width=50, $height=60, $outputFormat='png', $outPath='barcodeQR_resized.png');
+        $this->assertFileExists(getcwd(). '/Data/Output/barcodeQR_resized.png');
+    }
+    
+    public function testRotateImage()
+    {  
+        $image = new Image('barcodeQR.png');
+        $image->rotateImage($method='rotate270flipnone', $outputFormat='png', $outPath='/');
+        $this->assertFileExists(getcwd(). '/Data/Output/barcodeQR.png');
+    }
+    
     public function testUpdateImage()
     {  
         $this->image->updateImage($rotateFlipMethod="rotate90flipnone", $newWidth=200, $newHeight=200, $xPosition=20, $yPosition=20, $rectWidth=100, $rectHeight=100, 
