@@ -235,6 +235,44 @@ class Document
     }
 
     /**
+     * Merge multiple presentations into single presentation.
+     *
+     * @param array $fileNames The presentation file names as known on the given storage
+     * @param string $storageName The presentation storage name.
+     * @param string $folder The presentation folder name.
+     *
+     * @return object|false
+     * @throws Exception
+     */
+    public function mergePresentationsByFileNames($fileNames = array(), $storageName = '', $folder = '')
+    {
+        if (!is_array($fileNames) || empty($fileNames)) {
+            throw new Exception('Presentation file names are not speciefied');
+        }
+
+        $strURI = Product::$baseProductUri . '/slides/' . $this->getFileName() . '/merge';
+        if ($folder != '') {
+            $strURI .= '?folder=' . $folder;
+        }
+
+        if ($storageName != '') {
+            $strURI .= '&storage=' . $storageName;
+        }
+        $signedURI = Utils::sign($strURI);
+
+        $json_data = json_encode(array('PresentationPaths' => $fileNames));
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'json', $json_data);
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200) {
+            return $json->Document;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Create empty presenation and store it on Aspose cloud storage.
      *
      * @param string $storageName The presentation storage name.
