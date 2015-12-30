@@ -118,15 +118,30 @@ class Document {
     }
 
     /**
-     * Get Document's stats.
-     * 
-     * @return object|boolean
+     * Get Document's stats. Add 'includeTextInShapes' or 'includeFootnotes' booleans to determine or these
+     * words should be added to the word count.
+     *
+     * Make sure the boolean options are strings, (e.g. true should be 'true').
+     *
+     * @param array $options
+     * @return bool|object
      * @throws Exception
      */
-    public function getStats()
+    public function getStats(array $options = array())
     {
-        //build URI to merge Docs
-        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/statistics';
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setDefaults(array(
+                'includeTextInShapes' => 'true',
+            ))
+            ->setDefined(array(
+                'includeFootnotes',
+            ))
+        ;
+        $options = $resolver->resolve($options);
+
+        //build URI to get document statistics including resolved parameters
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/statistics?' . http_build_query($options);
         
         AsposeApp::getLogger()->info('WordsDocument getStats call will be made', array(
             'call-uri' => $strURI,
