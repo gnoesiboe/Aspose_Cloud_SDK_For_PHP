@@ -1240,6 +1240,68 @@ class Document {
         return false;
     }
 
+    /**
+     * Compare the currently active $this->fileName with the passed $compareWithFilename. Make sure
+     * that $this->fileName does not have any pending revision changes.
+     *
+     * @see http://api.aspose.com/v1.1/swagger/ui/index#!/words/WordsDocumentSaveAs_PostDocumentSaveAs
+     *
+     * @param string $compareWithFilename
+     * @param array $compareData
+     * @param array $options
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function compareDocument($compareWithFilename, array $compareData = array(), array $options = array())
+    {
+        // POST parameters
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setDefault('ComparingWithDocument', $compareWithFilename)
+            ->setRequired(array(
+                'Author',
+            ))
+            ->setDefined(array(
+                'DateTime',
+            ))
+        ;
+        $compareData = json_encode($resolver->resolve($compareData));
+
+        // GET parameters
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setDefined(array(
+                'filename', // Target filename of the file saved in the Folder
+                'storage',
+                'folder',
+            ))
+        ;
+        $options = $resolver->resolve($options);
+
+        // Create request with resolved POST and GET parameters
+        $strURI = Product::$baseProductUri . '/words/' . $this->getFileName() . '/compareDocument?' . http_build_query($options);
+        $signedURI = Utils::sign($strURI);
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'JSON', $compareData);
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200 && isset($json->Document)) {
+
+            $outputFile = $json->Document->FileName;
+
+            $folder = new Folder();
+            $outputStream = $folder->getFile($outputFile);
+            $outputPath = AsposeApp::$outPutLocation . $outputFile;
+            Utils::saveFile($outputStream, $outputPath);
+
+            return $outputPath;
+        }
+
+        AsposeApp::getLogger()->warning('Error occured while processing `compareDocument` command, HTTP 200 code or result `Document` was not found.', array(
+            'json-code' => $json->Code,
+        ));
+        return false;
+    }
 
     /**
      * @return string
