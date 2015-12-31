@@ -122,9 +122,11 @@ class Document {
      * words should be added to the word count.
      *
      * Make sure the boolean options are strings, (e.g. true should be 'true').
+     * 
+     * @link http://www.aspose.com/docs/display/wordscloud/statistics
      *
      * @param array $options
-     * @return bool|object
+     * @return null|object
      * @throws Exception
      */
     public function getStats(array $options = array())
@@ -135,7 +137,7 @@ class Document {
                 'includeTextInShapes' => 'true',
             ))
             ->setDefined(array(
-                'includeFootnotes',
+                'includeFootnotes', 'includeComments',
             ))
         ;
         $options = $resolver->resolve($options);
