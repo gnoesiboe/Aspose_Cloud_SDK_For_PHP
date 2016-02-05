@@ -13,23 +13,24 @@ use Aspose\Cloud\Storage\Folder;
 class MailMerge
 {
 
-    /*
+    /**
      * Executes mail merge without regions.
      * 
      * @param string $fileName The source file name.
      * @param string $strXML Data in xml format.
+     * @param string $documentFolder Result name of the document after the operation
      * 
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMerge($fileName, $strXML)
+    public function executeMailMerge($fileName, $strXML, $documentFolder = '')
     {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
 
         //build URI to execute mail merge without regions
-        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge';
+        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?' . 'folder=' . $documentFolder;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -55,18 +56,19 @@ class MailMerge
      *
      * @param string $fileName The name of source file.
      * @param string $strXML Data in xml format.
+     * @param string $documentFolder Result name of the document after the operation
      *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMergewithRegions($fileName, $strXML)
+    public function executeMailMergewithRegions($fileName, $strXML, $documentFolder = '')
     {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
 
         //build URI to execute mail merge with regions
-        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?withRegions=true';
+        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?withRegions=true' . '&folder=' . $documentFolder;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
