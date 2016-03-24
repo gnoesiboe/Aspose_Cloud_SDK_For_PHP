@@ -131,10 +131,18 @@ class Utils
         $dispatcher->dispatch(ProcessCommandEvent::PRE_CURL, $event);
 
         $result = curl_exec($session);
-        $header = curl_getinfo($session);
-        if ($header['http_code'] != 200 && $header['http_code'] != 201) {
-            AsposeApp::getLogger()->warning($result);
-            throw new Exception($result);
+        $headers = curl_getinfo($session);
+
+        if (substr($headers['http_code'], 0, 1) != '2') {
+
+            if (curl_errno($session) !== 0) {
+                throw new AsposeCurlException(curl_strerror(curl_errno($session)), $headers, curl_errno($session));
+                AsposeApp::getLogger()->warning(curl_strerror(curl_errno($session)));
+            } else {
+                throw new Exception($result);
+                AsposeApp::getLogger()->warning($result);
+            }
+
         } else {
             if (preg_match('/You have processed/i', $result) || preg_match('/Your pricing plan allows only/i', $result)) {
                 AsposeApp::getLogger()->alert($result);
