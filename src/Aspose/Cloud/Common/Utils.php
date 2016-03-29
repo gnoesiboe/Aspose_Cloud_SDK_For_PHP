@@ -4,6 +4,7 @@ namespace Aspose\Cloud\Common;
 use Aspose\Cloud\Event\ProcessCommandEvent;
 use Aspose\Cloud\Event\ValidateOutputEvent;
 use Aspose\Cloud\Exception\AsposeCloudException as Exception;
+use Aspose\Cloud\Exception\AsposeCurlException;
 
 if (!function_exists('curl_init')) {
     AsposeApp::getLogger()->emergency('Aspose needs the CURL PHP extension.');
