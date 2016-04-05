@@ -43,7 +43,13 @@ class MailMerge
         if ($v_output === '') {
             //Save docs on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($json->Document->FileName);
+
+            if ($documentFolder) {
+                $outputStream = $folder->getFile($documentFolder . '/' . $json->Document->FileName);
+            } else {
+                $outputStream = $folder->getFile($json->Document->FileName);
+            }
+
             $outputPath = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
@@ -81,7 +87,13 @@ class MailMerge
         if ($v_output === '') {
             //Save docs on server
             $folder = new Folder();
-            $outputStream = $folder->GetFile($json->Document->FileName);
+
+            if ($documentFolder) {
+                $outputStream = $folder->getFile($documentFolder . '/' . $json->Document->FileName);
+            } else {
+                $outputStream = $folder->getFile($json->Document->FileName);
+            }
+
             $outputPath = AsposeApp::$outPutLocation . $fileName;
             Utils::saveFile($outputStream, $outputPath);
             return $outputPath;
