@@ -19,18 +19,26 @@ class MailMerge
      * @param string $fileName The source file name.
      * @param string $strXML Data in xml format.
      * @param string $documentFolder Result name of the document after the operation
+     * @param array $cleanUpParams If cleanup parameter is omitted, cleanup options will be None (None, EmptyParagraphs,
+     * UnusedRegions, UnusedFields, ContainingFields, RemoveTitleRow, RemoveTitleRowInInnerTables)
      * 
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMerge($fileName, $strXML, $documentFolder = '')
+    public function executeMailMerge($fileName, $strXML, $documentFolder = '', $cleanUpParams = array('None'))
     {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
 
+        //flatten cleanup params to string ready to append to uri
+        $cleanUpString = '';
+        foreach ($cleanUpParams AS $cleanUpParam) {
+            $cleanUpString .= strlen($cleanUpString) ? ',' . $cleanUpParam : $cleanUpParam;
+        }
+
         //build URI to execute mail merge without regions
-        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?' . 'folder=' . $documentFolder;
+        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?' . 'folder=' . $documentFolder . '&cleanup=' . $cleanUpString;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -63,18 +71,26 @@ class MailMerge
      * @param string $fileName The name of source file.
      * @param string $strXML Data in xml format.
      * @param string $documentFolder Result name of the document after the operation
+     * @param array $cleanUpParams If cleanup parameter is omitted, cleanup options will be None (None, EmptyParagraphs,
+     * UnusedRegions, UnusedFields, ContainingFields, RemoveTitleRow, RemoveTitleRowInInnerTables)
      *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function executeMailMergewithRegions($fileName, $strXML, $documentFolder = '')
+    public function executeMailMergewithRegions($fileName, $strXML, $documentFolder = '', $cleanUpParams = array('None'))
     {
         //check whether files are set or not
         if ($fileName == '')
             throw new Exception('File not specified');
 
+        //flatten cleanup params to string ready to append to uri
+        $cleanUpString = '';
+        foreach ($cleanUpParams AS $cleanUpParam) {
+            $cleanUpString .= strlen($cleanUpString) ? ',' . $cleanUpParam : $cleanUpParam;
+        }
+
         //build URI to execute mail merge with regions
-        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?withRegions=true' . '&folder=' . $documentFolder;
+        $strURI = Product::$baseProductUri . '/words/' . $fileName . '/executeMailMerge?withRegions=true' . '&folder=' . $documentFolder . '&cleanup=' . $cleanUpString;
 
         //sign URI
         $signedURI = Utils::sign($strURI);
