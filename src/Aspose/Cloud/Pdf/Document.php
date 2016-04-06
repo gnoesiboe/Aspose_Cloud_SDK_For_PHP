@@ -396,6 +396,53 @@ class Document
 
         return $json->Field;
     }
+
+    /**
+     * Update Form Fields in a PDF Document.
+     *
+     * @param array $fieldArray Fields in an array
+     * @param string $documentFolder Where the template resides
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function updateFormFields(array $fieldArray, $documentFolder = '')
+    {
+        if (count($fieldArray) === 0)
+            throw new Exception('Field array cannot be empty');
+
+        //build URI
+        $strURI = Product::$baseProductUri . '/pdf/' . $this->getFileName() . '/fields?folder=' . $documentFolder;
+
+        //sign URI
+        $signedURI = Utils::sign($strURI);
+
+        $postData = json_encode(array(
+            'List' => $fieldArray
+        ));
+
+        //get response stream
+        $responseStream = Utils::processCommand($signedURI, 'PUT', 'JSON', $postData);
+        $json = json_decode($responseStream);
+
+        $v_output = Utils::validateOutput($responseStream);
+
+        if ($v_output === '') {
+            //Save docs on server
+            $folder = new Folder();
+
+            if ($documentFolder) {
+                $outputStream = $folder->getFile($documentFolder . '/' . $this->getFileName());
+            } else {
+                $outputStream = $folder->getFile($this->getFileName());
+            }
+
+            $outputPath = AsposeApp::$outPutLocation . $this->getFileName();
+            Utils::saveFile($outputStream, $outputPath);
+            return $outputPath;
+        } else
+            return $v_output;
+    }
     
     /**
      * Update a Form Field in a PDF Document.
